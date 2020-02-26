@@ -232,9 +232,9 @@
       <template v-slot:cell(framework)="framework">
         <!-- {{ publication }} -->
         <span v-for="(tag, index) in framework.value" :key="index">
-          <span v-if="index == 'library'">{{ tag }}</span
+          <span v-if="index == 'library'">Library: {{ tag }}</span
           ><br />
-          <span v-if="index == 'language'">{{ tag }}</span>
+          <span v-if="index == 'language'">Language: {{ tag }}</span>
         </span>
       </template>
 
@@ -249,7 +249,7 @@
           @click="info(labs.item, labs.index, $event.target)"
           class="mr-1"
         >
-          <b-icon-info-fill></b-icon-info-fill>
+          <b-icon-info-fill font-scale="2"></b-icon-info-fill>
         </b-button>
         <!-- <b-button size="sm" @click="labs.toggleDetails">
           {{ labs.detailsShowing ? 'Hide' : 'Show' }} Details
@@ -273,10 +273,28 @@
       ok-only
       @hide="resetInfoModal"
     >
-      <span>{{ infoModal.institution }}</span> <br />
-      <span>{{ infoModal.principalInvestigator }}</span> <br />
-      <span>{{ infoModal.developers }}</span> <br />
-      <span>{{ infoModal.website }}</span> <br />
+      <div class="text-center">
+        <span
+          ><b class="text-warning">Institution: </b
+          >{{ infoModal.institution }}</span
+        >
+        <br />
+        <span
+          ><b class="text-warning">Principal Investigator: </b
+          >{{ infoModal.principalInvestigator }}</span
+        >
+        <br />
+        <b class="text-warning">Developers: </b
+        ><span v-for="(tag, index) in infoModal.developers" :key="index"
+          >{{ tag }}<br />
+        </span>
+        <b-link href="infoModal.website"
+          ><b-icon-box-arrow-up-right
+            font-scale="1.5"
+          ></b-icon-box-arrow-up-right
+        ></b-link>
+        <!-- <span><b class="text-warning">website:</b>{{ infoModal.website }}</span> <br /> -->
+      </div>
     </b-modal>
   </b-container>
 </template>
@@ -349,7 +367,7 @@ export default {
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
-      pageOptions: [5, 10, 15],
+      pageOptions: [5, 10, 15, 20],
       sortBy: "",
       sortDesc: false,
       sortDirection: "asc",
