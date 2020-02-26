@@ -10,7 +10,6 @@ export default {
     "item-card": ItemCard
   },
   computed: {},
-  data() {},
   methods: {},
   mounted() {}
 };

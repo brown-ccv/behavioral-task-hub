@@ -128,9 +128,10 @@
         ></b-pagination>
       </b-col>
     </b-row>
+
     <b-table
-      show-empty
-      small
+      striped
+      hover
       stacked="md"
       :items="data"
       :fields="fields"
@@ -145,36 +146,138 @@
     >
       <template v-slot:cell(tags)="tagsformat">
         <!-- <span v-for="tag in tagsformat.unformatted" :key="tag" :class="`badge badge-${tags[tag]}`">{{ tag }}</span> -->
-        <span
+        <b-badge
           v-for="tag in tagsformat.unformatted"
           :key="tag"
-          :class="`badge badge-${tags[index]}`"
-          >{{ tag }}</span
+          pill
+          variant="info"
+          >{{ tag }}</b-badge
         >
       </template>
+      <template v-slot:cell(taskName)="taskName">
+        <strong class="text-info font-weight-bolder">{{
+          taskName.value | capitalize
+        }}</strong>
+      </template>
+
       <template v-slot:cell(platform)="platform">
-        <span
+        <b-badge
           v-for="(tag, index) in platform.value.desktop"
           :key="index"
-          :class="`badge badge-${tags[index]}`"
-          ><span v-if="tag">{{ index }}<br /></span></span
-        ><br />
-        <span
+          pill
+          variant="success"
+          ><span v-if="tag">{{ index }}<br /></span
+        ></b-badge>
+        <br />
+        <b-badge
           v-for="(tag, index) in platform.value.mobile"
           :key="index"
-          :class="`badge badge-${tags[index]}`"
+          pill
+          variant="primary"
           ><span v-if="tag">{{ index }}<br /></span
-        ></span>
+        ></b-badge>
       </template>
+
       <template v-slot:cell(features)="features">
-        <span
+        <b-badge
           v-for="(tag, index) in features.value"
           :key="index"
-          :class="`badge badge-${tags[index]}`"
-          ><span v-if="tag">{{ index }}</span></span
+          pill
+          variant="light"
+          ><span v-if="tag">{{ index }}<br /></span
+        ></b-badge>
+      </template>
+
+      <template v-slot:cell(links)="links">
+        <span v-for="(tag, index) in links.value" :key="index">
+          <b-link class="text-dark" v-if="index == 'deployment'" href="${tag}">
+            <b-iconstack font-scale="2">
+              <b-icon stacked icon="circle-fill" variant="dark"></b-icon>
+              <b-icon
+                stacked
+                icon="cloud-upload"
+                scale="0.6"
+                variant="white"
+              ></b-icon>
+            </b-iconstack>
+            <!-- <span class="text-dark">Deployment</span> -->
+          </b-link>
+          <b-link v-if="index == 'sourceCode'" href="${tag}">
+            <b-iconstack font-scale="2">
+              <b-icon stacked icon="circle-fill" variant="dark"></b-icon>
+              <b-icon
+                stacked
+                icon="code-slash"
+                scale="0.6"
+                variant="white"
+              ></b-icon>
+            </b-iconstack>
+            <!-- <span class="text-dark">Source Code</span> -->
+          </b-link>
+        </span>
+      </template>
+
+      <template v-slot:cell(publication)="publication">
+        <!-- {{ publication }} -->
+        <span v-for="(tag, index) in publication.value" :key="index">
+          <span v-if="index == 'doi'">{{ tag }}</span>
+          <b-link v-if="index == 'url'" href="${tag}"
+            ><b-icon-box-arrow-up-right
+              font-scale="1.5"
+            ></b-icon-box-arrow-up-right
+          ></b-link>
+        </span>
+      </template>
+
+      <template v-slot:cell(framework)="framework">
+        <!-- {{ publication }} -->
+        <span v-for="(tag, index) in framework.value" :key="index">
+          <span v-if="index == 'library'">{{ tag }}</span
+          ><br />
+          <span v-if="index == 'language'">{{ tag }}</span>
+        </span>
+      </template>
+
+      <template v-slot:cell(lab)="labs">
+        <!-- {{ publication }} -->
+        <span v-for="(tag, index) in labs.value" :key="index">
+          <span v-if="index == 'name'">{{ tag | capitalize }}</span>
+        </span>
+        <b-button
+          size="sm"
+          variant="white"
+          @click="info(labs.item, labs.index, $event.target)"
+          class="mr-1"
         >
+          <b-icon-info-fill></b-icon-info-fill>
+        </b-button>
+        <!-- <b-button size="sm" @click="labs.toggleDetails">
+          {{ labs.detailsShowing ? 'Hide' : 'Show' }} Details
+        </b-button> -->
+      </template>
+
+      <template v-slot:row-details="row">
+        <b-card>
+          <ul>
+            <li v-for="(value, key) in row.item.lab" :key="key">
+              {{ key }}: {{ value }}
+            </li>
+          </ul>
+        </b-card>
       </template>
     </b-table>
+    <b-modal
+      :id="infoModal.id"
+      v-if="infoModal"
+      :title="infoModal.title | capitalize"
+      ok-only
+      @hide="resetInfoModal"
+    >
+      <span>{{ infoModal.institution }}</span> <br />
+      <span>{{ infoModal.principalInvestigator }}</span> <br />
+      <span>{{ infoModal.developers }}</span> <br />
+      <span>{{ infoModal.website }}</span> <br />
+    </b-modal>
   </b-container>
 </template>
 
@@ -184,16 +287,16 @@ export default {
   data() {
     return {
       tags: {
-        windows: "light",
-        linux: "dark",
+        windows: "success",
+        linux: "success",
         mac: "success",
-        ios: "danger",
-        android: "warning",
-        browser: "secondary",
-        eegTrigger: "info",
-        mturk: "danger",
-        docker: "success",
-        electron: "warning"
+        ios: "primary",
+        android: "primary",
+        browser: "light",
+        eegTrigger: "light",
+        mturk: "light",
+        docker: "light",
+        electron: "light"
       },
       data: [],
       fields: [
@@ -203,7 +306,7 @@ export default {
           sortable: true,
           sortDirection: "desc"
         },
-        { key: "links", label: "Links", sortable: true, class: "text-center" },
+        { key: "links", label: "Links", class: "text-center" },
         {
           key: "framework",
           label: "Framework",
@@ -211,22 +314,20 @@ export default {
           class: "text-center"
         },
         { key: "lab", label: "Labs", sortable: true, class: "text-center" },
+        { key: "lab", label: "d", class: "text-center" },
         {
           key: "publication",
           label: "Publication",
-          sortable: true,
           class: "text-center"
         },
         {
           key: "platform",
           label: "Platform",
-          sortable: true,
           class: "text-center"
         },
         {
           key: "features",
           label: "Features",
-          sortable: true,
           class: "text-center"
         },
         // { key: 'tags', label: 'Tags', sortable: true, class: 'text-center' },
@@ -240,7 +341,6 @@ export default {
             }
             return formatted;
           },
-          sortable: true,
           sortByFormatted: true,
           filterByFormatted: true
         }
@@ -258,7 +358,10 @@ export default {
       infoModal: {
         id: "info-modal",
         title: "",
-        content: ""
+        institution: "",
+        principalInvestigator: "",
+        developers: "",
+        website: ""
       }
     };
   },
@@ -284,18 +387,33 @@ export default {
   },
   methods: {
     info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
+      this.infoModal.title = item == null ? undefined : item.lab.name;
+      this.infoModal.institution =
+        item == null ? undefined : item.lab.institution;
+      this.infoModal.principalInvestigator =
+        item == null ? undefined : item.lab.principalInvestigator;
+      this.infoModal.developers =
+        item == null ? undefined : item.lab.developers;
+      this.infoModal.website = item == null ? undefined : item.lab.website;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     resetInfoModal() {
       this.infoModal.title = "";
-      this.infoModal.content = "";
+      this.infoModal.institution = "";
+      this.infoModal.principalInvestigator = "";
+      this.infoModal.developers = "";
+      this.infoModal.website = "";
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
+    }
+  },
+  filters: {
+    // this filter will can be used to capitalize a word
+    capitalize: item => {
+      return item.charAt(0).toUpperCase() + item.slice(1);
     }
   }
 };
