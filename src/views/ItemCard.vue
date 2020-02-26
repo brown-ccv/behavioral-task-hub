@@ -1,8 +1,7 @@
 <template>
   <b-container fluid>
-    <!-- User Interface controls -->
     <b-row>
-      <!-- <b-col lg="6" class="my-1">
+      <b-col lg="6" class="my-1">
         <b-form-group
           label="Sort"
           label-cols-sm="3"
@@ -12,20 +11,30 @@
           class="mb-0"
         >
           <b-input-group size="sm">
-            <b-form-select v-model="sortBy" id="sortBySelect" :options="sortOptions" class="w-75">
+            <b-form-select
+              v-model="sortBy"
+              id="sortBySelect"
+              :options="sortOptions"
+              class="w-75"
+            >
               <template v-slot:first>
                 <option value="">-- none --</option>
               </template>
             </b-form-select>
-            <b-form-select v-model="sortDesc" size="sm" :disabled="!sortBy" class="w-25">
+            <b-form-select
+              v-model="sortDesc"
+              size="sm"
+              :disabled="!sortBy"
+              class="w-25"
+            >
               <option :value="false">Asc</option>
               <option :value="true">Desc</option>
             </b-form-select>
           </b-input-group>
         </b-form-group>
-      </b-col> -->
+      </b-col>
 
-      <!-- <b-col lg="6" class="my-1">
+      <b-col lg="6" class="my-1">
         <b-form-group
           label="Initial sort"
           label-cols-sm="3"
@@ -41,7 +50,7 @@
             :options="['asc', 'desc', 'last']"
           ></b-form-select>
         </b-form-group>
-      </b-col> -->
+      </b-col>
 
       <b-col lg="6" class="my-1">
         <b-form-group
@@ -68,21 +77,25 @@
         </b-form-group>
       </b-col>
 
-      <!-- <b-col lg="6" class="my-1">
+      <b-col lg="6" class="my-1">
         <b-form-group
           label="Filter On"
           label-cols-sm="3"
           label-align-sm="right"
           label-size="sm"
           description="Leave all unchecked to filter on all data"
-          class="mb-0">
+          class="mb-0"
+        >
           <b-form-checkbox-group v-model="filterOn" class="mt-1">
-            <b-form-checkbox value="name">Name</b-form-checkbox>
-            <b-form-checkbox value="age">Age</b-form-checkbox>
-            <b-form-checkbox value="isActive">Active</b-form-checkbox>
+            <b-form-checkbox value="taskName">Task Name</b-form-checkbox>
+            <b-form-checkbox value="lab">Labs</b-form-checkbox>
+            <b-form-checkbox value="framework">Framework</b-form-checkbox>
+            <b-form-checkbox value="platform">Platform</b-form-checkbox>
+            <b-form-checkbox value="features">Features</b-form-checkbox>
+            <b-form-checkbox value="tags">Tags</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
-      </b-col> -->
+      </b-col>
 
       <b-col sm="5" md="6" class="my-1">
         <b-form-group
@@ -115,13 +128,11 @@
         ></b-pagination>
       </b-col>
     </b-row>
-
-    <!-- Main table element -->
     <b-table
       show-empty
       small
       stacked="md"
-      :items="items"
+      :items="data"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
@@ -132,53 +143,109 @@
       :sort-direction="sortDirection"
       @filtered="onFiltered"
     >
-      <template v-slot:cell(name)="row">
-        {{ row.value.first }} {{ row.value.last }}
-      </template>
-
-      <template v-slot:cell(actions)="row">
-        <b-button
-          size="sm"
-          @click="info(row.item, row.index, $event.target)"
-          class="mr-1"
+      <template v-slot:cell(tags)="tagsformat">
+        <!-- <span v-for="tag in tagsformat.unformatted" :key="tag" :class="`badge badge-${tags[tag]}`">{{ tag }}</span> -->
+        <span
+          v-for="tag in tagsformat.unformatted"
+          :key="tag"
+          :class="`badge badge-${tags[index]}`"
+          >{{ tag }}</span
         >
-          Info modal
-        </b-button>
-        <b-button size="sm" @click="row.toggleDetails">
-          {{ row.detailsShowing ? "Hide" : "Show" }} Details
-        </b-button>
       </template>
-
-      <template v-slot:row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key) in row.item" :key="key">
-              {{ key }}: {{ value }}
-            </li>
-          </ul>
-        </b-card>
+      <template v-slot:cell(platform)="platform">
+        <span
+          v-for="(tag, index) in platform.value.desktop"
+          :key="index"
+          :class="`badge badge-${tags[index]}`"
+          ><span v-if="tag">{{ index }}<br /></span></span
+        ><br />
+        <span
+          v-for="(tag, index) in platform.value.mobile"
+          :key="index"
+          :class="`badge badge-${tags[index]}`"
+          ><span v-if="tag">{{ index }}<br /></span
+        ></span>
+      </template>
+      <template v-slot:cell(features)="features">
+        <span
+          v-for="(tag, index) in features.value"
+          :key="index"
+          :class="`badge badge-${tags[index]}`"
+          ><span v-if="tag">{{ index }}</span></span
+        >
       </template>
     </b-table>
-
-    <!-- Info modal -->
-    <b-modal
-      :id="infoModal.id"
-      :title="infoModal.title"
-      ok-only
-      @hide="resetInfoModal"
-    >
-      <pre>{{ infoModal.content }}</pre>
-    </b-modal>
   </b-container>
 </template>
 
 <script>
-import axios from "axios";
+import GithubServices, { query, serialize } from "@/GithubServices";
 export default {
   data() {
     return {
-      items: [],
-      fields: [],
+      tags: {
+        windows: "light",
+        linux: "dark",
+        mac: "success",
+        ios: "danger",
+        android: "warning",
+        browser: "secondary",
+        eegTrigger: "info",
+        mturk: "danger",
+        docker: "success",
+        electron: "warning"
+      },
+      data: [],
+      fields: [
+        {
+          key: "taskName",
+          label: "Task name",
+          sortable: true,
+          sortDirection: "desc"
+        },
+        { key: "links", label: "Links", sortable: true, class: "text-center" },
+        {
+          key: "framework",
+          label: "Framework",
+          sortable: true,
+          class: "text-center"
+        },
+        { key: "lab", label: "Labs", sortable: true, class: "text-center" },
+        {
+          key: "publication",
+          label: "Publication",
+          sortable: true,
+          class: "text-center"
+        },
+        {
+          key: "platform",
+          label: "Platform",
+          sortable: true,
+          class: "text-center"
+        },
+        {
+          key: "features",
+          label: "Features",
+          sortable: true,
+          class: "text-center"
+        },
+        // { key: 'tags', label: 'Tags', sortable: true, class: 'text-center' },
+        {
+          key: "tags",
+          label: "Tags",
+          formatter: value => {
+            var formatted = "";
+            for (var i = 0; i < value.length; i++) {
+              formatted += String(value[i]) + `\n`;
+            }
+            return formatted;
+          },
+          sortable: true,
+          sortByFormatted: true,
+          filterByFormatted: true
+        }
+        //   { key: 'actions', label: 'Actions' }
+      ],
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -206,11 +273,14 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get("https://opentdb.com/api.php?amount=50")
-      .then(response => (this.items = response.data.results));
     // Set the initial number of items
-    this.totalRows = this.items.length;
+    GithubServices.getData(query("data"))
+      .then(response => {
+        this.data = serialize(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
   methods: {
     info(item, index, button) {

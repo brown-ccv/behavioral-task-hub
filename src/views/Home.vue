@@ -1,18 +1,23 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="section">
+    <!-- <h1>{{ $t('main.data') }}</h1> -->
+    <h1>Home</h1>
+    <div>{{ data }}</div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "Home",
-  components: {
-    HelloWorld
+  computed: {
+    ...mapState(["data"])
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    ...mapActions("data", ["fetchData"])
   }
 };
 </script>
