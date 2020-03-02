@@ -3,11 +3,11 @@
 </template>
 <script>
 // import Data from "./Data";
-import ItemCard from "./ItemCard";
+import Table from "./Table";
 export default {
   name: "SearchPage",
   components: {
-    "item-card": ItemCard
+    "item-card": Table
   },
   computed: {},
   methods: {},

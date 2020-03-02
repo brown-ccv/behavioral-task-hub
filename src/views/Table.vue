@@ -3,57 +3,6 @@
     <b-row>
       <b-col lg="6" class="my-1">
         <b-form-group
-          label="Sort"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          label-for="sortBySelect"
-          class="mb-0"
-        >
-          <b-input-group size="sm">
-            <b-form-select
-              v-model="sortBy"
-              id="sortBySelect"
-              :options="sortOptions"
-              class="w-75"
-            >
-              <template v-slot:first>
-                <option value="">-- none --</option>
-              </template>
-            </b-form-select>
-            <b-form-select
-              v-model="sortDesc"
-              size="sm"
-              :disabled="!sortBy"
-              class="w-25"
-            >
-              <option :value="false">Asc</option>
-              <option :value="true">Desc</option>
-            </b-form-select>
-          </b-input-group>
-        </b-form-group>
-      </b-col>
-
-      <b-col lg="6" class="my-1">
-        <b-form-group
-          label="Initial sort"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          label-for="initialSortSelect"
-          class="mb-0"
-        >
-          <b-form-select
-            v-model="sortDirection"
-            id="initialSortSelect"
-            size="sm"
-            :options="['asc', 'desc', 'last']"
-          ></b-form-select>
-        </b-form-group>
-      </b-col>
-
-      <b-col lg="6" class="my-1">
-        <b-form-group
           label="Filter"
           label-cols-sm="3"
           label-align-sm="right"
@@ -190,30 +139,37 @@
 
       <template v-slot:cell(links)="links">
         <span v-for="(tag, index) in links.value" :key="index">
-          <b-link class="text-dark" v-if="index == 'deployment'" href="${tag}">
-            <b-iconstack font-scale="2">
+          <b-button
+            v-if="index == 'deployment'"
+            href="${tag}"
+            v-b-tooltip.focus
+            title="Deployment"
+            variant="none"
+            ><b-iconstack font-scale="2">
               <b-icon stacked icon="circle-fill" variant="dark"></b-icon>
               <b-icon
                 stacked
                 icon="cloud-upload"
                 scale="0.6"
                 variant="white"
-              ></b-icon>
-            </b-iconstack>
-            <!-- <span class="text-dark">Deployment</span> -->
-          </b-link>
-          <b-link v-if="index == 'sourceCode'" href="${tag}">
-            <b-iconstack font-scale="2">
+              ></b-icon> </b-iconstack
+          ></b-button>
+          <!-- <b-tooltip target="icon-deploy" title="Deployment" placement="topright" variant="light"></b-tooltip> -->
+          <b-button
+            v-if="index == 'sourceCode'"
+            href="${tag}"
+            v-b-tooltip.focus
+            title="Source Code"
+            variant="none"
+            ><b-iconstack font-scale="2">
               <b-icon stacked icon="circle-fill" variant="dark"></b-icon>
               <b-icon
                 stacked
                 icon="code-slash"
                 scale="0.6"
                 variant="white"
-              ></b-icon>
-            </b-iconstack>
-            <!-- <span class="text-dark">Source Code</span> -->
-          </b-link>
+              ></b-icon> </b-iconstack
+          ></b-button>
         </span>
       </template>
 
@@ -296,6 +252,38 @@
         <!-- <span><b class="text-warning">website:</b>{{ infoModal.website }}</span> <br /> -->
       </div>
     </b-modal>
+    <b-row>
+      <b-col sm="5" md="6" class="my-1">
+        <b-form-group
+          label="Per page"
+          label-cols-sm="6"
+          label-cols-md="4"
+          label-cols-lg="3"
+          label-align-sm="right"
+          label-size="sm"
+          label-for="perPageSelect"
+          class="mb-0"
+        >
+          <b-form-select
+            v-model="perPage"
+            id="perPageSelect"
+            size="sm"
+            :options="pageOptions"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+
+      <b-col sm="7" md="6" class="my-1">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="fill"
+          size="sm"
+          class="my-0"
+        ></b-pagination>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -398,6 +386,7 @@ export default {
     GithubServices.getData(query("data"))
       .then(response => {
         this.data = serialize(response);
+        this.totalRows = this.data.length;
       })
       .catch(error => {
         console.log(error);
