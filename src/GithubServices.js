@@ -34,7 +34,6 @@ export const query = folder => {
 
 export const serialize = response => {
   const content = response.data.data.repository.object.entries;
-  console.log("content", content);
   const serialized = content.map(entry => {
     return (entry.text = yaml.parse(entry.object.text));
   });

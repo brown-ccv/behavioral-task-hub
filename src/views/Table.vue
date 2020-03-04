@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col lg="6" class="my-1">
+      <b-col lg="10" class="my-1">
         <b-form-group
           label="Filter"
           label-cols-sm="3"
@@ -25,8 +25,7 @@
           </b-input-group>
         </b-form-group>
       </b-col>
-
-      <b-col lg="6" class="my-1">
+      <b-col lg="10" class="my-1">
         <b-form-group
           label="Filter On"
           label-cols-sm="3"
@@ -111,30 +110,18 @@
 
       <template v-slot:cell(platform)="platform">
         <b-badge
-          v-for="(tag, index) in platform.value.desktop"
-          :key="index"
+          v-for="tag in platform.value"
+          :key="tag"
           pill
-          variant="success"
-          ><span v-if="tag">{{ index }}<br /></span
-        ></b-badge>
-        <br />
-        <b-badge
-          v-for="(tag, index) in platform.value.mobile"
-          :key="index"
-          pill
-          variant="primary"
-          ><span v-if="tag">{{ index }}<br /></span
-        ></b-badge>
+          :variant="tags[tag]"
+          >{{ tag }}<br
+        /></b-badge>
       </template>
 
       <template v-slot:cell(features)="features">
-        <b-badge
-          v-for="(tag, index) in features.value"
-          :key="index"
-          pill
-          variant="light"
-          ><span v-if="tag">{{ index }}<br /></span
-        ></b-badge>
+        <b-badge v-for="tag in features.value" :key="tag" pill variant="light"
+          >{{ tag }}<br />
+        </b-badge>
       </template>
 
       <template v-slot:cell(links)="links">
@@ -174,7 +161,6 @@
       </template>
 
       <template v-slot:cell(publication)="publication">
-        <!-- {{ publication }} -->
         <span v-for="(tag, index) in publication.value" :key="index">
           <span v-if="index == 'doi'">{{ tag }}</span>
           <b-link v-if="index == 'url'" href="${tag}"
@@ -292,6 +278,7 @@ import GithubServices, { query, serialize } from "@/GithubServices";
 export default {
   data() {
     return {
+      filterfunction: "",
       tags: {
         windows: "success",
         linux: "success",
@@ -316,11 +303,9 @@ export default {
         {
           key: "framework",
           label: "Framework",
-          sortable: true,
           class: "text-center"
         },
         { key: "lab", label: "Labs", sortable: true, class: "text-center" },
-        { key: "lab", label: "d", class: "text-center" },
         {
           key: "publication",
           label: "Publication",
@@ -329,14 +314,35 @@ export default {
         {
           key: "platform",
           label: "Platform",
-          class: "text-center"
+          class: "text-center",
+          formatter: value => {
+            var formatted = [];
+            for (var i in value) {
+              for (var j in value[i]) {
+                if (value[i][j] == true) formatted.push(j);
+              }
+            }
+            return formatted;
+          },
+          sortByFormatted: true,
+          filterByFormatted: true
         },
         {
           key: "features",
           label: "Features",
-          class: "text-center"
+          class: "text-center",
+          formatter: value => {
+            var formatted = [];
+            for (var i in value) {
+              if (value[i] == true) {
+                formatted.push(i);
+              }
+            }
+            return formatted;
+          },
+          sortByFormatted: true,
+          filterByFormatted: true
         },
-        // { key: 'tags', label: 'Tags', sortable: true, class: 'text-center' },
         {
           key: "tags",
           label: "Tags",
