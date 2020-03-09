@@ -15,7 +15,6 @@
               v-model="filter"
               type="search"
               id="filterInput"
-              placeholder="Type to Search"
             ></b-form-input>
             <b-input-group-append>
               <b-button :disabled="!filter" @click="filter = ''"
@@ -28,30 +27,29 @@
       <b-col lg="12" class="my-1">
         <b-form-group
           label="Filter On"
-          label-cols-sm="3"
+          label-cols-sm="2"
           label-align-sm="right"
-          label-size="sm"
           class="mb-0"
         >
           <b-row>
-            <b-col lg="2" class="my-1">
-              <label class="typo__label">Platforms</label>
-            </b-col>
-            <b-col lg="4" class="my-1">
+            <b-col lg="3" class="my-1">
               <div class="text-left">
+                <span class="font-weight-lighter small text-left"
+                  >Platform</span
+                >
                 <multiselect
                   v-model="valuePlatform"
                   :options="platforms"
                   :multiple="true"
                   selectLabel=""
-                  selectGroupLabel="Click to select group"
-                  deselectGroupLabel="Click to remove group"
-                  deselectLabel="Click to remove"
+                  selectGroupLabel="Select group"
+                  deselectGroupLabel="Remove group"
+                  deselectLabel="Remove"
                   :option-height="20"
                   group-values="options"
                   group-label="platform"
                   :group-select="true"
-                  placeholder="Platform"
+                  placeholder="Select"
                   label="name"
                   track-by="name"
                   :taggable="true"
@@ -61,43 +59,74 @@
                 </multiselect>
               </div>
             </b-col>
-            <b-col lg="4">
-              <multiselect
-                v-model="valueFeature"
-                :options="features"
-                :multiple="true"
-                selectLabel=""
-                selectGroupLabel=""
-                deselectGroupLabel="Click to remove group"
-                deselectLabel="Click to remove"
-                :option-height="20"
-                placeholder="Features"
-                label="name"
-                track-by="name"
-                :taggable="true"
-                @input="updateTableFeatures"
-                @remove="updatedata"
-              >
-              </multiselect>
+            <b-col lg="3" class="my-1">
+              <div class="text-left">
+                <span class="font-weight-lighter small text-left"
+                  >Features</span
+                >
+                <multiselect
+                  v-model="valueFeature"
+                  :options="features"
+                  :multiple="true"
+                  selectLabel=""
+                  selectGroupLabel=""
+                  deselectGroupLabel="Remove group"
+                  deselectLabel="Remove"
+                  :option-height="20"
+                  placeholder="Select"
+                  label="name"
+                  track-by="name"
+                  :taggable="true"
+                  @input="updateTableFeatures"
+                  @remove="updatedata"
+                >
+                </multiselect>
+              </div>
             </b-col>
-            <b-col lg="4">
-              <multiselect
-                v-model="valueTags"
-                :options="tagsvalues"
-                :multiple="true"
-                selectLabel=""
-                selectGroupLabel=""
-                deselectGroupLabel="Click to remove group"
-                deselectLabel="Click to remove"
-                :option-height="20"
-                placeholder="Tags"
-                label="name"
-                track-by="name"
-                :taggable="true"
-                @input="updateTableTags"
-                @remove="updatedata"
-              >
-              </multiselect>
+            <b-col lg="3" class="my-1">
+              <div class="text-left">
+                <span class="font-weight-lighter small text-left">Tags</span>
+                <multiselect
+                  v-model="valueTags"
+                  :options="tagsvalues"
+                  :multiple="true"
+                  selectLabel=""
+                  selectGroupLabel=""
+                  deselectGroupLabel="Remove group"
+                  deselectLabel="Remove"
+                  :option-height="20"
+                  placeholder="Select"
+                  label="name"
+                  track-by="name"
+                  :taggable="true"
+                  @input="updateTableTags"
+                  @remove="updatedata"
+                >
+                </multiselect>
+              </div>
+            </b-col>
+            <b-col lg="3" class="my-1">
+              <div class="text-left">
+                <span class="font-weight-lighter small text-left"
+                  >Institutions</span
+                >
+                <multiselect
+                  v-model="valueInstitutions"
+                  :options="institutions"
+                  :multiple="true"
+                  selectLabel=""
+                  selectGroupLabel=""
+                  deselectLabel="Remove"
+                  :option-height="20"
+                  placeholder="Select"
+                  label="name"
+                  track-by="name"
+                  :taggable="true"
+                  @input="updateInstitutionTags"
+                  @remove="updatedata"
+                >
+                </multiselect>
+              </div>
             </b-col>
           </b-row>
           <!-- <b-form-checkbox-group v-model="filterOn" class="mt-1">
@@ -351,6 +380,7 @@ export default {
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
+      valueInstitutions: [],
       platforms: [
         {
           platform: "Desktop",
@@ -475,14 +505,24 @@ export default {
           unique.add(this.data[d]["tags"][tag]);
         }
       }
-      console.log(Array.from(unique));
       let tagvalues = [];
       var uni = Array.from(unique);
       for (var t in uni) {
         tagvalues.push({ name: uni[t] });
       }
-      console.log(tagvalues);
       return tagvalues;
+    },
+    institutions() {
+      let unique = new Set();
+      for (var d in this.data) {
+        unique.add(this.data[d]["lab"]["institution"]);
+      }
+      let institutions = [];
+      var uni = Array.from(unique);
+      for (var t in uni) {
+        institutions.push({ name: uni[t] });
+      }
+      return institutions;
     }
   },
   mounted() {
@@ -536,7 +576,6 @@ export default {
           for (var i in value) {
             tagss.push(value[i]);
           }
-          console.log(subset, tagss);
           var flag = true;
           for (var plt in subset) {
             if (!(tagss.indexOf(subset[plt]) >= 0)) {
@@ -544,6 +583,28 @@ export default {
               // console.log("not")
               break;
             }
+          }
+          if (flag) filterData.push(obj);
+        }
+        this.filteredData = filterData;
+      } else this.filteredData = this.data;
+    },
+    updateInstitutionTags() {
+      let filterData = [];
+
+      if (this.valueInstitutions.length > 0) {
+        for (var d in this.filteredData) {
+          var obj = this.filteredData[d];
+          let subset = [];
+          for (var k in this.valueInstitutions) {
+            subset.push(this.valueInstitutions[k]["name"]);
+          }
+          var value = obj.lab.institution;
+          var flag = true;
+          console.log(subset, value);
+          if (!(subset.indexOf(value) >= 0)) {
+            flag = false;
+            console.log("No");
           }
           if (flag) filterData.push(obj);
         }
