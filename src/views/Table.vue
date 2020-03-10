@@ -123,14 +123,6 @@
               </div>
             </b-col>
           </b-row>
-          <!-- <b-form-checkbox-group v-model="filterOn" class="mt-1">
-          <b-form-checkbox value="taskName">Task Name</b-form-checkbox>
-          <b-form-checkbox value="lab">Labs</b-form-checkbox>
-          <b-form-checkbox value="framework">Framework</b-form-checkbox>
-          <b-form-checkbox value="platform">Platform</b-form-checkbox>
-          <b-form-checkbox value="features">Features</b-form-checkbox>
-          <b-form-checkbox value="tags">Tags</b-form-checkbox>
-        </b-form-checkbox-group> -->
         </b-form-group>
       </b-col>
 
@@ -182,7 +174,6 @@
       @filtered="onFiltered"
     >
       <template v-slot:cell(tags)="tagsformat">
-        <!-- <span v-for="tag in tagsformat.unformatted" :key="tag" :class="`badge badge-${tags[tag]}`">{{ tag }}</span> -->
         <b-badge
           v-for="tag in tagsformat.unformatted"
           :key="tag"
@@ -230,7 +221,6 @@
                 variant="white"
               ></b-icon> </b-iconstack
           ></b-button>
-          <!-- <b-tooltip target="icon-deploy" title="Deployment" placement="topright" variant="light"></b-tooltip> -->
           <b-button
             v-if="index == 'sourceCode'"
             href="${tag}"
@@ -280,9 +270,6 @@
         >
           <b-icon-info-fill font-scale="2"></b-icon-info-fill>
         </b-button>
-        <!-- <b-button size="sm" @click="labs.toggleDetails">
-          {{ labs.detailsShowing ? 'Hide' : 'Show' }} Details
-        </b-button> -->
       </template>
 
       <template v-slot:row-details="row">
@@ -322,7 +309,6 @@
             font-scale="1.5"
           ></b-icon-box-arrow-up-right
         ></b-link>
-        <!-- <span><b class="text-warning">website:</b>{{ infoModal.website }}</span> <br /> -->
       </div>
     </b-modal>
     <b-row>
@@ -361,7 +347,6 @@
 </template>
 
 <script>
-// import GithubServices, { query, serialize } from "@/GithubServices";
 import Multiselect from "vue-multiselect";
 import { mapActions, mapState } from "vuex";
 export default {
@@ -526,16 +511,6 @@ export default {
     }
   },
   mounted() {
-    // Set the initial number of items
-    // GithubServices.getData(query("data"))
-    //   .then(response => {
-    //     this.data = serialize(response);
-    //     this.filteredData = serialize(response);
-    //     this.totalRows = this.data.length;
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
     this.fetchData();
   },
   methods: {
@@ -611,29 +586,22 @@ export default {
           for (var f in this.valueFeature) {
             filterfeature.push(this.valueFeature[f]["name"]);
           }
-          // console.log(filtertags, tagss)
-          // console.log(filterinstitutions, institution)
-          // console.log(filterplatform, platformss)
-          // console.log(filterfeature, featuress)
           var flag = true;
           if (filtertags.length > 0)
             for (var i_tag in filtertags) {
               if (!(tagss.indexOf(filtertags[i_tag]) >= 0)) {
                 flag = false;
-                // console.log("NO tags")
                 break;
               }
             }
           if (filterinstitutions.length > 0)
             if (!(filterinstitutions == institution)) {
               flag = false;
-              // console.log("NO insti")
             }
           if (filterplatform.length > 0)
             for (var i_platform in filterplatform) {
               if (!(platformss.indexOf(filterplatform[i_platform]) >= 0)) {
                 flag = false;
-                // console.log("NO platform")
                 break;
               }
             }
@@ -641,7 +609,6 @@ export default {
             for (var i_feature in filterfeature) {
               if (!(featuress.indexOf(filterfeature[i_feature]) >= 0)) {
                 flag = false;
-                // console.log("NO feature")
                 break;
               }
             }
