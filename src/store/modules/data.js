@@ -4,12 +4,14 @@ export default {
   namespaced: true,
   state: {
     data: [],
-    filteredData: []
+    filteredData: [],
+    totalRows: 0
   },
   mutations: {
     SET_DATA(state, payload) {
       state.data = payload;
       state.filteredData = payload;
+      state.totalRows = payload.length;
     }
   },
   actions: {

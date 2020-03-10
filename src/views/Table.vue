@@ -157,7 +157,7 @@
       <b-col sm="7" md="6" class="my-1">
         <b-pagination
           v-model="currentPage"
-          :total-rows="totalRows"
+          :total-rows="data.totalRows"
           :per-page="perPage"
           align="fill"
           size="sm"
@@ -349,7 +349,7 @@
       <b-col sm="7" md="6" class="my-1">
         <b-pagination
           v-model="currentPage"
-          :total-rows="totalRows"
+          :total-rows="data.totalRows"
           :per-page="perPage"
           align="fill"
           size="sm"
@@ -478,7 +478,6 @@ export default {
         }
         //   { key: 'actions', label: 'Actions' }
       ],
-      totalRows: 1,
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 15, 20],
@@ -538,7 +537,6 @@ export default {
     //     console.log(error);
     //   });
     this.fetchData();
-    this.totalRows = this.data.data.length;
   },
   methods: {
     ...mapActions("data", ["fetchData"]),
@@ -562,7 +560,7 @@ export default {
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length;
+      this.data.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
     updateTable() {
