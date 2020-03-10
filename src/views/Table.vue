@@ -53,8 +53,8 @@
                   label="name"
                   track-by="name"
                   :taggable="true"
-                  @input="updateTablePlatform"
-                  @remove="updatedata"
+                  @input="updateTable"
+                  @remove="updateTable"
                 >
                 </multiselect>
               </div>
@@ -77,8 +77,8 @@
                   label="name"
                   track-by="name"
                   :taggable="true"
-                  @input="updateTableFeatures"
-                  @remove="updatedata"
+                  @input="updateTable"
+                  @remove="updateTable"
                 >
                 </multiselect>
               </div>
@@ -99,8 +99,8 @@
                   label="name"
                   track-by="name"
                   :taggable="true"
-                  @input="updateTableTags"
-                  @remove="updatedata"
+                  @input="updateTable"
+                  @remove="updateTable"
                 >
                 </multiselect>
               </div>
@@ -108,22 +108,16 @@
             <b-col lg="3" class="my-1">
               <div class="text-left">
                 <span class="font-weight-lighter small text-left"
-                  >Institutions</span
+                  >Institution</span
                 >
                 <multiselect
                   v-model="valueInstitutions"
                   :options="institutions"
-                  :multiple="true"
-                  selectLabel=""
-                  selectGroupLabel=""
-                  deselectLabel="Remove"
                   :option-height="20"
-                  placeholder="Select"
-                  label="name"
-                  track-by="name"
-                  :taggable="true"
-                  @input="updateInstitutionTags"
-                  @remove="updatedata"
+                  placeholder="Pick a value"
+                  selectLabel="Select"
+                  deselectLabel="Remove"
+                  @input="updateTable"
                 >
                 </multiselect>
               </div>
@@ -381,7 +375,7 @@ export default {
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
-      valueInstitutions: [],
+      valueInstitutions: "",
       platforms: [
         {
           platform: "Desktop",
@@ -520,7 +514,7 @@ export default {
       let institutions = [];
       var uni = Array.from(unique);
       for (var t in uni) {
-        institutions.push({ name: uni[t] });
+        institutions.push(uni[t]);
       }
       return institutions;
     }
@@ -564,111 +558,94 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    updateTableTags() {
+    updateTable() {
       let filterData = [];
 
-      if (this.valueTags.length > 0) {
-        for (var d in this.data.filteredData) {
-          var obj = this.data.filteredData[d];
+      if (
+        this.valuePlatform.length > 0 ||
+        this.valueTags.length > 0 ||
+        this.valueFeature.length > 0 ||
+        this.valueInstitutions.length > 0
+      ) {
+        for (var d in this.data.data) {
+          var obj = this.data.data[d];
+
           let tagss = [];
-          let subset = [];
-          for (var k in this.valueTags) {
-            subset.push(this.valueTags[k]["name"]);
+          var valuetags = obj.tags;
+          for (var val in valuetags) {
+            tagss.push(valuetags[val]);
           }
-          var value = obj.tags;
-          for (var i in value) {
-            tagss.push(value[i]);
-          }
-          var flag = true;
-          for (var plt in subset) {
-            if (!(tagss.indexOf(subset[plt]) >= 0)) {
-              flag = false;
-              break;
-            }
-          }
-          if (flag) filterData.push(obj);
-        }
-        this.data.filteredData = filterData;
-      } else this.data.filteredData = this.data.data;
-    },
-    updateInstitutionTags() {
-      let filterData = [];
 
-      if (this.valueInstitutions.length > 0) {
-        for (var d in this.data.filteredData) {
-          var obj = this.data.filteredData[d];
-          let subset = [];
-          for (var k in this.valueInstitutions) {
-            subset.push(this.valueInstitutions[k]["name"]);
-          }
-          var value = obj.lab.institution;
-          var flag = true;
-          if (!(subset.indexOf(value) >= 0)) {
-            flag = false;
-          }
-          if (flag) filterData.push(obj);
-        }
-        this.data.filteredData = filterData;
-      } else this.data.filteredData = this.data.data;
-    },
-    updateTablePlatform() {
-      let filterData = [];
+          let institution = obj.lab.institution;
 
-      if (this.valuePlatform.length > 0) {
-        for (var d in this.data.filteredData) {
-          var obj = this.data.filteredData[d];
           let platformss = [];
-          let subset = [];
-          for (var k in this.valuePlatform) {
-            subset.push(this.valuePlatform[k]["name"]);
-          }
-          var value = obj.platform;
-          for (var i in value) {
-            for (var j in value[i]) {
-              if (value[i][j] == true) platformss.push(j);
+          var valueplatform = obj.platform;
+          for (var v in valueplatform) {
+            for (var j in valueplatform[v]) {
+              if (valueplatform[v][j] == true) platformss.push(j);
             }
           }
-          var flag = true;
-          for (var plt in subset) {
-            if (!(platformss.indexOf(subset[plt]) >= 0)) {
-              flag = false;
-              break;
-            }
-          }
-          if (flag) filterData.push(obj);
-        }
-        this.data.filteredData = filterData;
-      } else this.data.filteredData = this.data.data;
-    },
-    updatedata() {
-      this.data.filteredData = this.data.data;
-    },
-    updateTableFeatures() {
-      let filterData = [];
 
-      if (this.valueFeature.length > 0) {
-        for (var d in this.data.filteredData) {
-          var obj = this.data.filteredData[d];
           let featuress = [];
-          let subset = [];
-          for (var k in this.valueFeature) {
-            subset.push(this.valueFeature[k]["name"]);
+          var valuefeature = obj.features;
+          for (var vals in valuefeature) {
+            if (valuefeature[vals] == true) featuress.push(vals);
           }
-          var value = obj.features;
-          for (var i in value) {
-            if (value[i] == true) featuress.push(i);
+          let filtertags = [];
+          for (var t in this.valueTags) {
+            filtertags.push(this.valueTags[t]["name"]);
           }
+
+          let filterinstitutions = this.valueInstitutions;
+
+          let filterplatform = [];
+          for (var p in this.valuePlatform) {
+            filterplatform.push(this.valuePlatform[p]["name"]);
+          }
+          let filterfeature = [];
+          for (var f in this.valueFeature) {
+            filterfeature.push(this.valueFeature[f]["name"]);
+          }
+          // console.log(filtertags, tagss)
+          // console.log(filterinstitutions, institution)
+          // console.log(filterplatform, platformss)
+          // console.log(filterfeature, featuress)
           var flag = true;
-          for (var plt in subset) {
-            if (!(featuress.indexOf(subset[plt]) >= 0)) {
-              flag = false;
-              break;
+          if (filtertags.length > 0)
+            for (var i_tag in filtertags) {
+              if (!(tagss.indexOf(filtertags[i_tag]) >= 0)) {
+                flag = false;
+                // console.log("NO tags")
+                break;
+              }
             }
-          }
+          if (filterinstitutions.length > 0)
+            if (!(filterinstitutions == institution)) {
+              flag = false;
+              // console.log("NO insti")
+            }
+          if (filterplatform.length > 0)
+            for (var i_platform in filterplatform) {
+              if (!(platformss.indexOf(filterplatform[i_platform]) >= 0)) {
+                flag = false;
+                // console.log("NO platform")
+                break;
+              }
+            }
+          if (filterfeature.length > 0)
+            for (var i_feature in filterfeature) {
+              if (!(featuress.indexOf(filterfeature[i_feature]) >= 0)) {
+                flag = false;
+                // console.log("NO feature")
+                break;
+              }
+            }
           if (flag) filterData.push(obj);
         }
         this.data.filteredData = filterData;
-      } else this.data.filteredData = this.data.data;
+      } else {
+        this.data.filteredData = this.data.data;
+      }
     }
   },
   filters: {
