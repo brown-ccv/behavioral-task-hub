@@ -271,9 +271,7 @@
 
       <template v-slot:cell(lab)="labs">
         <!-- {{ publication }} -->
-        <span v-for="(tag, index) in labs.value" :key="index">
-          <span v-if="index == 'name'">{{ tag | capitalize }}</span>
-        </span>
+        {{ labs.value | capitalize }}
         <b-button
           size="sm"
           variant="white"
@@ -418,7 +416,16 @@ export default {
           label: "Framework",
           class: "text-center"
         },
-        { key: "lab", label: "Labs", sortable: true, class: "text-center" },
+        {
+          key: "lab",
+          label: "Labs",
+          sortable: true,
+          formatter: value => {
+            return value["name"];
+          },
+          sortByFormatted: true,
+          class: "text-center"
+        },
         {
           key: "publication",
           label: "Publication",
