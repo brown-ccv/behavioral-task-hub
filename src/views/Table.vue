@@ -176,7 +176,7 @@
       striped
       hover
       stacked="md"
-      :items="filteredData"
+      :items="data.filteredData"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
@@ -369,8 +369,9 @@
 </template>
 
 <script>
-import GithubServices, { query, serialize } from "@/GithubServices";
+// import GithubServices, { query, serialize } from "@/GithubServices";
 import Multiselect from "vue-multiselect";
+import { mapActions, mapState } from "vuex";
 export default {
   components: {
     Multiselect
@@ -410,8 +411,6 @@ export default {
         docker: "light",
         electron: "light"
       },
-      data: [],
-      filteredData: [],
       fields: [
         {
           key: "taskName",
@@ -498,11 +497,12 @@ export default {
     };
   },
   computed: {
+    ...mapState(["data"]),
     tagsvalues() {
       let unique = new Set();
-      for (var d in this.data) {
-        for (var tag in this.data[d]["tags"]) {
-          unique.add(this.data[d]["tags"][tag]);
+      for (var d in this.data.data) {
+        for (var tag in this.data.data[d]["tags"]) {
+          unique.add(this.data.data[d]["tags"][tag]);
         }
       }
       let tagvalues = [];
@@ -514,8 +514,8 @@ export default {
     },
     institutions() {
       let unique = new Set();
-      for (var d in this.data) {
-        unique.add(this.data[d]["lab"]["institution"]);
+      for (var d in this.data.data) {
+        unique.add(this.data.data[d]["lab"]["institution"]);
       }
       let institutions = [];
       var uni = Array.from(unique);
@@ -527,17 +527,20 @@ export default {
   },
   mounted() {
     // Set the initial number of items
-    GithubServices.getData(query("data"))
-      .then(response => {
-        this.data = serialize(response);
-        this.filteredData = serialize(response);
-        this.totalRows = this.data.length;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // GithubServices.getData(query("data"))
+    //   .then(response => {
+    //     this.data = serialize(response);
+    //     this.filteredData = serialize(response);
+    //     this.totalRows = this.data.length;
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+    this.fetchData();
+    this.totalRows = this.data.data.length;
   },
   methods: {
+    ...mapActions("data", ["fetchData"]),
     info(item, index, button) {
       this.infoModal.title = item == null ? undefined : item.lab.name;
       this.infoModal.institution =
@@ -565,8 +568,8 @@ export default {
       let filterData = [];
 
       if (this.valueTags.length > 0) {
-        for (var d in this.filteredData) {
-          var obj = this.filteredData[d];
+        for (var d in this.data.filteredData) {
+          var obj = this.data.filteredData[d];
           let tagss = [];
           let subset = [];
           for (var k in this.valueTags) {
@@ -580,43 +583,40 @@ export default {
           for (var plt in subset) {
             if (!(tagss.indexOf(subset[plt]) >= 0)) {
               flag = false;
-              // console.log("not")
               break;
             }
           }
           if (flag) filterData.push(obj);
         }
-        this.filteredData = filterData;
-      } else this.filteredData = this.data;
+        this.data.filteredData = filterData;
+      } else this.data.filteredData = this.data.data;
     },
     updateInstitutionTags() {
       let filterData = [];
 
       if (this.valueInstitutions.length > 0) {
-        for (var d in this.filteredData) {
-          var obj = this.filteredData[d];
+        for (var d in this.data.filteredData) {
+          var obj = this.data.filteredData[d];
           let subset = [];
           for (var k in this.valueInstitutions) {
             subset.push(this.valueInstitutions[k]["name"]);
           }
           var value = obj.lab.institution;
           var flag = true;
-          console.log(subset, value);
           if (!(subset.indexOf(value) >= 0)) {
             flag = false;
-            console.log("No");
           }
           if (flag) filterData.push(obj);
         }
-        this.filteredData = filterData;
-      } else this.filteredData = this.data;
+        this.data.filteredData = filterData;
+      } else this.data.filteredData = this.data.data;
     },
     updateTablePlatform() {
       let filterData = [];
 
       if (this.valuePlatform.length > 0) {
-        for (var d in this.filteredData) {
-          var obj = this.filteredData[d];
+        for (var d in this.data.filteredData) {
+          var obj = this.data.filteredData[d];
           let platformss = [];
           let subset = [];
           for (var k in this.valuePlatform) {
@@ -628,29 +628,27 @@ export default {
               if (value[i][j] == true) platformss.push(j);
             }
           }
-          // console.log(subset, platformss)
           var flag = true;
           for (var plt in subset) {
             if (!(platformss.indexOf(subset[plt]) >= 0)) {
               flag = false;
-              // console.log("not")
               break;
             }
           }
           if (flag) filterData.push(obj);
         }
-        this.filteredData = filterData;
-      } else this.filteredData = this.data;
+        this.data.filteredData = filterData;
+      } else this.data.filteredData = this.data.data;
     },
     updatedata() {
-      this.filteredData = this.data;
+      this.data.filteredData = this.data.data;
     },
     updateTableFeatures() {
       let filterData = [];
 
       if (this.valueFeature.length > 0) {
-        for (var d in this.filteredData) {
-          var obj = this.filteredData[d];
+        for (var d in this.data.filteredData) {
+          var obj = this.data.filteredData[d];
           let featuress = [];
           let subset = [];
           for (var k in this.valueFeature) {
@@ -660,20 +658,17 @@ export default {
           for (var i in value) {
             if (value[i] == true) featuress.push(i);
           }
-          // console.log(subset, featuress)
           var flag = true;
           for (var plt in subset) {
             if (!(featuress.indexOf(subset[plt]) >= 0)) {
               flag = false;
-              // console.log("not")
               break;
             }
           }
           if (flag) filterData.push(obj);
         }
-        this.filteredData = filterData;
-      } else this.filteredData = this.data;
-      // console.log(filterData)
+        this.data.filteredData = filterData;
+      } else this.data.filteredData = this.data.data;
     }
   },
   filters: {

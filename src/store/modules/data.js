@@ -3,11 +3,13 @@ import GithubServices, { query, serialize } from "@/GithubServices";
 export default {
   namespaced: true,
   state: {
-    data: []
+    data: [],
+    filteredData: []
   },
   mutations: {
     SET_DATA(state, payload) {
       state.data = payload;
+      state.filteredData = payload;
     }
   },
   actions: {
