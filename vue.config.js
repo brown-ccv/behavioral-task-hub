@@ -6,7 +6,9 @@ module.exports = {
       fallbackLocale: "en",
       localeDir: "locales",
       enableInSFC: false
-    }
+    },
+    publicPath:
+      process.env.NODE_ENV === "production" ? "/behavioral-task-hub/" : "/"
   },
   chainWebpack: config => {
     const svgRule = config.module.rule("svg");
