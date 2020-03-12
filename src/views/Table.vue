@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <b-row>
+    <b-row class="bg-light p-5">
       <b-col lg="10" class="my-1">
         <b-form-group
           label=""
