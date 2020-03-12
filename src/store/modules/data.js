@@ -21,7 +21,8 @@ export default {
           commit("SET_DATA", serialize(response));
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
+          error;
         });
     }
   }
