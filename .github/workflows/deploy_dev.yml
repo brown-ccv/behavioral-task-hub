@@ -17,6 +17,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: install and build
+        run: |
+          npm install
+          npm run build
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@master
         env:
@@ -24,4 +28,3 @@ jobs:
           BASE_BRANCH: develop # The branch the action should deploy from.
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: dist # The folder the action should deploy.
-          BUILD_SCRIPT: npm install && npm run build # The build script the action should run prior to deploying.
