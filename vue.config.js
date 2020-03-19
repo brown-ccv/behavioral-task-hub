@@ -8,7 +8,15 @@ module.exports = {
       enableInSFC: false
     },
     publicPath:
-      process.env.NODE_ENV === "production" ? "/behavioral-task-hub/" : "/"
+      process.env.NODE_ENV === "production" ? "/behavioral-task-hub/" : "/",
+    configureWebpack: {
+      optimization: {
+        splitChunks: {
+          minSize: 10000,
+          maxSize: 250000
+        }
+      }
+    }
   },
   chainWebpack: config => {
     const svgRule = config.module.rule("svg");
