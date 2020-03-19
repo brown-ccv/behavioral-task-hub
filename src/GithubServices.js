@@ -1,5 +1,5 @@
-const axios = require("axios");
-const yaml = require("yaml");
+import axios from "axios";
+import yaml from "yaml";
 
 const apiClient = axios.create({
   url: "https://api.github.com/graphql",
