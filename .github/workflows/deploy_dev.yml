@@ -4,31 +4,30 @@ on:
   push:
     branches:
       - develop
+    repository_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: install and build
-        run: |
-          npm install
-          npm run build
-      - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@master
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: develop # The branch the action should deploy from.
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: dist # The folder the action should deploy.
-      - name: Trigger App re-build
-        run: |
-          curl -XPOST -H "Authorization: token ${{ secrets.VUE_APP_GITHUB_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json"  -H "Content-Type: application/json" https://api.github.com/repos/brown-ccv/behavioral-task-hub/dispatches --data '{"event_type": "build_application"}'
+  build:
+    env:
+      VUE_APP_TITAN_BRANCH: develop
+      VUE_APP_GH_TOKEN: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
 
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: npm intall, fetch data
+      run: |
+        npm install
+        npm run fetchdata
+    - name: npm build
+      env:
+        NODE_ENV: production
+      run: |
+        npm run build
+    - name: Deploy to GH Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./dist
