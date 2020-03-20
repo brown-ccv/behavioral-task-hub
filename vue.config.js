@@ -1,4 +1,6 @@
 module.exports = {
+  publicPath:
+    process.env.NODE_ENV === "production" ? "/behavioral-task-hub/" : "/",
   transpileDependencies: ["vuetify"],
   pluginOptions: {
     i18n: {
@@ -7,11 +9,6 @@ module.exports = {
       localeDir: "locales",
       enableInSFC: false
     },
-    publicPath:
-      process.env.BASE_URL + process.env.NODE_ENV === "production"
-        ? "/behavioral-task-hub/"
-        : "/",
-    assetsDir: "/behavioral-task-hub/",
     configureWebpack: {
       optimization: {
         splitChunks: {
