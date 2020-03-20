@@ -8,7 +8,9 @@ module.exports = {
       enableInSFC: false
     },
     publicPath:
-      process.env.NODE_ENV === "production" ? "/behavioral-task-hub/" : "/",
+      process.env.NODE_ENV === "production"
+        ? "/behavioral-task-hub/"
+        : "/" + "/behavioral-task-hub/",
     configureWebpack: {
       optimization: {
         splitChunks: {
