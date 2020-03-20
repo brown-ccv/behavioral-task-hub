@@ -20,7 +20,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "hash",
-  base: "/behavioral-task-hub/",
+  base: "",
   routes
 });
 
