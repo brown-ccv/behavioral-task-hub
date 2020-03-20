@@ -23,7 +23,6 @@ jobs:
     - name: npm build
       env:
         NODE_ENV: production
-        BASE_URL: /behavioral-task-hub/
       run: |
         npm run build
     - name: Deploy to GH Pages
