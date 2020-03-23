@@ -18,8 +18,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: npm intall, fetch data
+      env:
+        VUE_APP_GITHUB_TOKEN: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
+        VUE_APP_GITHUB_USER: ${{ secrets.VUE_APP_GITHUB_USER }}
       run: |
         npm install
+        npm run fetchdata
     - name: npm build
       env:
         NODE_ENV: production

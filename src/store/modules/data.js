@@ -1,4 +1,7 @@
-import GithubServices, { query, serialize } from "@/GithubServices";
+// import GithubServices, { query, serialize } from "@/GithubServices";
+
+// const fs = require("fs")
+const data = require("@/assets/data.json");
 
 export default {
   namespaced: true,
@@ -16,14 +19,10 @@ export default {
   },
   actions: {
     fetchData({ commit }) {
-      GithubServices.getData(query("data"))
-        .then(response => {
-          commit("SET_DATA", serialize(response));
-        })
-        .catch(error => {
-          // console.log(error);
-          error;
-        });
+      // let rawdata = fs.readFile('src/assets/data.json');
+      // let student = JSON.parse(rawdata);
+      console.log(data);
+      commit("SET_DATA", data);
     }
   }
 };
