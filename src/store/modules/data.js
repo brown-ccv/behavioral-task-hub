@@ -19,8 +19,6 @@ export default {
   },
   actions: {
     fetchData({ commit }) {
-      // let rawdata = fs.readFile('src/assets/data.json');
-      // let student = JSON.parse(rawdata);
       commit("SET_DATA", data);
     }
   }

@@ -118,6 +118,7 @@
                   selectLabel="Select"
                   deselectLabel="Remove"
                   @input="updateTable"
+                  @remove="updateTable"
                 >
                 </multiselect>
               </div>
@@ -545,7 +546,7 @@ export default {
         this.valuePlatform.length > 0 ||
         this.valueTags.length > 0 ||
         this.valueFeature.length > 0 ||
-        this.valueInstitutions.length > 0
+        this.valueInstitutions != ""
       ) {
         for (var d in this.data.data) {
           var obj = this.data.data[d];
@@ -594,7 +595,7 @@ export default {
                 break;
               }
             }
-          if (filterinstitutions.length > 0)
+          if (filterinstitutions != null)
             if (!(filterinstitutions == institution)) {
               flag = false;
             }
