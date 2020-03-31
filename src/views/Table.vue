@@ -167,10 +167,12 @@
     </div>
     <div class="table-display">
       <b-table
-        striped
-        hover
         stacked="md"
         :items="data.filteredData"
+        :small="small"
+        :borderless="true"
+        :striped="true"
+        :hover="true"
         :fields="fields"
         :current-page="currentPage"
         :per-page="perPage"
@@ -223,7 +225,7 @@
               v-b-tooltip.focus
               title="Deployment"
               variant="none"
-              ><b-iconstack font-scale="2">
+              ><b-iconstack font-scale="1.5">
                 <b-icon stacked icon="circle-fill" variant="dark"></b-icon>
                 <b-icon
                   stacked
@@ -238,7 +240,7 @@
               v-b-tooltip.focus
               title="Source Code"
               variant="none"
-              ><b-iconstack font-scale="2">
+              ><b-iconstack font-scale="1.5">
                 <b-icon stacked icon="circle-fill" variant="dark"></b-icon>
                 <b-icon
                   stacked
@@ -255,7 +257,7 @@
             <span v-if="index == 'doi'">{{ tag }}</span>
             <b-link v-if="index == 'url'" href="${tag}"
               ><b-icon-box-arrow-up-right
-                font-scale="1.5"
+                font-scale="1"
               ></b-icon-box-arrow-up-right
             ></b-link>
           </span>
@@ -279,7 +281,7 @@
             @click="info(labs.item, labs.index, $event.target)"
             class="mr-1"
           >
-            <b-icon-info-fill font-scale="2"></b-icon-info-fill>
+            <b-icon-info-fill font-scale="1"></b-icon-info-fill>
           </b-button>
         </template>
 
@@ -453,8 +455,8 @@ export default {
         //   { key: 'actions', label: 'Actions' }
       ],
       currentPage: 1,
-      perPage: 5,
-      pageOptions: [5, 10, 15, 20],
+      perPage: 10,
+      pageOptions: [10, 15, 20],
       sortBy: "",
       sortDesc: false,
       sortDirection: "asc",
