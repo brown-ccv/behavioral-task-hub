@@ -1,8 +1,6 @@
 <template>
   <div class="">
-    <div style="width:100%;height:500px;">
-      <!-- <h1>Search Page</h1> -->
-    </div>
+    <div style="width:100%;height:500px;"></div>
     <item-card />
   </div>
 </template>
@@ -10,7 +8,7 @@
 // import Data from "./Data";
 import Table from "./Table";
 export default {
-  name: "SearchPage",
+  name: "Home",
   components: {
     "item-card": Table
   },

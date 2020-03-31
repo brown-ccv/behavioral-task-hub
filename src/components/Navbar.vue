@@ -1,21 +1,21 @@
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <CCVLogo class="logo" />
-      <BrownLogo class="brown-logo" />
-    </div>
-    <div class="navbar-menu">
-      <div class="nav-end">
-        <span class="navbar-item text-dark"
-          ><router-link to="/">About</router-link>
-        </span>
-        |
-        <span class="navbar-item text-dark"
-          ><router-link to="/Search">Search</router-link></span
+  <div>
+    <b-navbar type="light" variant="light">
+      <b-navbar-nav>
+        <div class="navbar-brand">
+          <CCVLogo class="logo" />
+          <BrownLogo class="brown-logo" />
+        </div>
+        <b-navbar-brand class="m-auto nav-title"
+          >BEHAVIORAL TASK HUB</b-navbar-brand
         >
-      </div>
-    </div>
-  </nav>
+      </b-navbar-nav>
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item class="nav-link" to="/">HOME</b-nav-item>
+        <b-nav-item class="nav-link" to="/About">ABOUT</b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
