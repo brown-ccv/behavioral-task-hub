@@ -1,11 +1,25 @@
 <template>
-  <div class="">
-    <div style="width:100%;height:500px;"></div>
-    <item-card />
+  <div>
+    <div class="hero-body">
+      <div class="hero-left-text">
+        <div class="hero-left-title">
+          Search, Filter on tags.
+        </div>
+        <div class="hero-left-subtext">
+          Every behavioral task repository comes with a search bar and advanced
+          filter management.
+        </div>
+        <b-button size="lg" href="#table" pill class="button"
+          >Begin Search</b-button
+        >
+      </div>
+    </div>
+    <item-card id="table" />
   </div>
 </template>
 <script>
 // import Data from "./Data";
+import "@/styles/themes/default/components/_hero.sass";
 import Table from "./Table";
 export default {
   name: "Home",

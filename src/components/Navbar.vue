@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar type="light" variant="light">
+    <b-navbar type="light">
       <b-navbar-nav>
         <div class="navbar-brand">
           <CCVLogo class="logo" />
