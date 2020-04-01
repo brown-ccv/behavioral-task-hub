@@ -1,7 +1,7 @@
-// import GithubServices, { query, serialize } from "@/GithubServices";
+import GithubService from "@/GithubServices";
 
 // const fs = require("fs")
-const data = require("@/assets/data.json");
+// const data = require("@/assets/data.json");
 
 export default {
   namespaced: true,
@@ -19,7 +19,13 @@ export default {
   },
   actions: {
     fetchData({ commit }) {
-      commit("SET_DATA", data);
+      return GithubService.getData("data")
+        .then(response => {
+          commit("SET_DATA", response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

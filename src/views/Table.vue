@@ -3,6 +3,11 @@
     <div class="table-controls">
       <div class="table-controls-title">CONTROLS</div>
       <div class="table-control-items">
+        <!-- <form class="form-inline d-flex justify-content-center md-form form-sm">
+          <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder=""
+            aria-label="Search">
+          <i class="fas fa-search" aria-hidden="true"></i>
+        </form> -->
         <b-row>
           <b-col lg="10" class="table-search">
             <b-form-group
@@ -19,17 +24,18 @@
                   type="search"
                   id="filterInput"
                 ></b-form-input>
-                <b-input-group-append>
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <!-- <b-input-group-append>
                   <b-button :disabled="!filter" @click="filter = ''"
                     >Clear</b-button
                   >
-                </b-input-group-append>
+                </b-input-group-append> -->
               </b-input-group>
             </b-form-group>
           </b-col>
           <b-col lg="12" class="my-1">
             <b-form-group
-              label="Filter On"
+              label="Platform"
               label-cols-sm="2"
               label-align-sm="right"
               class="mb-0"
@@ -37,9 +43,6 @@
               <b-row>
                 <b-col lg="3" class="my-1">
                   <div class="text-left">
-                    <span class="font-weight-lighter small text-left"
-                      >Platform</span
-                    >
                     <multiselect
                       v-model="valuePlatform"
                       :options="platforms"
@@ -60,13 +63,22 @@
                       @remove="updateTable"
                     >
                     </multiselect>
-                  </div> </b-col
-                ><br />
+                  </div>
+                </b-col>
+              </b-row>
+            </b-form-group>
+          </b-col>
+
+          <b-col lg="12" class="my-1">
+            <b-form-group
+              label="Features"
+              label-cols-sm="2"
+              label-align-sm="right"
+              class="mb-0"
+              ><br />
+              <b-row>
                 <b-col lg="3" class="my-1">
                   <div class="text-left">
-                    <span class="font-weight-lighter small text-left"
-                      >Features</span
-                    >
                     <multiselect
                       v-model="valueFeature"
                       :options="features"
@@ -86,11 +98,20 @@
                     </multiselect>
                   </div>
                 </b-col>
+              </b-row>
+            </b-form-group>
+          </b-col>
+
+          <b-col lg="12" class="my-1">
+            <b-form-group
+              label="Tags"
+              label-cols-sm="2"
+              label-align-sm="right"
+              class="mb-0"
+              ><br />
+              <b-row>
                 <b-col lg="3" class="my-1">
                   <div class="text-left">
-                    <span class="font-weight-lighter small text-left"
-                      >Tags</span
-                    >
                     <multiselect
                       v-model="valueTags"
                       :options="tagsvalues"
@@ -110,11 +131,19 @@
                     </multiselect>
                   </div>
                 </b-col>
+              </b-row>
+            </b-form-group>
+          </b-col>
+          <b-col lg="12" class="my-1">
+            <b-form-group
+              label="Institution"
+              label-cols-sm="2"
+              label-align-sm="right"
+              class="mb-0"
+              ><br />
+              <b-row>
                 <b-col lg="3" class="my-1">
                   <div class="text-left">
-                    <span class="font-weight-lighter small text-left"
-                      >Institution</span
-                    >
                     <multiselect
                       v-model="valueInstitutions"
                       :options="institutions"
@@ -131,7 +160,6 @@
               </b-row>
             </b-form-group>
           </b-col>
-
           <b-col sm="5" md="6" class="my-1">
             <b-form-group
               label="Per page"
@@ -169,7 +197,7 @@
       <b-table
         stacked="md"
         :items="data.filteredData"
-        :small="small"
+        :small="true"
         :borderless="true"
         :striped="true"
         :hover="true"
