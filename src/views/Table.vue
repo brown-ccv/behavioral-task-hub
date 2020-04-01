@@ -325,12 +325,13 @@
         </div>
       </b-modal>
       <b-pagination
+        class="pagination"
         v-model="currentPage"
         :total-rows="data.totalRows"
         :per-page="perPage"
-        align="fill"
-        size="sm"
-        class="my-0"
+        align="center"
+        pills
+        size="md"
       ></b-pagination>
     </div>
   </b-container>
