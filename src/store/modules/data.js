@@ -19,13 +19,9 @@ export default {
   },
   actions: {
     fetchData({ commit }) {
-      return GithubService.getData("data")
-        .then(response => {
-          commit("SET_DATA", response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      return GithubService.getData("data").then(response => {
+        commit("SET_DATA", response.data);
+      });
     }
   }
 };
