@@ -62,7 +62,7 @@
                             group-values="options"
                             group-label="platform"
                             :group-select="true"
-                            placeholder="Select"
+                            placeholder=""
                             label="name"
                             track-by="name"
                             :taggable="true"
@@ -96,7 +96,7 @@
                             deselectGroupLabel="Remove group"
                             deselectLabel="Remove"
                             :option-height="20"
-                            placeholder="Select"
+                            placeholder=""
                             label="name"
                             track-by="name"
                             :taggable="true"
@@ -130,7 +130,7 @@
                             deselectGroupLabel="Remove group"
                             deselectLabel="Remove"
                             :option-height="20"
-                            placeholder="Select"
+                            placeholder=""
                             label="name"
                             track-by="name"
                             :taggable="true"
@@ -158,7 +158,7 @@
                             v-model="valueInstitutions"
                             :options="institutions"
                             :option-height="20"
-                            placeholder="Pick a value"
+                            placeholder=""
                             selectLabel="Select"
                             deselectLabel="Remove"
                             @input="updateTable"
@@ -170,7 +170,7 @@
                     </b-row>
                   </b-form-group>
                 </b-col>
-                <b-col lg="10" class="my-1">
+                <b-col lg="10" class="mt-1 mb-4">
                   <b-form-group
                     label="Per Page"
                     label-cols-sm="2"
@@ -192,7 +192,7 @@
         </b-col>
       </b-collapse>
     </div>
-    <b-col>
+    <b-col class="tooltable">
       <b-row class="toolbar">
         <b-button-toolbar>
           <b-button-group class="mr-1">
@@ -202,11 +202,13 @@
           </b-button-group>
         </b-button-toolbar>
       </b-row>
-      <b-row>
-        <div class="table-display">
+      <b-row class="table-display">
+        <div>
           <b-table
+            show-empty
             responsive
             sticky-header="500px"
+            thead-class="theadsticky"
             :items="data.filteredData"
             :small="true"
             :borderless="true"
@@ -222,6 +224,12 @@
             :sort-direction="sortDirection"
             @filtered="onFiltered"
           >
+            <template v-slot:empty="">
+              <h4 class="emptytext">No tasks found</h4>
+            </template>
+            <template v-slot:emptyfiltered="">
+              <h4 class="emptytext">No tasks found</h4>
+            </template>
             <template v-slot:head()="data">
               <span class="table-heading">{{ data.label }}</span>
             </template>
@@ -441,26 +449,22 @@ export default {
           key: "taskName",
           label: "Task",
           sortable: true,
-          sortDirection: "desc",
-          stickyColumn: true
+          sortDirection: "desc"
         },
         {
           key: "links",
           label: "Links",
-          class: "text-center",
-          stickyColumn: true
+          class: "text-center"
         },
         {
           key: "framework",
           label: "Framework",
-          class: "text-center",
-          stickyColumn: true
+          class: "text-center"
         },
         {
           key: "lab",
           label: "Labs",
           sortable: true,
-          stickyColumn: true,
           formatter: value => {
             return value["name"].split(" ")[0];
           },
@@ -470,14 +474,12 @@ export default {
         {
           key: "publication",
           label: "Publication",
-          class: "text-center",
-          stickyColumn: true
+          class: "text-center"
         },
         {
           key: "platform",
           label: "Platform",
           class: "text-center",
-          stickyColumn: true,
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -494,7 +496,6 @@ export default {
           key: "features",
           label: "Features",
           class: "text-center",
-          stickyColumn: true,
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -510,7 +511,6 @@ export default {
         {
           key: "tags",
           label: "Tags",
-          stickyColumn: true,
           formatter: value => {
             var formatted = "";
             for (var i = 0; i < value.length; i++) {
@@ -593,9 +593,9 @@ export default {
       this.infoModal.developers = "";
       this.infoModal.website = "";
     },
-    onFiltered(filteredItems) {
+    onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      this.data.totalRows = filteredItems.length;
+      // this.data.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
     updateTable() {
@@ -625,7 +625,6 @@ export default {
               if (valueplatform[v][j] == true) platformss.push(j);
             }
           }
-
           let featuress = [];
           var valuefeature = obj.features;
           for (var vals in valuefeature) {
@@ -654,7 +653,11 @@ export default {
                 break;
               }
             }
-          if (filterinstitutions != null)
+          if (
+            filterinstitutions != null &&
+            filterinstitutions != "" &&
+            filterinstitutions.length != 0
+          )
             if (!(filterinstitutions == institution)) {
               flag = false;
             }
@@ -675,8 +678,10 @@ export default {
           if (flag) filterData.push(obj);
         }
         this.data.filteredData = filterData;
+        this.data.totalRows = filterData.length;
       } else {
         this.data.filteredData = this.data.data;
+        this.data.totalRows = this.data.data.length;
       }
     }
   },
