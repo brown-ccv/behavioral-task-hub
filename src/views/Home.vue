@@ -9,12 +9,12 @@
           Every behavioral task repository comes with a search bar and advanced
           filter management.
         </div>
-        <b-button size="lg" href="#table" pill class="button"
+        <b-button size="lg" href="#Table" pill class="button"
           >Begin Search</b-button
         >
       </div>
     </div>
-    <item-card id="table" />
+    <item-card id="Table" />
   </div>
 </template>
 <script>
