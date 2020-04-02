@@ -206,7 +206,7 @@
         <div class="table-display">
           <b-table
             responsive
-            sticky-header="600px"
+            sticky-header="500px"
             :items="data.filteredData"
             :small="true"
             :borderless="true"
