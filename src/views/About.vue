@@ -1,18 +1,17 @@
 <template>
-  <section>
-    <div>
-      <div class="m-5 ">
-        <h1 class="">
-          Behavioral Task Hub
-        </h1>
-        <h2></h2>
-      </div>
-      <div>
-        <slot></slot>
+  <div>
+    <div class="hero-body">
+      <div class="hero-left-text">
+        <div class="hero-left-title">
+          Search, Filter on tags.
+        </div>
+        <div class="hero-left-subtext">
+          Every behavioral task repository comes with a search bar and advanced
+          filter management.
+        </div>
       </div>
     </div>
-    <Menu />
-  </section>
+  </div>
 </template>
 
 <script></script>

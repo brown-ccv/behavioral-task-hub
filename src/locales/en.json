@@ -1,0 +1,27 @@
+{
+    "hero": {
+      "title": "Search, Filter on tags.",
+      "description": "Every behavioral task repository comes with a search bar and advanced filter management.",
+      "button-text": "Begin Search"
+    },
+    "fields":{
+      "taskName": "Task",
+      "links": "Links",
+      "framework": "Framework",
+      "lab": "Labs",
+      "publication": "Publication",
+      "platform": "Platform",
+      "features": "Features",
+      "tags": "Tags"
+    },
+    "sidebar":{
+      "title": "CONTROLS",
+      "filters": {
+        "platform": "Platform",
+        "features": "Features",
+        "tags":"Tags",
+        "institution": "Institution",
+        "perPage": "Per Page"
+      }
+    }
+  }

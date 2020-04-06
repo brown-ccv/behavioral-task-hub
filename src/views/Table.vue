@@ -5,7 +5,7 @@
         <b-col>
           <div class="table-controls">
             <div class="table-control-items">
-              <div class="table-controls-title">CONTROLS</div>
+              <div class="table-controls-title">{{ $t("sidebar.title") }}</div>
               <b-row>
                 <b-col class="table-search">
                   <b-form-group
@@ -41,7 +41,7 @@
                 <br />
                 <b-col lg="12" class="my-1">
                   <b-form-group
-                    label="Platform"
+                    :label="$t('sidebar.filters.platform')"
                     label-cols-sm="2"
                     label-align-sm="right"
                     label-class="label"
@@ -78,7 +78,7 @@
 
                 <b-col lg="12" class="my-1">
                   <b-form-group
-                    label="Features"
+                    :label="$t('sidebar.filters.features')"
                     label-cols-sm="2"
                     label-align-sm="right"
                     label-class="label"
@@ -112,7 +112,7 @@
 
                 <b-col lg="12" class="my-1">
                   <b-form-group
-                    label="Tags"
+                    :label="$t('sidebar.filters.tags')"
                     label-cols-sm="2"
                     label-align-sm="right"
                     label-class="label"
@@ -145,7 +145,7 @@
                 </b-col>
                 <b-col lg="12" class="my-1">
                   <b-form-group
-                    label="Institution"
+                    :label="$t('sidebar.filters.institution')"
                     label-cols-sm="2"
                     label-align-sm="right"
                     label-class="label"
@@ -172,7 +172,7 @@
                 </b-col>
                 <b-col lg="10" class="mt-1 mb-4">
                   <b-form-group
-                    label="Per Page"
+                    :label="$t('sidebar.filters.perPage')"
                     label-cols-sm="2"
                     label-align-sm="right"
                     label-class="label"
@@ -447,23 +447,23 @@ export default {
       fields: [
         {
           key: "taskName",
-          label: "Task",
+          label: this.$t("fields.taskName"),
           sortable: true,
           sortDirection: "desc"
         },
         {
           key: "links",
-          label: "Links",
+          label: this.$t("fields.links"),
           class: "text-center"
         },
         {
           key: "framework",
-          label: "Framework",
+          label: this.$t("fields.framework"),
           class: "text-center"
         },
         {
           key: "lab",
-          label: "Labs",
+          label: this.$t("fields.lab"),
           sortable: true,
           formatter: value => {
             return value["name"].split(" ")[0];
@@ -473,12 +473,12 @@ export default {
         },
         {
           key: "publication",
-          label: "Publication",
+          label: this.$t("fields.publication"),
           class: "text-center"
         },
         {
           key: "platform",
-          label: "Platform",
+          label: this.$t("fields.platform"),
           class: "text-center",
           formatter: value => {
             var formatted = [];
@@ -494,7 +494,7 @@ export default {
         },
         {
           key: "features",
-          label: "Features",
+          label: this.$t("fields.features"),
           class: "text-center",
           formatter: value => {
             var formatted = [];
@@ -510,7 +510,7 @@ export default {
         },
         {
           key: "tags",
-          label: "Tags",
+          label: this.$t("fields.tags"),
           formatter: value => {
             var formatted = "";
             for (var i = 0; i < value.length; i++) {

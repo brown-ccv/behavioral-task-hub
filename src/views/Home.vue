@@ -3,15 +3,14 @@
     <div class="hero-body">
       <div class="hero-left-text">
         <div class="hero-left-title">
-          Search, Filter on tags.
+          {{ $t("hero.title") }}
         </div>
         <div class="hero-left-subtext">
-          Every behavioral task repository comes with a search bar and advanced
-          filter management.
+          {{ $t("hero.description") }}
         </div>
-        <b-button size="lg" href="#Table" pill class="button"
-          >Begin Search</b-button
-        >
+        <b-button size="lg" href="#Table" pill class="button">{{
+          $t("hero.button-text")
+        }}</b-button>
       </div>
     </div>
     <item-card id="Table" />
