@@ -23,5 +23,19 @@
         "institution": "Institution",
         "perPage": "Per Page"
       }
+    },
+    "about":{
+      "explanation":{
+        "title": "What is Task Hub?",
+        "description": "Every behavioral task repository comes with a search bar and advanced filter management."
+      },
+      "register":{
+        "title": "How to register",
+        "description":"Every behavioral task repository comes with a search bar and advanced filter management."
+      },
+      "task-starter-description":{
+        "title": "CCV task starter",
+        "description": "Every behavioral task repository comes with a search bar and advanced filter management."
+      }
     }
   }
