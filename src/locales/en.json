@@ -35,7 +35,8 @@
       },
       "task-starter-description":{
         "title": "CCV task starter",
-        "description": "Every behavioral task repository comes with a search bar and advanced filter management."
+        "description": "Every behavioral task repository comes with a search bar and advanced filter management.",
+        "ccvGithub": "https://github.com/brown-ccv/"
       }
     }
   }

@@ -30,6 +30,11 @@
         <div class="about-right-subtext">
           {{ $t("about.task-starter-description.description") }}
         </div>
+        <b-link
+          :href="$t('about.task-starter-description.ccvGithub')"
+          class="link"
+          ><span class="fab fs-24 fa-github"></span> CCV GitHub</b-link
+        >
       </div>
     </div>
   </div>
