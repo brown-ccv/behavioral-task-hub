@@ -2,10 +2,26 @@
   <b-container fluid class="table-body d-flex">
     <div class="control-sidebar">
       <b-collapse visible id="collapse-1" is-nav>
-        <b-col class="table-controls">
+        <b-col
+          class="table-controls"
+          v-bind:class="{ collapsed: navCollapsed }"
+        >
           <!-- <div class="table-controls"> -->
-          <div class="table-controls-title">{{ $t("sidebar.title") }}</div>
-          <div class="table-control-items">
+          <div class="sidebar-control">
+            <div class="sidebar-control-inner">
+              <span v-show="!navCollapsed" class="control-title">{{
+                $t("sidebar.title")
+              }}</span>
+              <button class="control-button" @click="toggleControl">
+                <b-icon
+                  icon="gear"
+                  aria-hidden="true"
+                  font-scale="1.8"
+                ></b-icon>
+              </button>
+            </div>
+          </div>
+          <div class="table-control-items" v-show="!navCollapsed">
             <b-row>
               <b-col class="table-search">
                 <b-form-group
@@ -192,15 +208,6 @@
       </b-collapse>
     </div>
     <b-col class="tooltable">
-      <b-row class="toolbar">
-        <b-button-toolbar>
-          <b-button-group class="mr-1">
-            <b-button v-b-toggle.collapse-1 variant="white">
-              <b-icon icon="list" aria-hidden="true" font-scale="1.8"></b-icon>
-            </b-button>
-          </b-button-group>
-        </b-button-toolbar>
-      </b-row>
       <b-row class="table-display">
         <div>
           <b-table
@@ -410,6 +417,7 @@ export default {
   },
   data() {
     return {
+      navCollapsed: false,
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
@@ -574,6 +582,9 @@ export default {
   },
   methods: {
     ...mapActions("data", ["fetchData"]),
+    toggleControl() {
+      this.navCollapsed = !this.navCollapsed;
+    },
     info(item, index, button) {
       this.infoModal.title = item == null ? undefined : item.lab.name;
       this.infoModal.institution =
@@ -693,9 +704,26 @@ export default {
 };
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
-<style scoped>
-.multiselect {
-  width: fit-content;
-  font-size: 0.8rem;
-}
+<style lang="sass" scoped>
+.multiselect
+  width: fit-content
+  font-size: 0.8rem
+
+.sidebar-control
+  display: flex
+  justify-content: flex-end
+  align-content: center
+  margin-bottom: 2rem
+  background-color: #2e2e2e
+  padding: 1rem
+  padding-right: 0.6rem
+.control-button
+  background-color: #2e2e2e
+  border: none
+  color: white
+.control-title
+  color: white
+  font-size: 1.4rem
+.collapsed
+  width: 4rem
 </style>
