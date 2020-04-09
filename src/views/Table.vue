@@ -1,206 +1,188 @@
 <template>
   <b-container fluid class="table-body d-flex">
     <div class="control-sidebar">
-      <b-collapse visible id="collapse-1" is-nav>
-        <b-col class="table-controls">
-          <!-- <div class="table-controls"> -->
-          <div class="table-controls-title">{{ $t("sidebar.title") }}</div>
-          <div class="table-control-items">
-            <b-row>
-              <b-col class="table-search">
-                <b-form-group
-                  label=""
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                  label-size="sm"
-                  label-for="filterInput"
-                  class="mb-0"
-                >
-                  <b-input-group size="sm">
-                    <b-form-input
-                      v-model="filter"
-                      type="search"
-                      id="filterInput"
-                      style="background-color:#6c757d"
-                    ></b-form-input>
-                    <b-icon-search
-                      aria-hidden="true"
-                      variant="white"
-                      font-scale="1.5"
-                    ></b-icon-search>
-                    <!-- <b-input-group-append>
-                      <b-button :disabled="!filter" @click="filter = ''"
-                        >Clear</b-button
-                      >
-                    </b-input-group-append> -->
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-              <br />
-              <br />
-              <br />
-              <b-col lg="12" class="my-1">
-                <b-form-group
-                  :label="$t('sidebar.filters.platform')"
-                  label-cols-sm="2"
-                  label-align-sm="right"
-                  label-class="label"
-                  class="mb-0"
-                  ><br />
-                  <b-row>
-                    <b-col lg="3" class="my-1">
-                      <div class="text-left">
-                        <multiselect
-                          v-model="valuePlatform"
-                          :options="platforms"
-                          :multiple="true"
-                          selectLabel=""
-                          selectGroupLabel="Select group"
-                          deselectGroupLabel="Remove group"
-                          deselectLabel="Remove"
-                          :option-height="40"
-                          group-values="options"
-                          group-label="platform"
-                          :group-select="true"
-                          placeholder=""
-                          label="name"
-                          track-by="name"
-                          :taggable="true"
-                          @input="updateTable"
-                          @remove="updateTable"
-                        >
-                        </multiselect>
-                      </div>
-                    </b-col>
-                  </b-row>
-                </b-form-group>
-              </b-col>
-
-              <b-col lg="12" class="my-1">
-                <b-form-group
-                  :label="$t('sidebar.filters.features')"
-                  label-cols-sm="2"
-                  label-align-sm="right"
-                  label-class="label"
-                  class="mb-0"
-                  ><br />
-                  <b-row>
-                    <b-col lg="3" class="my-1">
-                      <div class="text-left">
-                        <multiselect
-                          v-model="valueFeature"
-                          :options="features"
-                          :multiple="true"
-                          selectLabel=""
-                          selectGroupLabel=""
-                          deselectGroupLabel="Remove group"
-                          deselectLabel="Remove"
-                          :option-height="20"
-                          placeholder=""
-                          label="name"
-                          track-by="name"
-                          :taggable="true"
-                          @input="updateTable"
-                          @remove="updateTable"
-                        >
-                        </multiselect>
-                      </div>
-                    </b-col>
-                  </b-row>
-                </b-form-group>
-              </b-col>
-
-              <b-col lg="12" class="my-1">
-                <b-form-group
-                  :label="$t('sidebar.filters.tags')"
-                  label-cols-sm="2"
-                  label-align-sm="right"
-                  label-class="label"
-                  class="mb-0"
-                  ><br />
-                  <b-row>
-                    <b-col lg="3" class="my-1">
-                      <div class="text-left">
-                        <multiselect
-                          v-model="valueTags"
-                          :options="tagsvalues"
-                          :multiple="true"
-                          selectLabel=""
-                          selectGroupLabel=""
-                          deselectGroupLabel="Remove group"
-                          deselectLabel="Remove"
-                          :option-height="20"
-                          placeholder=""
-                          label="name"
-                          track-by="name"
-                          :taggable="true"
-                          @input="updateTable"
-                          @remove="updateTable"
-                        >
-                        </multiselect>
-                      </div>
-                    </b-col>
-                  </b-row>
-                </b-form-group>
-              </b-col>
-              <b-col lg="12" class="my-1">
-                <b-form-group
-                  :label="$t('sidebar.filters.institution')"
-                  label-cols-sm="2"
-                  label-align-sm="right"
-                  label-class="label"
-                  class="mb-0"
-                  ><br />
-                  <b-row>
-                    <b-col lg="3" class="my-1">
-                      <div class="text-left">
-                        <multiselect
-                          v-model="valueInstitutions"
-                          :options="institutions"
-                          :option-height="20"
-                          placeholder=""
-                          selectLabel="Select"
-                          deselectLabel="Remove"
-                          @input="updateTable"
-                          @remove="updateTable"
-                        >
-                        </multiselect>
-                      </div>
-                    </b-col>
-                  </b-row>
-                </b-form-group>
-              </b-col>
-              <b-col lg="10" class="mt-1 mb-4">
-                <b-form-group
-                  :label="$t('sidebar.filters.perPage')"
-                  label-cols-sm="2"
-                  label-align-sm="right"
-                  label-class="label"
-                  class="mb-0"
-                  ><br />
-                  <b-form-select
-                    v-model="perPage"
-                    id="perPageSelect"
-                    size="sm"
-                    :options="pageOptions"
-                  ></b-form-select>
-                </b-form-group>
-              </b-col>
-            </b-row>
+      <div class="table-controls" v-bind:class="{ collapsed: navCollapsed }">
+        <div class="sidebar-control">
+          <div class="sidebar-control-inner">
+            <span v-show="!navCollapsed" class="control-title">{{
+              $t("sidebar.title")
+            }}</span>
+            <button class="control-button" @click="toggleControl">
+              <b-icon icon="gear" aria-hidden="true" font-scale="1.8"></b-icon>
+            </button>
           </div>
-        </b-col>
-      </b-collapse>
+        </div>
+        <b-icon-search
+          class="collapsed-icon"
+          v-show="navCollapsed"
+          aria-hidden="true"
+          variant="white"
+          font-scale="2"
+        ></b-icon-search>
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-form-group>
+            <label for="filterInput" class="label">{{
+              $t("sidebar.filters.search")
+            }}</label>
+            <b-input-group size="sm">
+              <b-form-input
+                v-model="filter"
+                type="search"
+                id="filterInput"
+              ></b-form-input>
+              <b-icon-search
+                class="search-icon-open"
+                aria-hidden="true"
+                variant="white"
+                font-scale="2"
+              ></b-icon-search>
+            </b-input-group>
+          </b-form-group>
+        </div>
+        <b-icon
+          class="collapsed-icon"
+          v-show="navCollapsed"
+          icon="filter"
+          aria-hidden="true"
+          font-scale="1.8"
+        ></b-icon>
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-form-group>
+            <div class="text-left">
+              <label class="label" for="platform">{{
+                $t("sidebar.filters.platform")
+              }}</label>
+              <multiselect
+                id="platform"
+                v-model="valuePlatform"
+                :options="platforms"
+                :multiple="true"
+                selectLabel=""
+                selectGroupLabel="Select group"
+                deselectGroupLabel="Remove group"
+                deselectLabel="Remove"
+                :option-height="40"
+                group-values="options"
+                group-label="platform"
+                :group-select="true"
+                placeholder=""
+                label="name"
+                track-by="name"
+                :taggable="true"
+                @input="updateTable"
+                @remove="updateTable"
+              >
+              </multiselect>
+            </div>
+          </b-form-group>
+        </div>
+
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-form-group>
+            <div class="text-left">
+              <label class="label" for="features">{{
+                $t("sidebar.filters.features")
+              }}</label>
+              <multiselect
+                id="features"
+                v-model="valueFeature"
+                :options="features"
+                :multiple="true"
+                selectLabel=""
+                selectGroupLabel=""
+                deselectGroupLabel="Remove group"
+                deselectLabel="Remove"
+                :option-height="20"
+                placeholder=""
+                label="name"
+                track-by="name"
+                :taggable="true"
+                @input="updateTable"
+                @remove="updateTable"
+              >
+              </multiselect>
+            </div>
+          </b-form-group>
+        </div>
+        <b-icon
+          class="collapsed-icon"
+          v-show="navCollapsed"
+          icon="tag"
+          aria-hidden="true"
+          font-scale="1.8"
+        ></b-icon>
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-form-group>
+            <div class="text-left">
+              <label class="label" for="tags">{{
+                $t("sidebar.filters.tags")
+              }}</label>
+              <multiselect
+                id="tags"
+                v-model="valueTags"
+                :options="tagsvalues"
+                :multiple="true"
+                selectLabel=""
+                selectGroupLabel=""
+                deselectGroupLabel="Remove group"
+                deselectLabel="Remove"
+                :option-height="20"
+                placeholder=""
+                label="name"
+                track-by="name"
+                :taggable="true"
+                @input="updateTable"
+                @remove="updateTable"
+              >
+              </multiselect>
+            </div>
+          </b-form-group>
+        </div>
+        <b-icon
+          class="collapsed-icon"
+          v-show="navCollapsed"
+          icon="gear"
+          aria-hidden="true"
+          font-scale="1.8"
+        ></b-icon>
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-form-group>
+            <div class="text-left">
+              <label for="institution" class="label">{{
+                $t("sidebar.filters.institution")
+              }}</label>
+              <multiselect
+                id="institution"
+                v-model="valueInstitutions"
+                :options="institutions"
+                :option-height="20"
+                placeholder=""
+                selectLabel="Select"
+                deselectLabel="Remove"
+                @input="updateTable"
+                @remove="updateTable"
+              >
+              </multiselect>
+            </div>
+          </b-form-group>
+        </div>
+
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-form-group>
+            <label for="perPageSelect" class="label">{{
+              $t("sidebar.filters.perPage")
+            }}</label>
+            <b-form-select
+              v-model="perPage"
+              id="perPageSelect"
+              size="sm"
+              :options="pageOptions"
+            ></b-form-select>
+          </b-form-group>
+        </div>
+      </div>
     </div>
     <b-col class="tooltable">
-      <b-row class="toolbar">
-        <b-button-toolbar>
-          <b-button-group class="mr-1">
-            <b-button v-b-toggle.collapse-1 variant="white">
-              <b-icon icon="list" aria-hidden="true" font-scale="1.8"></b-icon>
-            </b-button>
-          </b-button-group>
-        </b-button-toolbar>
-      </b-row>
       <b-row class="table-display">
         <div>
           <b-table
@@ -410,6 +392,7 @@ export default {
   },
   data() {
     return {
+      navCollapsed: false,
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
@@ -574,6 +557,9 @@ export default {
   },
   methods: {
     ...mapActions("data", ["fetchData"]),
+    toggleControl() {
+      this.navCollapsed = !this.navCollapsed;
+    },
     info(item, index, button) {
       this.infoModal.title = item == null ? undefined : item.lab.name;
       this.infoModal.institution =
@@ -693,9 +679,3 @@ export default {
 };
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
-<style scoped>
-.multiselect {
-  width: fit-content;
-  font-size: 0.8rem;
-}
-</style>
