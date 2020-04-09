@@ -21,7 +21,9 @@
         "features": "Features",
         "tags":"Tags",
         "institution": "Institution",
-        "perPage": "Per Page"
+        "perPage": "Per Page",
+        "search": "Search"
+
       }
     },
     "about":{
