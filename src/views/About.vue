@@ -32,7 +32,7 @@
         </div>
         <b-link
           :href="$t('about.task-starter-description.ccvGithub')"
-          class="link"
+          class="link about-right-subtext"
           ><span class="fab fs-24 fa-github"></span> CCV GitHub</b-link
         >
       </div>

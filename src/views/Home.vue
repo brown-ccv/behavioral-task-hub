@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hero-body">
+    <div class="hero-body d-flex">
       <div class="hero-left-text">
         <div class="hero-left-title">
           {{ $t("hero.title") }}
@@ -12,6 +12,9 @@
           $t("hero.button-text")
         }}</b-button>
       </div>
+      <div class="hero-image">
+        <HeroImage />
+      </div>
     </div>
     <item-card id="Table" />
   </div>
@@ -19,11 +22,13 @@
 <script>
 // import Data from "./Data";
 import "@/styles/themes/default/components/_hero.sass";
+import HeroImage from "@/assets/illustrations/hero-image.svg";
 import Table from "./Table";
 export default {
   name: "Home",
   components: {
-    "item-card": Table
+    "item-card": Table,
+    HeroImage
   },
   computed: {},
   methods: {},
