@@ -182,202 +182,192 @@
         </div>
       </div>
     </div>
-    <b-col class="tooltable">
-      <b-row class="table-display">
-        <div>
-          <b-table
-            show-empty
-            responsive
-            sticky-header="500px"
-            thead-class="theadsticky"
-            :items="data.filteredData"
-            :small="true"
-            :borderless="true"
-            :striped="true"
-            :hover="true"
-            :fields="fields"
-            :current-page="currentPage"
-            :per-page="perPage"
-            :filter="filter"
-            :filterIncludedFields="filterOn"
-            :sort-by.sync="sortBy"
-            :sort-desc.sync="sortDesc"
-            :sort-direction="sortDirection"
-            @filtered="onFiltered"
+    <b-col>
+      <b-table
+        show-empty
+        responsive
+        :items="data.filteredData"
+        :small="true"
+        :borderless="true"
+        :striped="true"
+        :hover="true"
+        :fields="fields"
+        :current-page="currentPage"
+        :per-page="perPage"
+        :filter="filter"
+        :filterIncludedFields="filterOn"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        :sort-direction="sortDirection"
+        @filtered="onFiltered"
+      >
+        <template v-slot:empty="">
+          <h4 class="emptytext">No tasks found</h4>
+        </template>
+        <template v-slot:emptyfiltered="">
+          <h4 class="emptytext">No tasks found</h4>
+        </template>
+        <template v-slot:head()="data">
+          <span class="table-heading">{{ data.label }}</span>
+        </template>
+        <template v-slot:cell(tags)="tagsformat">
+          <b-badge
+            v-for="tag in tagsformat.unformatted"
+            :key="tag"
+            pill
+            variant="info"
+            >{{ tag }}</b-badge
           >
-            <template v-slot:empty="">
-              <h4 class="emptytext">No tasks found</h4>
-            </template>
-            <template v-slot:emptyfiltered="">
-              <h4 class="emptytext">No tasks found</h4>
-            </template>
-            <template v-slot:head()="data">
-              <span class="table-heading">{{ data.label }}</span>
-            </template>
-            <template v-slot:cell(tags)="tagsformat">
-              <b-badge
-                v-for="tag in tagsformat.unformatted"
-                :key="tag"
-                pill
-                variant="info"
-                >{{ tag }}</b-badge
-              >
-            </template>
-            <template v-slot:cell(taskName)="taskName">
-              <strong class="text-info font-weight-bolder">{{
-                taskName.value | capitalize
-              }}</strong>
-            </template>
+        </template>
+        <template v-slot:cell(taskName)="taskName">
+          <strong class="text-info font-weight-bolder">{{
+            taskName.value | capitalize
+          }}</strong>
+        </template>
 
-            <template v-slot:cell(platform)="platform">
-              <b-badge
-                v-for="tag in platform.value"
-                :key="tag"
-                pill
-                :variant="tags[tag]"
-                >{{ tag }}<br
-              /></b-badge>
-            </template>
+        <template v-slot:cell(platform)="platform">
+          <b-badge
+            v-for="tag in platform.value"
+            :key="tag"
+            pill
+            :variant="tags[tag]"
+            >{{ tag }}<br
+          /></b-badge>
+        </template>
 
-            <template v-slot:cell(features)="features">
-              <b-badge
-                v-for="tag in features.value"
-                :key="tag"
-                pill
-                variant="light"
-                >{{ tag }}<br />
-              </b-badge>
-            </template>
+        <template v-slot:cell(features)="features">
+          <b-badge v-for="tag in features.value" :key="tag" pill variant="light"
+            >{{ tag }}<br />
+          </b-badge>
+        </template>
 
-            <template v-slot:cell(links)="links">
-              <span v-for="(tag, index) in links.value" :key="index">
-                <b-button
-                  v-if="index == 'deployment'"
-                  href="${tag}"
-                  v-b-tooltip.focus
-                  title="Deployment"
-                  variant="none"
-                  ><b-iconstack font-scale="1.5">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      style="color: #6c757d;"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="cloud-upload"
-                      scale="0.6"
-                      variant="white"
-                    ></b-icon> </b-iconstack
-                ></b-button>
-                <b-button
-                  v-if="index == 'sourceCode'"
-                  href="${tag}"
-                  v-b-tooltip.focus
-                  title="Source Code"
-                  variant="none"
-                  ><b-iconstack font-scale="1.5">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      style="color: #6c757d;"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="code-slash"
-                      scale="0.6"
-                      variant="white"
-                    ></b-icon> </b-iconstack
-                ></b-button>
-              </span>
-            </template>
-
-            <template v-slot:cell(publication)="publication">
-              <span v-for="(tag, index) in publication.value" :key="index">
-                <span v-if="index == 'doi'">{{ tag }}</span>
-                <b-link v-if="index == 'url'" href="${tag}"
-                  ><b-icon-box-arrow-up-right
-                    font-scale="1"
-                  ></b-icon-box-arrow-up-right
-                ></b-link>
-              </span>
-            </template>
-
-            <template v-slot:cell(framework)="framework">
-              <!-- {{ publication }} -->
-              <span v-for="(tag, index) in framework.value" :key="index">
-                <span v-if="index == 'library'">Library: {{ tag }}</span
-                ><br />
-                <span v-if="index == 'language'">Language: {{ tag }}</span>
-              </span>
-            </template>
-
-            <template v-slot:cell(lab)="labs">
-              <!-- {{ publication }} -->
-              {{ labs.value | capitalize }}
-              <b-button
-                size="sm"
-                variant="white"
-                @click="info(labs.item, labs.index, $event.target)"
-                class="mr-1"
-              >
-                <b-icon-info-fill
-                  font-scale="1.5"
+        <template v-slot:cell(links)="links">
+          <span v-for="(tag, index) in links.value" :key="index">
+            <b-button
+              v-if="index == 'deployment'"
+              href="${tag}"
+              v-b-tooltip.focus
+              title="Deployment"
+              variant="none"
+              ><b-iconstack font-scale="1.5">
+                <b-icon
+                  stacked
+                  icon="circle-fill"
                   style="color: #6c757d;"
-                ></b-icon-info-fill>
-              </b-button>
-            </template>
+                ></b-icon>
+                <b-icon
+                  stacked
+                  icon="cloud-upload"
+                  scale="0.6"
+                  variant="white"
+                ></b-icon> </b-iconstack
+            ></b-button>
+            <b-button
+              v-if="index == 'sourceCode'"
+              href="${tag}"
+              v-b-tooltip.focus
+              title="Source Code"
+              variant="none"
+              ><b-iconstack font-scale="1.5">
+                <b-icon
+                  stacked
+                  icon="circle-fill"
+                  style="color: #6c757d;"
+                ></b-icon>
+                <b-icon
+                  stacked
+                  icon="code-slash"
+                  scale="0.6"
+                  variant="white"
+                ></b-icon> </b-iconstack
+            ></b-button>
+          </span>
+        </template>
 
-            <template v-slot:row-details="row">
-              <b-card>
-                <ul>
-                  <li v-for="(value, key) in row.item.lab" :key="key">
-                    {{ key }}: {{ value }}
-                  </li>
-                </ul>
-              </b-card>
-            </template>
-          </b-table>
-          <b-modal
-            :id="infoModal.id"
-            v-if="infoModal"
-            :title="infoModal.title | capitalize"
-            ok-only
-            @hide="resetInfoModal"
+        <template v-slot:cell(publication)="publication">
+          <span v-for="(tag, index) in publication.value" :key="index">
+            <span v-if="index == 'doi'">{{ tag }}</span>
+            <b-link v-if="index == 'url'" href="${tag}"
+              ><b-icon-box-arrow-up-right
+                font-scale="1"
+              ></b-icon-box-arrow-up-right
+            ></b-link>
+          </span>
+        </template>
+
+        <template v-slot:cell(framework)="framework">
+          <!-- {{ publication }} -->
+          <span v-for="(tag, index) in framework.value" :key="index">
+            <span v-if="index == 'library'">Library: {{ tag }}</span
+            ><br />
+            <span v-if="index == 'language'">Language: {{ tag }}</span>
+          </span>
+        </template>
+
+        <template v-slot:cell(lab)="labs">
+          <!-- {{ publication }} -->
+          {{ labs.value | capitalize }}
+          <b-button
+            size="sm"
+            variant="white"
+            @click="info(labs.item, labs.index, $event.target)"
+            class="mr-1"
           >
-            <div class="text-center">
-              <span
-                ><b class="text-warning">Institution: </b
-                >{{ infoModal.institution }}</span
-              >
-              <br />
-              <span
-                ><b class="text-warning">Principal Investigator: </b
-                >{{ infoModal.principalInvestigator }}</span
-              >
-              <br />
-              <b class="text-warning">Developers: </b
-              ><span v-for="(tag, index) in infoModal.developers" :key="index"
-                >{{ tag }}<br />
-              </span>
-              <b-link href="infoModal.website"
-                ><b-icon-box-arrow-up-right
-                  font-scale="1.5"
-                ></b-icon-box-arrow-up-right
-              ></b-link>
-            </div>
-          </b-modal>
-          <b-pagination
-            class="pagination"
-            v-model="currentPage"
-            :total-rows="data.totalRows"
-            :per-page="perPage"
-            align="center"
-            pills
-            size="md"
-          ></b-pagination>
+            <b-icon-info-fill
+              font-scale="1.5"
+              style="color: #6c757d;"
+            ></b-icon-info-fill>
+          </b-button>
+        </template>
+
+        <template v-slot:row-details="row">
+          <b-card>
+            <ul>
+              <li v-for="(value, key) in row.item.lab" :key="key">
+                {{ key }}: {{ value }}
+              </li>
+            </ul>
+          </b-card>
+        </template>
+      </b-table>
+      <b-modal
+        :id="infoModal.id"
+        v-if="infoModal"
+        :title="infoModal.title | capitalize"
+        ok-only
+        @hide="resetInfoModal"
+      >
+        <div class="text-center">
+          <span
+            ><b class="text-warning">Institution: </b
+            >{{ infoModal.institution }}</span
+          >
+          <br />
+          <span
+            ><b class="text-warning">Principal Investigator: </b
+            >{{ infoModal.principalInvestigator }}</span
+          >
+          <br />
+          <b class="text-warning">Developers: </b
+          ><span v-for="(tag, index) in infoModal.developers" :key="index"
+            >{{ tag }}<br />
+          </span>
+          <b-link href="infoModal.website"
+            ><b-icon-box-arrow-up-right
+              font-scale="1.5"
+            ></b-icon-box-arrow-up-right
+          ></b-link>
         </div>
-      </b-row>
+      </b-modal>
+      <b-pagination
+        class="pagination"
+        v-model="currentPage"
+        :total-rows="data.totalRows"
+        :per-page="perPage"
+        align="center"
+        pills
+        size="md"
+      ></b-pagination>
     </b-col>
   </b-container>
 </template>
@@ -392,7 +382,7 @@ export default {
   },
   data() {
     return {
-      navCollapsed: false,
+      navCollapsed: true,
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
