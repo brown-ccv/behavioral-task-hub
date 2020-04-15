@@ -338,7 +338,7 @@
         ok-only
         @hide="resetInfoModal"
       >
-        <div class="text-center">
+        <div class="text-left">
           <span
             ><b class="text-warning">Institution: </b
             >{{ infoModal.institution }}</span
@@ -422,17 +422,18 @@ export default {
           key: "taskName",
           label: this.$t("fields.taskName"),
           sortable: true,
-          sortDirection: "desc"
+          sortDirection: "desc",
+          class: "text-left"
         },
         {
           key: "links",
           label: this.$t("fields.links"),
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "framework",
           label: this.$t("fields.framework"),
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "lab",
@@ -442,17 +443,17 @@ export default {
             return value["name"].split(" ")[0];
           },
           sortByFormatted: true,
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "publication",
           label: this.$t("fields.publication"),
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "platform",
           label: this.$t("fields.platform"),
-          class: "text-center",
+          class: "text-left",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -468,7 +469,7 @@ export default {
         {
           key: "features",
           label: this.$t("fields.features"),
-          class: "text-center",
+          class: "text-left",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -492,7 +493,8 @@ export default {
             return formatted;
           },
           sortByFormatted: true,
-          filterByFormatted: true
+          filterByFormatted: true,
+          class: "text-left"
         }
         //   { key: 'actions', label: 'Actions' }
       ],
