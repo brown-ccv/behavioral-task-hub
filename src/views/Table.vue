@@ -314,10 +314,10 @@
             @click="info(labs.item, labs.index, $event.target)"
             class="mr-1"
           >
-            <b-icon-info-fill
+            <b-icon-info-circle-fill
               font-scale="1.5"
               style="color: #6c757d;"
-            ></b-icon-info-fill>
+            ></b-icon-info-circle-fill>
           </b-button>
         </template>
 

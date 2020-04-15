@@ -1,5 +1,5 @@
 # behavioral-task-hub
-
+Every behavioral task repository comes with a search bar and advanced filter management.
 ## Project setup
 ```
 npm install
