@@ -10,17 +10,26 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+      title: "Behavioral Task Hub"
+    }
   },
   {
     path: "/About",
     name: "About",
-    component: About
+    component: About,
+    meta: {
+      title: "Behavioral Task Hub"
+    }
   },
   {
     path: "/Table",
     name: "Table",
-    component: Table
+    component: Table,
+    meta: {
+      title: "Behavioral Task Hub"
+    }
   }
 ];
 
@@ -29,4 +38,8 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || "Default Website Title";
+  next();
+});
 export default router;
