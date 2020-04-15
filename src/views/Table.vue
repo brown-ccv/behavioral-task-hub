@@ -21,22 +21,24 @@
         ></b-icon-search>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
-            <label for="filterInput" class="label">{{
-              $t("sidebar.filters.search")
-            }}</label>
-            <b-input-group size="sm">
-              <b-form-input
-                v-model="filter"
-                type="search"
-                id="filterInput"
-              ></b-form-input>
-              <b-icon-search
-                class="search-icon-open"
-                aria-hidden="true"
-                variant="white"
-                font-scale="2"
-              ></b-icon-search>
-            </b-input-group>
+            <div class="text-left">
+              <label for="filterInput" class="label">{{
+                $t("sidebar.filters.search")
+              }}</label>
+              <b-input-group size="sm">
+                <b-form-input
+                  v-model="filter"
+                  type="search"
+                  id="filterInput"
+                ></b-form-input>
+                <b-icon-search
+                  class="search-icon-open"
+                  aria-hidden="true"
+                  variant="white"
+                  font-scale="2"
+                ></b-icon-search>
+              </b-input-group>
+            </div>
           </b-form-group>
         </div>
         <b-icon
@@ -169,15 +171,17 @@
 
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
-            <label for="perPageSelect" class="label">{{
-              $t("sidebar.filters.perPage")
-            }}</label>
-            <b-form-select
-              v-model="perPage"
-              id="perPageSelect"
-              size="sm"
-              :options="pageOptions"
-            ></b-form-select>
+            <div class="text-left">
+              <label for="perPageSelect" class="label">{{
+                $t("sidebar.filters.perPage")
+              }}</label>
+              <b-form-select
+                v-model="perPage"
+                id="perPageSelect"
+                size="sm"
+                :options="pageOptions"
+              ></b-form-select>
+            </div>
           </b-form-group>
         </div>
       </div>
