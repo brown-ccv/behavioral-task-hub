@@ -245,7 +245,7 @@
           <span v-for="(tag, index) in links.value" :key="index">
             <b-button
               v-if="index == 'deployment'"
-              href="${tag}"
+              :href="tag"
               v-b-tooltip.focus
               title="Deployment"
               variant="none"
@@ -265,7 +265,7 @@
             ></b-button>
             <b-button
               v-if="index == 'sourceCode'"
-              href="${tag}"
+              :href="tag"
               v-b-tooltip.focus
               title="Source Code"
               variant="none"
@@ -288,7 +288,7 @@
         <template v-slot:cell(publication)="publication">
           <span v-for="(tag, index) in publication.value" :key="index">
             <span v-if="index == 'doi'">{{ tag }}</span>
-            <b-link v-if="index == 'url'" href="${tag}"
+            <b-link v-if="index == 'url'" :href="tag"
               ><b-icon-box-arrow-up-right
                 font-scale="1"
               ></b-icon-box-arrow-up-right
@@ -353,7 +353,7 @@
           ><span v-for="(tag, index) in infoModal.developers" :key="index"
             >{{ tag }}<br />
           </span>
-          <b-link href="infoModal.website"
+          <b-link :href="infoModal.website"
             ><b-icon-box-arrow-up-right
               font-scale="1.5"
             ></b-icon-box-arrow-up-right
