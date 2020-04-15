@@ -3,8 +3,12 @@
     <b-navbar type="light">
       <b-navbar-nav>
         <div class="navbar-brand">
-          <CCVLogo class="logo" />
-          <BrownLogo class="brown-logo" />
+          <b-link :href="$t('nav-bar.links.ccv')"
+            ><CCVLogo class="logo"
+          /></b-link>
+          <b-link :href="$t('nav-bar.links.brown')"
+            ><BrownLogo class="brown-logo"
+          /></b-link>
         </div>
         <b-navbar-brand class="m-auto nav-title"
           >BEHAVIORAL TASK HUB</b-navbar-brand

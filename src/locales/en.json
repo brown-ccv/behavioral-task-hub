@@ -1,4 +1,10 @@
 {
+    "nav-bar":{
+      "links":{
+        "ccv": "https://ccv.brown.edu/",
+        "brown": "https://www.brown.edu/"
+      }
+    },
     "hero": {
       "title": "Search, Filter on tags.",
       "description": "Every behavioral task repository comes with a search bar and advanced filter management.",
