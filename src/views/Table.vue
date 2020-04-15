@@ -249,7 +249,8 @@
               v-b-tooltip.focus
               title="Deployment"
               variant="none"
-              ><b-iconstack font-scale="1.5">
+            >
+              <b-iconstack font-scale="1.5">
                 <b-icon
                   stacked
                   icon="circle-fill"
@@ -257,8 +258,8 @@
                 ></b-icon>
                 <b-icon
                   stacked
-                  icon="cloud-upload"
-                  scale="0.6"
+                  icon="link45deg"
+                  scale="0.8"
                   variant="white"
                 ></b-icon> </b-iconstack
             ></b-button>
