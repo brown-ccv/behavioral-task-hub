@@ -8,15 +8,20 @@
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
         </div>
-        <b-button size="lg" href="#Table" pill class="button">{{
-          $t("hero.button-text")
-        }}</b-button>
+        <b-button
+          size="lg"
+          href="#"
+          v-scroll-to="'#Table'"
+          pill
+          class="button"
+          >{{ $t("hero.button-text") }}</b-button
+        >
       </div>
       <div class="hero-image">
         <HeroImage />
       </div>
     </div>
-    <item-card id="Table" />
+    <Table id="Table" />
   </div>
 </template>
 <script>
@@ -27,7 +32,7 @@ import Table from "./Table";
 export default {
   name: "Home",
   components: {
-    "item-card": Table,
+    Table,
     HeroImage
   },
   computed: {},
