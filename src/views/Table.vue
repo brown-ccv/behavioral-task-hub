@@ -169,7 +169,7 @@
           </b-form-group>
         </div>
 
-        <div class="table-control-items" v-show="!navCollapsed">
+        <!-- <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
               <label for="perPageSelect" class="label">{{
@@ -183,7 +183,7 @@
               ></b-form-select>
             </div>
           </b-form-group>
-        </div>
+        </div> -->
       </div>
     </div>
     <b-col>

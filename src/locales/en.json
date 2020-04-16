@@ -6,8 +6,8 @@
       }
     },
     "hero": {
-      "title": "Search, Filter on tags.",
-      "description": "Every behavioral task repository comes with a search bar and advanced filter management.",
+      "title": "Behavioral Task Hub",
+      "description": "Search, Filter on tags. Every behavioral task repository comes with a search bar and advanced filter management.",
       "button-text": "Begin Search"
     },
     "fields":{
