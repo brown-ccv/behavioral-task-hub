@@ -168,22 +168,6 @@
             </div>
           </b-form-group>
         </div>
-
-        <!-- <div class="table-control-items" v-show="!navCollapsed">
-          <b-form-group>
-            <div class="text-left">
-              <label for="perPageSelect" class="label">{{
-                $t("sidebar.filters.perPage")
-              }}</label>
-              <b-form-select
-                v-model="perPage"
-                id="perPageSelect"
-                size="sm"
-                :options="pageOptions"
-              ></b-form-select>
-            </div>
-          </b-form-group>
-        </div> -->
       </div>
     </div>
     <b-col>
@@ -301,7 +285,6 @@
         </template>
 
         <template v-slot:cell(framework)="framework">
-          <!-- {{ publication }} -->
           <span v-for="(tag, index) in framework.value" :key="index">
             <span v-if="index == 'library'">Library: {{ tag }}</span
             ><br />
@@ -310,7 +293,6 @@
         </template>
 
         <template v-slot:cell(lab)="labs">
-          <!-- {{ publication }} -->
           {{ labs.value | capitalize }}
           <b-button
             size="sm"
@@ -500,7 +482,6 @@ export default {
           filterByFormatted: true,
           class: "text-left"
         }
-        //   { key: 'actions', label: 'Actions' }
       ],
       currentPage: 1,
       perPage: 10,
