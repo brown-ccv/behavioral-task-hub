@@ -21,22 +21,24 @@
         ></b-icon-search>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
-            <label for="filterInput" class="label">{{
-              $t("sidebar.filters.search")
-            }}</label>
-            <b-input-group size="sm">
-              <b-form-input
-                v-model="filter"
-                type="search"
-                id="filterInput"
-              ></b-form-input>
-              <b-icon-search
-                class="search-icon-open"
-                aria-hidden="true"
-                variant="white"
-                font-scale="2"
-              ></b-icon-search>
-            </b-input-group>
+            <div class="text-left">
+              <label for="filterInput" class="label">{{
+                $t("sidebar.filters.search")
+              }}</label>
+              <b-input-group size="sm">
+                <b-form-input
+                  v-model="filter"
+                  type="search"
+                  id="filterInput"
+                ></b-form-input>
+                <b-icon-search
+                  class="search-icon-open"
+                  aria-hidden="true"
+                  variant="white"
+                  font-scale="2"
+                ></b-icon-search>
+              </b-input-group>
+            </div>
           </b-form-group>
         </div>
         <b-icon
@@ -166,20 +168,6 @@
             </div>
           </b-form-group>
         </div>
-
-        <div class="table-control-items" v-show="!navCollapsed">
-          <b-form-group>
-            <label for="perPageSelect" class="label">{{
-              $t("sidebar.filters.perPage")
-            }}</label>
-            <b-form-select
-              v-model="perPage"
-              id="perPageSelect"
-              size="sm"
-              :options="pageOptions"
-            ></b-form-select>
-          </b-form-group>
-        </div>
       </div>
     </div>
     <b-col>
@@ -245,11 +233,12 @@
           <span v-for="(tag, index) in links.value" :key="index">
             <b-button
               v-if="index == 'deployment'"
-              href="${tag}"
+              :href="tag"
               v-b-tooltip.focus
               title="Deployment"
               variant="none"
-              ><b-iconstack font-scale="1.5">
+            >
+              <b-iconstack font-scale="1.5">
                 <b-icon
                   stacked
                   icon="circle-fill"
@@ -257,14 +246,14 @@
                 ></b-icon>
                 <b-icon
                   stacked
-                  icon="cloud-upload"
-                  scale="0.6"
+                  icon="link45deg"
+                  scale="0.8"
                   variant="white"
                 ></b-icon> </b-iconstack
             ></b-button>
             <b-button
               v-if="index == 'sourceCode'"
-              href="${tag}"
+              :href="tag"
               v-b-tooltip.focus
               title="Source Code"
               variant="none"
@@ -287,7 +276,7 @@
         <template v-slot:cell(publication)="publication">
           <span v-for="(tag, index) in publication.value" :key="index">
             <span v-if="index == 'doi'">{{ tag }}</span>
-            <b-link v-if="index == 'url'" href="${tag}"
+            <b-link v-if="index == 'url'" :href="tag"
               ><b-icon-box-arrow-up-right
                 font-scale="1"
               ></b-icon-box-arrow-up-right
@@ -296,7 +285,6 @@
         </template>
 
         <template v-slot:cell(framework)="framework">
-          <!-- {{ publication }} -->
           <span v-for="(tag, index) in framework.value" :key="index">
             <span v-if="index == 'library'">Library: {{ tag }}</span
             ><br />
@@ -305,7 +293,6 @@
         </template>
 
         <template v-slot:cell(lab)="labs">
-          <!-- {{ publication }} -->
           {{ labs.value | capitalize }}
           <b-button
             size="sm"
@@ -313,10 +300,10 @@
             @click="info(labs.item, labs.index, $event.target)"
             class="mr-1"
           >
-            <b-icon-info-fill
+            <b-icon-info-circle-fill
               font-scale="1.5"
               style="color: #6c757d;"
-            ></b-icon-info-fill>
+            ></b-icon-info-circle-fill>
           </b-button>
         </template>
 
@@ -337,7 +324,7 @@
         ok-only
         @hide="resetInfoModal"
       >
-        <div class="text-center">
+        <div class="text-left">
           <span
             ><b class="text-warning">Institution: </b
             >{{ infoModal.institution }}</span
@@ -352,7 +339,7 @@
           ><span v-for="(tag, index) in infoModal.developers" :key="index"
             >{{ tag }}<br />
           </span>
-          <b-link href="infoModal.website"
+          <b-link :href="infoModal.website"
             ><b-icon-box-arrow-up-right
               font-scale="1.5"
             ></b-icon-box-arrow-up-right
@@ -421,17 +408,18 @@ export default {
           key: "taskName",
           label: this.$t("fields.taskName"),
           sortable: true,
-          sortDirection: "desc"
+          sortDirection: "desc",
+          class: "text-left"
         },
         {
           key: "links",
           label: this.$t("fields.links"),
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "framework",
           label: this.$t("fields.framework"),
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "lab",
@@ -441,17 +429,17 @@ export default {
             return value["name"].split(" ")[0];
           },
           sortByFormatted: true,
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "publication",
           label: this.$t("fields.publication"),
-          class: "text-center"
+          class: "text-left"
         },
         {
           key: "platform",
           label: this.$t("fields.platform"),
-          class: "text-center",
+          class: "text-left",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -467,7 +455,7 @@ export default {
         {
           key: "features",
           label: this.$t("fields.features"),
-          class: "text-center",
+          class: "text-left",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -491,9 +479,9 @@ export default {
             return formatted;
           },
           sortByFormatted: true,
-          filterByFormatted: true
+          filterByFormatted: true,
+          class: "text-left"
         }
-        //   { key: 'actions', label: 'Actions' }
       ],
       currentPage: 1,
       perPage: 10,
