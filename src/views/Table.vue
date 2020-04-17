@@ -176,7 +176,7 @@
           >
         </template>
         <template v-slot:cell(taskName)="taskName">
-          <strong class="text-info font-weight-bolder pl-2">{{
+          <strong class="text-info font-weight-bolder pl-1">{{
             taskName.value | capitalize
           }}</strong>
         </template>
@@ -258,11 +258,20 @@
           </span>
         </template>
 
+        <template v-slot:head(framework)="framework">
+          <span class="table-heading">{{ framework.label }}</span>
+          <b-badge pill class="library-pills"> Library </b-badge>
+          <b-badge pill class="language-pills"> Language </b-badge>
+        </template>
+
         <template v-slot:cell(framework)="framework">
           <span v-for="(tag, index) in framework.value" :key="index">
-            <span v-if="index == 'library'">Library: {{ tag }}</span
-            ><br />
-            <span v-if="index == 'language'">Language: {{ tag }}</span>
+            <b-badge v-if="index == 'library'" pill class="library-pills">{{
+              tag
+            }}</b-badge>
+            <b-badge v-if="index == 'language'" pill class="language-pills">{{
+              tag
+            }}</b-badge>
           </span>
         </template>
 
