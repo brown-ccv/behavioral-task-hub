@@ -141,6 +141,7 @@
       <b-table
         show-empty
         responsive
+        stacked="md"
         :items="data.filteredData"
         :small="true"
         :borderless="true"
@@ -175,9 +176,15 @@
           >
         </template>
         <template v-slot:cell(taskName)="taskName">
-          <strong class="text-info font-weight-bolder">{{
+          <strong class="text-info font-weight-bolder pl-2">{{
             taskName.value | capitalize
           }}</strong>
+        </template>
+
+        <template v-slot:head(platform)="platform">
+          <span class="table-heading">{{ platform.label }}</span>
+          <b-badge pill class="desktop-pills"> Desktop </b-badge>
+          <b-badge pill class="mobile-pills"> Mobile </b-badge>
         </template>
 
         <template v-slot:cell(platform)="platform">
@@ -185,13 +192,13 @@
             v-for="tag in platform.value"
             :key="tag"
             pill
-            :variant="tags[tag]"
+            :class="tags[tag]"
             >{{ tag }}<br
           /></b-badge>
         </template>
 
         <template v-slot:cell(features)="features">
-          <b-badge v-for="tag in features.value" :key="tag" pill variant="light"
+          <b-badge v-for="tag in features.value" :key="tag" pill variant="info"
             >{{ tag }}<br />
           </b-badge>
         </template>
@@ -359,11 +366,11 @@ export default {
         { name: "mturk" }
       ],
       tags: {
-        windows: "success",
-        linux: "success",
-        mac: "success",
-        ios: "primary",
-        android: "primary",
+        windows: "desktop-pills",
+        linux: "desktop-pills",
+        mac: "desktop-pills",
+        ios: "mobile-pills",
+        android: "mobile-pills",
         browser: "light",
         eegTrigger: "light",
         mturk: "light",
