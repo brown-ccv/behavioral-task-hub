@@ -4,21 +4,15 @@
       <div class="table-controls" v-bind:class="{ collapsed: navCollapsed }">
         <div class="sidebar-control">
           <div class="sidebar-control-inner">
-            <span v-show="!navCollapsed" class="control-title">{{
-              $t("sidebar.title")
-            }}</span>
             <button class="control-button" @click="toggleControl">
-              <b-icon icon="gear" aria-hidden="true" font-scale="1.8"></b-icon>
+              <b-icon
+                icon="search"
+                aria-hidden="true"
+                font-scale="1.8"
+              ></b-icon>
             </button>
           </div>
         </div>
-        <b-icon-search
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          aria-hidden="true"
-          variant="white"
-          font-scale="2"
-        ></b-icon-search>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
@@ -31,23 +25,10 @@
                   type="search"
                   id="filterInput"
                 ></b-form-input>
-                <b-icon-search
-                  class="search-icon-open"
-                  aria-hidden="true"
-                  variant="white"
-                  font-scale="2"
-                ></b-icon-search>
               </b-input-group>
             </div>
           </b-form-group>
         </div>
-        <b-icon
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          icon="filter"
-          aria-hidden="true"
-          font-scale="1.8"
-        ></b-icon>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
@@ -106,13 +87,6 @@
             </div>
           </b-form-group>
         </div>
-        <b-icon
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          icon="tag"
-          aria-hidden="true"
-          font-scale="1.8"
-        ></b-icon>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
@@ -140,13 +114,6 @@
             </div>
           </b-form-group>
         </div>
-        <b-icon
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          icon="gear"
-          aria-hidden="true"
-          font-scale="1.8"
-        ></b-icon>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
