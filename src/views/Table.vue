@@ -183,7 +183,8 @@
         </template>
 
         <template v-slot:head(platform)="platform">
-          <span class="table-heading">{{ platform.label }}</span>
+          <span class="table-heading">{{ platform.label }}</span
+          ><br />
           <b-badge pill class="pills desktop-pills"> Desktop </b-badge>
           <b-badge pill class="pills mobile-pills"> Mobile </b-badge>
         </template>
@@ -265,7 +266,8 @@
         </template>
 
         <template v-slot:head(framework)="framework">
-          <span class="table-heading">{{ framework.label }}</span>
+          <span class="table-heading">{{ framework.label }}</span
+          ><br />
           <b-badge pill class="pills library-pills"> Library </b-badge>
           <b-badge pill class="pills language-pills"> Language </b-badge>
         </template>
@@ -404,17 +406,17 @@ export default {
           label: this.$t("fields.taskName"),
           sortable: true,
           sortDirection: "desc",
-          class: "text-left"
+          class: "text-left align-middle"
         },
         {
           key: "links",
           label: this.$t("fields.links"),
-          class: "text-left"
+          class: "text-left align-middle"
         },
         {
           key: "framework",
           label: this.$t("fields.framework"),
-          class: "text-left"
+          class: "text-left align-middle"
         },
         {
           key: "lab",
@@ -424,17 +426,17 @@ export default {
             return value["name"].split(" ")[0];
           },
           sortByFormatted: true,
-          class: "text-left"
+          class: "text-left align-middle"
         },
         {
           key: "publication",
           label: this.$t("fields.publication"),
-          class: "text-left"
+          class: "text-left align-middle"
         },
         {
           key: "platform",
           label: this.$t("fields.platform"),
-          class: "text-left",
+          class: "text-left align-middle",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -450,7 +452,7 @@ export default {
         {
           key: "features",
           label: this.$t("fields.features"),
-          class: "text-left",
+          class: "text-left align-middle",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -475,7 +477,7 @@ export default {
           },
           sortByFormatted: true,
           filterByFormatted: true,
-          class: "text-left"
+          class: "text-left align-middle"
         }
       ],
       currentPage: 1,
