@@ -164,13 +164,14 @@
           <h4 class="emptytext">No tasks found</h4>
         </template>
         <template v-slot:head()="data">
-          <span class="table-heading">{{ data.label }}</span>
+          <div class="table-heading">{{ data.label }}</div>
         </template>
         <template v-slot:cell(tags)="tagsformat">
           <b-badge
             v-for="tag in tagsformat.unformatted"
             :key="tag"
             pill
+            class="pills"
             variant="info"
             >{{ tag }}</b-badge
           >
@@ -183,8 +184,8 @@
 
         <template v-slot:head(platform)="platform">
           <span class="table-heading">{{ platform.label }}</span>
-          <b-badge pill class="desktop-pills"> Desktop </b-badge>
-          <b-badge pill class="mobile-pills"> Mobile </b-badge>
+          <b-badge pill class="pills desktop-pills"> Desktop </b-badge>
+          <b-badge pill class="pills mobile-pills"> Mobile </b-badge>
         </template>
 
         <template v-slot:cell(platform)="platform">
@@ -198,7 +199,12 @@
         </template>
 
         <template v-slot:cell(features)="features">
-          <b-badge v-for="tag in features.value" :key="tag" pill variant="info"
+          <b-badge
+            v-for="tag in features.value"
+            :key="tag"
+            pill
+            class="pills"
+            variant="info"
             >{{ tag }}<br />
           </b-badge>
         </template>
@@ -260,18 +266,24 @@
 
         <template v-slot:head(framework)="framework">
           <span class="table-heading">{{ framework.label }}</span>
-          <b-badge pill class="library-pills"> Library </b-badge>
-          <b-badge pill class="language-pills"> Language </b-badge>
+          <b-badge pill class="pills library-pills"> Library </b-badge>
+          <b-badge pill class="pills language-pills"> Language </b-badge>
         </template>
 
         <template v-slot:cell(framework)="framework">
           <span v-for="(tag, index) in framework.value" :key="index">
-            <b-badge v-if="index == 'library'" pill class="library-pills">{{
-              tag
-            }}</b-badge>
-            <b-badge v-if="index == 'language'" pill class="language-pills">{{
-              tag
-            }}</b-badge>
+            <b-badge
+              v-if="index == 'library'"
+              pill
+              class="pills library-pills"
+              >{{ tag }}</b-badge
+            >
+            <b-badge
+              v-if="index == 'language'"
+              pill
+              class="pills language-pills"
+              >{{ tag }}</b-badge
+            >
           </span>
         </template>
 
@@ -375,11 +387,11 @@ export default {
         { name: "mturk" }
       ],
       tags: {
-        windows: "desktop-pills",
-        linux: "desktop-pills",
-        mac: "desktop-pills",
-        ios: "mobile-pills",
-        android: "mobile-pills",
+        windows: "pills desktop-pills",
+        linux: "pills desktop-pills",
+        mac: "pills desktop-pills",
+        ios: "pills mobile-pills",
+        android: "pills mobile-pills",
         browser: "light",
         eegTrigger: "light",
         mturk: "light",
