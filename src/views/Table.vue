@@ -176,10 +176,30 @@
             >{{ tag }}</b-badge
           >
         </template>
-        <template v-slot:cell(taskName)="taskName">
+        <template v-slot:cell(taskName)="row">
           <strong class="text-info font-weight-bolder pl-1">{{
-            taskName.value | capitalize
+            row.value | capitalize
           }}</strong>
+          <b-button
+            size="sm"
+            variant="white"
+            @click="links(row.item, row.index, $event.target)"
+            class="mr-1"
+          >
+            <b-iconstack font-scale="1.5">
+              <b-icon
+                stacked
+                icon="circle-fill"
+                style="color: #6c757d;"
+              ></b-icon>
+              <b-icon
+                stacked
+                icon="link45deg"
+                scale="0.8"
+                variant="white"
+              ></b-icon>
+            </b-iconstack>
+          </b-button>
         </template>
 
         <template v-slot:head(platform)="platform">
@@ -208,61 +228,6 @@
             variant="info"
             >{{ tag }}<br />
           </b-badge>
-        </template>
-
-        <template v-slot:cell(links)="links">
-          <span v-for="(tag, index) in links.value" :key="index">
-            <b-button
-              v-if="index == 'deployment'"
-              :href="tag"
-              v-b-tooltip.focus
-              title="Deployment"
-              variant="none"
-            >
-              <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
-                <b-icon
-                  stacked
-                  icon="link45deg"
-                  scale="0.8"
-                  variant="white"
-                ></b-icon> </b-iconstack
-            ></b-button>
-            <b-button
-              v-if="index == 'sourceCode'"
-              :href="tag"
-              v-b-tooltip.focus
-              title="Source Code"
-              variant="none"
-              ><b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
-                <b-icon
-                  stacked
-                  icon="code-slash"
-                  scale="0.6"
-                  variant="white"
-                ></b-icon> </b-iconstack
-            ></b-button>
-          </span>
-        </template>
-
-        <template v-slot:cell(publication)="publication">
-          <span v-for="(tag, index) in publication.value" :key="index">
-            <span v-if="index == 'doi'">{{ tag }}</span>
-            <b-link v-if="index == 'url'" :href="tag"
-              ><b-icon-box-arrow-up-right
-                font-scale="1"
-              ></b-icon-box-arrow-up-right
-            ></b-link>
-          </span>
         </template>
 
         <template v-slot:head(framework)="framework">
@@ -298,7 +263,7 @@
             class="mr-1"
           >
             <b-icon-info-circle-fill
-              font-scale="1.5"
+              font-scale="1.3"
               style="color: #6c757d;"
             ></b-icon-info-circle-fill>
           </b-button>
@@ -341,6 +306,36 @@
               font-scale="1.5"
             ></b-icon-box-arrow-up-right
           ></b-link>
+        </div>
+      </b-modal>
+      <b-modal
+        :id="linksModal.id"
+        v-if="linksModal"
+        :title="linksModal.title | capitalize"
+        ok-only
+        @hide="resetLinksModal"
+      >
+        <div class="text-left">
+          <span
+            ><b class="text-warning">Deployment: </b
+            ><b-link :href="linksModal.deployment">{{
+              linksModal.deployment
+            }}</b-link></span
+          >
+          <br />
+          <span
+            ><b class="text-warning">Source Code: </b
+            ><b-link :href="linksModal.code">{{
+              linksModal.code
+            }}</b-link></span
+          >
+          <br />
+          <span
+            ><b class="text-warning">Publication: </b
+            ><b-link :href="linksModal.publication">{{
+              linksModal.publication
+            }}</b-link></span
+          >
         </div>
       </b-modal>
       <b-pagination
@@ -409,11 +404,6 @@ export default {
           class: "text-left align-middle"
         },
         {
-          key: "links",
-          label: this.$t("fields.links"),
-          class: "text-left align-middle"
-        },
-        {
           key: "framework",
           label: this.$t("fields.framework"),
           class: "text-left align-middle"
@@ -426,11 +416,6 @@ export default {
             return value["name"].split(" ")[0];
           },
           sortByFormatted: true,
-          class: "text-left align-middle"
-        },
-        {
-          key: "publication",
-          label: this.$t("fields.publication"),
           class: "text-left align-middle"
         },
         {
@@ -495,6 +480,13 @@ export default {
         principalInvestigator: "",
         developers: "",
         website: ""
+      },
+      linksModal: {
+        id: "links-modal",
+        title: "",
+        deployment: "",
+        code: "",
+        publication: ""
       }
     };
   },
@@ -552,6 +544,21 @@ export default {
       this.infoModal.principalInvestigator = "";
       this.infoModal.developers = "";
       this.infoModal.website = "";
+    },
+    links(item, index, button) {
+      this.linksModal.title = item == null ? undefined : item.taskName;
+      this.linksModal.deployment =
+        item == null ? undefined : item.links.deployment;
+      this.linksModal.code = item == null ? undefined : item.links.sourceCode;
+      this.linksModal.publication =
+        item == null ? undefined : item.publication.url;
+      this.$root.$emit("bv::show::modal", this.linksModal.id, button);
+    },
+    resetLinksModal() {
+      this.linksModal.title = "";
+      this.linksModal.deployment = "";
+      this.linksModal.code = "";
+      this.linksModal.publication = "";
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
