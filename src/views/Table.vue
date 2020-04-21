@@ -36,10 +36,14 @@
                 $t("sidebar.filters.platform")
               }}</label>
               <multiselect
-                id="platform"
+                id="ajax"
                 v-model="valuePlatform"
+                v-on:change="updateTable()"
                 :options="platforms"
                 :multiple="true"
+                :close-on-select="false"
+                :clear-on-select="false"
+                :preserve-search="true"
                 selectLabel=""
                 selectGroupLabel="Select group"
                 deselectGroupLabel="Remove group"
@@ -54,7 +58,15 @@
                 :taggable="true"
                 @input="updateTable"
                 @remove="updateTable"
+                :hide-selected="true"
               >
+                <template slot="clear" slot-scope="props">
+                  <div
+                    class="multiselect__clear"
+                    v-if="valuePlatform.length"
+                    @mousedown.prevent.stop="clearPlatform(props.search)"
+                  ></div>
+                </template>
               </multiselect>
             </div>
           </b-form-group>
@@ -69,6 +81,7 @@
               <multiselect
                 id="features"
                 v-model="valueFeature"
+                v-on:change="updateTable()"
                 :options="features"
                 :multiple="true"
                 selectLabel=""
@@ -82,7 +95,15 @@
                 :taggable="true"
                 @input="updateTable"
                 @remove="updateTable"
+                :hide-selected="true"
               >
+                <template slot="clear" slot-scope="props">
+                  <div
+                    class="multiselect__clear"
+                    v-if="valueFeature.length"
+                    @mousedown.prevent.stop="clearFeatures(props.search)"
+                  ></div>
+                </template>
               </multiselect>
             </div>
           </b-form-group>
@@ -96,6 +117,7 @@
               <multiselect
                 id="tags"
                 v-model="valueTags"
+                v-on:change="updateTable()"
                 :options="tagsvalues"
                 :multiple="true"
                 selectLabel=""
@@ -109,7 +131,15 @@
                 :taggable="true"
                 @input="updateTable"
                 @remove="updateTable"
+                :hide-selected="true"
               >
+                <template slot="clear" slot-scope="props">
+                  <div
+                    class="multiselect__clear"
+                    v-if="valueTags.length"
+                    @mousedown.prevent.stop="clearTags(props.search)"
+                  ></div>
+                </template>
               </multiselect>
             </div>
           </b-form-group>
@@ -123,6 +153,7 @@
               <multiselect
                 id="institution"
                 v-model="valueInstitutions"
+                v-on:change="updateTable()"
                 :options="institutions"
                 :option-height="20"
                 placeholder=""
@@ -134,6 +165,11 @@
               </multiselect>
             </div>
           </b-form-group>
+        </div>
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-button @click="clearAll()">
+            Reset filters
+          </b-button>
         </div>
       </div>
     </div>
@@ -650,6 +686,25 @@ export default {
         this.data.filteredData = this.data.data;
         this.data.totalRows = this.data.data.length;
       }
+    },
+    clearPlatform() {
+      (this.valuePlatform = []), this.updateTable();
+    },
+    clearFeatures() {
+      (this.valueFeature = []), this.updateTable();
+    },
+    clearTags() {
+      (this.valueTags = []), this.updateTable();
+    },
+    clearInstitution() {
+      (this.valueInstitutions = ""), this.updateTable();
+    },
+    clearAll() {
+      (this.valuePlatform = []),
+        (this.valueFeature = []),
+        (this.valueTags = []),
+        (this.valueInstitutions = ""),
+        this.updateTable();
     }
   },
   filters: {
