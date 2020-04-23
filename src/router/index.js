@@ -19,7 +19,7 @@ const routes = [
     name: "About",
     component: About,
     meta: {
-      title: "Behavioral Task Hub"
+      title: "About"
     }
   }
 ];

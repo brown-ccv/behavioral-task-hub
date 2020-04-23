@@ -13,7 +13,6 @@
           <b-link to="/About" style="color: #000000">steps</b-link>.
           {{ $t("hero.description2") }}
         </div>
-        <br />
         <b-button
           size="lg"
           href="#"

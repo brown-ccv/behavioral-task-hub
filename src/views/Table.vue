@@ -318,10 +318,32 @@
       <b-modal
         :id="infoModal.id"
         v-if="infoModal"
-        :title="infoModal.title | capitalize"
-        ok-only
+        hide-footer="true"
         @hide="resetInfoModal"
       >
+        <template v-slot:modal-title>
+          {{ infoModal.title | capitalize }}
+          <b-button
+            size="sm"
+            variant="white"
+            :href="infoModal.website"
+            class="mr-1"
+          >
+            <b-iconstack font-scale="1.5">
+              <b-icon
+                stacked
+                icon="circle-fill"
+                style="color: #6c757d;"
+              ></b-icon>
+              <b-icon
+                stacked
+                icon="link45deg"
+                scale="0.8"
+                variant="white"
+              ></b-icon>
+            </b-iconstack>
+          </b-button>
+        </template>
         <div class="text-left">
           <span
             ><b class="text-warning">Institution: </b
@@ -335,25 +357,20 @@
           <br />
           <b class="text-warning">Developers: </b
           ><span v-for="(tag, index) in infoModal.developers" :key="index"
-            >{{ tag }}<br />
+            ><br />{{ tag }}
           </span>
-          <b-link :href="infoModal.website"
-            ><b-icon-box-arrow-up-right
-              font-scale="1.5"
-            ></b-icon-box-arrow-up-right
-          ></b-link>
         </div>
       </b-modal>
       <b-modal
         :id="linksModal.id"
         v-if="linksModal"
         :title="linksModal.title | capitalize"
-        ok-only
+        hide-footer="true"
         @hide="resetLinksModal"
       >
         <div class="text-left">
           <span
-            ><b class="text-warning">Deployment: </b
+            ><b class="text-warning">Website: </b
             ><b-link :href="linksModal.deployment">{{
               linksModal.deployment
             }}</b-link></span
