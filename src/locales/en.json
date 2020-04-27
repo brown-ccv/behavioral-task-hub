@@ -42,12 +42,12 @@
       },
       "register":{
         "title": "How to register your task",
-        "description":"The task registry data is hosted at <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff\">CCV GitHub</a>.  To add a new task or request a fix to an existing one, navigate to the issues tab in the <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff\">github</a> repository, select “new issue” and choose the template to open a new task for adding a new task to the hub, or “file a bug report” for any other issue/request.",
+        "description":"The task registry data is hosted at <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff; text-decoration: underline;\">CCV GitHub</a>.  To add a new task or request a fix to an existing one, navigate to the issues tab in the <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff; text-decoration: underline;\">github</a> repository, select <i>new issue</i> and choose the template to open a new task for adding a new task to the hub, or <i>file a bug report</i> for any other issue/request.",
         "description2": "When you complete the new task request, your issue will be automatically processed and a pull request to the repository created.  You can review it if you’d like! If there is a problem processing your request, a bot will comment on your issue and someone at CCV will help resolve the issue."
       },
       "task-starter-description":{
         "title": "Task Starter",
-        "description": "Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href=\"https://github.com/brown-ccv/neuro-task-starter\" style=\"color: #000000\">Neuro Task Starter</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes.",
+        "description": "Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href=\"https://github.com/brown-ccv/neuro-task-starter\" style=\"color: #000000; text-decoration: underline;\">Neuro Task Starter</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes.",
         "ccvGithub": "https://github.com/brown-ccv/"
       }
     }

@@ -10,7 +10,11 @@
         </div>
         <div class="about-right-subtext">
           {{ $t("about.explanation.description") }}
-          <b-link v-scroll-to="'#steps'" style="color: #000000">steps</b-link>.
+          <b-link
+            v-scroll-to="'#steps'"
+            style="color: #000000; text-decoration: underline;"
+            >steps</b-link
+          >.
           {{ $t("about.explanation.description2") }}
         </div>
       </div>

@@ -191,6 +191,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :sort-direction="sortDirection"
+        thead-class="table-heading"
         @filtered="onFiltered"
       >
         <template v-slot:empty="">
@@ -200,7 +201,7 @@
           <h4 class="emptytext">No tasks found</h4>
         </template>
         <template v-slot:head()="data">
-          <div class="table-heading">{{ data.label }}</div>
+          <span class="text">{{ data.label }}</span>
         </template>
         <template v-slot:cell(tags)="tagsformat">
           <b-badge
@@ -239,7 +240,7 @@
         </template>
 
         <template v-slot:head(platform)="platform">
-          <span class="table-heading">{{ platform.label }}</span
+          <span class="text">{{ platform.label }}</span
           ><br />
           <b-badge pill class="pills desktop-pills"> Desktop </b-badge>
           <b-badge pill class="pills mobile-pills"> Mobile </b-badge>
@@ -267,7 +268,7 @@
         </template>
 
         <template v-slot:head(framework)="framework">
-          <span class="table-heading">{{ framework.label }}</span
+          <span class="text">{{ framework.label }}</span
           ><br />
           <b-badge pill class="pills library-pills"> Library </b-badge>
           <b-badge pill class="pills language-pills"> Language </b-badge>
@@ -454,12 +455,12 @@ export default {
           label: this.$t("fields.taskName"),
           sortable: true,
           sortDirection: "desc",
-          class: "text-left align-middle"
+          class: "text-left align-top"
         },
         {
           key: "framework",
           label: this.$t("fields.framework"),
-          class: "text-left align-middle"
+          class: "text-left align-top"
         },
         {
           key: "lab",
@@ -469,12 +470,12 @@ export default {
             return value["name"].split(" ")[0];
           },
           sortByFormatted: true,
-          class: "text-left align-middle"
+          class: "text-left align-top"
         },
         {
           key: "platform",
           label: this.$t("fields.platform"),
-          class: "text-left align-middle",
+          class: "text-left align-top",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -490,7 +491,7 @@ export default {
         {
           key: "features",
           label: this.$t("fields.features"),
-          class: "text-left align-middle",
+          class: "text-left align-top",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -515,7 +516,7 @@ export default {
           },
           sortByFormatted: true,
           filterByFormatted: true,
-          class: "text-left align-middle"
+          class: "text-left align-top"
         }
       ],
       currentPage: 1,

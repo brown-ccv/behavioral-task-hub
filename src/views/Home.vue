@@ -10,7 +10,11 @@
         </div>
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
-          <b-link to="/About" style="color: #000000">steps</b-link>.
+          <b-link
+            to="/About"
+            style="color: #000000; text-decoration: underline;"
+            >steps</b-link
+          >.
           {{ $t("hero.description2") }}
         </div>
         <b-button
