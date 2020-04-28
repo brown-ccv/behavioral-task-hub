@@ -19,7 +19,7 @@ const routes = [
     name: "About",
     component: About,
     meta: {
-      title: "Behavioral Task Hub"
+      title: "About"
     }
   }
 ];
@@ -30,7 +30,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || "Default Website Title";
+  document.title = to.meta.title || "Behavioral Task Hub";
   next();
 });
 export default router;

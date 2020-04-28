@@ -10,17 +10,27 @@
         </div>
         <div class="about-right-subtext">
           {{ $t("about.explanation.description") }}
+          <b-link
+            v-scroll-to="'#steps'"
+            style="color: #000000; text-decoration: underline;"
+            >steps</b-link
+          >.
+          {{ $t("about.explanation.description2") }}
         </div>
       </div>
     </div>
 
-    <div class="about-left-body d-flex">
+    <div class="about-left-body d-flex" id="steps">
       <div class="about-left-text">
         <div class="about-left-title">
           {{ $t("about.register.title") }}
         </div>
+        <div
+          class="about-left-subtext"
+          v-html="$t('about.register.description')"
+        ></div>
         <div class="about-left-subtext">
-          {{ $t("about.register.description") }}
+          {{ $t("about.register.description2") }}
         </div>
       </div>
       <div class="about-image1">
@@ -36,9 +46,10 @@
         <div class="about-right-title">
           {{ $t("about.task-starter-description.title") }}
         </div>
-        <div class="about-right-subtext">
-          {{ $t("about.task-starter-description.description") }}
-        </div>
+        <div
+          class="about-right-subtext"
+          v-html="$t('about.task-starter-description.description')"
+        ></div>
         <b-link
           :href="$t('about.task-starter-description.ccvGithub')"
           class="link about-right-subtext"

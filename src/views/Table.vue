@@ -4,21 +4,15 @@
       <div class="table-controls" v-bind:class="{ collapsed: navCollapsed }">
         <div class="sidebar-control">
           <div class="sidebar-control-inner">
-            <span v-show="!navCollapsed" class="control-title">{{
-              $t("sidebar.title")
-            }}</span>
             <button class="control-button" @click="toggleControl">
-              <b-icon icon="gear" aria-hidden="true" font-scale="1.8"></b-icon>
+              <b-icon
+                icon="search"
+                aria-hidden="true"
+                font-scale="1.8"
+              ></b-icon>
             </button>
           </div>
         </div>
-        <b-icon-search
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          aria-hidden="true"
-          variant="white"
-          font-scale="2"
-        ></b-icon-search>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
@@ -31,23 +25,10 @@
                   type="search"
                   id="filterInput"
                 ></b-form-input>
-                <b-icon-search
-                  class="search-icon-open"
-                  aria-hidden="true"
-                  variant="white"
-                  font-scale="2"
-                ></b-icon-search>
               </b-input-group>
             </div>
           </b-form-group>
         </div>
-        <b-icon
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          icon="filter"
-          aria-hidden="true"
-          font-scale="1.8"
-        ></b-icon>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
@@ -55,10 +36,14 @@
                 $t("sidebar.filters.platform")
               }}</label>
               <multiselect
-                id="platform"
+                id="ajax"
                 v-model="valuePlatform"
+                v-on:change="updateTable()"
                 :options="platforms"
                 :multiple="true"
+                :close-on-select="false"
+                :clear-on-select="false"
+                :preserve-search="true"
                 selectLabel=""
                 selectGroupLabel="Select group"
                 deselectGroupLabel="Remove group"
@@ -73,7 +58,15 @@
                 :taggable="true"
                 @input="updateTable"
                 @remove="updateTable"
+                :hide-selected="true"
               >
+                <template slot="clear" slot-scope="props">
+                  <div
+                    class="multiselect__clear"
+                    v-if="valuePlatform.length"
+                    @mousedown.prevent.stop="clearPlatform(props.search)"
+                  ></div>
+                </template>
               </multiselect>
             </div>
           </b-form-group>
@@ -88,6 +81,7 @@
               <multiselect
                 id="features"
                 v-model="valueFeature"
+                v-on:change="updateTable()"
                 :options="features"
                 :multiple="true"
                 selectLabel=""
@@ -101,18 +95,19 @@
                 :taggable="true"
                 @input="updateTable"
                 @remove="updateTable"
+                :hide-selected="true"
               >
+                <template slot="clear" slot-scope="props">
+                  <div
+                    class="multiselect__clear"
+                    v-if="valueFeature.length"
+                    @mousedown.prevent.stop="clearFeatures(props.search)"
+                  ></div>
+                </template>
               </multiselect>
             </div>
           </b-form-group>
         </div>
-        <b-icon
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          icon="tag"
-          aria-hidden="true"
-          font-scale="1.8"
-        ></b-icon>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
@@ -122,6 +117,7 @@
               <multiselect
                 id="tags"
                 v-model="valueTags"
+                v-on:change="updateTable()"
                 :options="tagsvalues"
                 :multiple="true"
                 selectLabel=""
@@ -135,18 +131,19 @@
                 :taggable="true"
                 @input="updateTable"
                 @remove="updateTable"
+                :hide-selected="true"
               >
+                <template slot="clear" slot-scope="props">
+                  <div
+                    class="multiselect__clear"
+                    v-if="valueTags.length"
+                    @mousedown.prevent.stop="clearTags(props.search)"
+                  ></div>
+                </template>
               </multiselect>
             </div>
           </b-form-group>
         </div>
-        <b-icon
-          class="collapsed-icon"
-          v-show="navCollapsed"
-          icon="gear"
-          aria-hidden="true"
-          font-scale="1.8"
-        ></b-icon>
         <div class="table-control-items" v-show="!navCollapsed">
           <b-form-group>
             <div class="text-left">
@@ -156,6 +153,7 @@
               <multiselect
                 id="institution"
                 v-model="valueInstitutions"
+                v-on:change="updateTable()"
                 :options="institutions"
                 :option-height="20"
                 placeholder=""
@@ -168,12 +166,19 @@
             </div>
           </b-form-group>
         </div>
+        <div class="table-control-items" v-show="!navCollapsed">
+          <b-button @click="clearAll()">
+            Reset filters
+          </b-button>
+        </div>
       </div>
     </div>
     <b-col>
       <b-table
         show-empty
+        sort-icon-left
         responsive
+        stacked="md"
         :items="data.filteredData"
         :small="true"
         :borderless="true"
@@ -187,6 +192,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :sort-direction="sortDirection"
+        thead-class="table-heading"
         @filtered="onFiltered"
       >
         <template v-slot:empty="">
@@ -196,21 +202,49 @@
           <h4 class="emptytext">No tasks found</h4>
         </template>
         <template v-slot:head()="data">
-          <span class="table-heading">{{ data.label }}</span>
+          <span class="text">{{ data.label }}</span>
         </template>
         <template v-slot:cell(tags)="tagsformat">
           <b-badge
             v-for="tag in tagsformat.unformatted"
             :key="tag"
             pill
+            class="pills"
             variant="info"
             >{{ tag }}</b-badge
           >
         </template>
-        <template v-slot:cell(taskName)="taskName">
-          <strong class="text-info font-weight-bolder">{{
-            taskName.value | capitalize
+        <template v-slot:cell(taskName)="row">
+          <strong class="font-weight-bold pl-1">{{
+            row.value | capitalize
           }}</strong>
+          <b-button
+            size="sm"
+            variant="white"
+            @click="links(row.item, row.index, $event.target)"
+            class="mr-1"
+          >
+            <b-iconstack font-scale="1.5">
+              <b-icon
+                stacked
+                icon="circle-fill"
+                style="color: #6c757d;"
+              ></b-icon>
+              <b-icon
+                stacked
+                icon="link45deg"
+                scale="0.8"
+                variant="white"
+              ></b-icon>
+            </b-iconstack>
+          </b-button>
+        </template>
+
+        <template v-slot:head(platform)="platform">
+          <span class="text">{{ platform.label }}</span
+          ><br />
+          <b-badge pill class="pills desktop-pills"> Desktop </b-badge>
+          <b-badge pill class="pills mobile-pills"> Mobile </b-badge>
         </template>
 
         <template v-slot:cell(platform)="platform">
@@ -218,77 +252,43 @@
             v-for="tag in platform.value"
             :key="tag"
             pill
-            :variant="tags[tag]"
+            :class="tags[tag]"
             >{{ tag }}<br
           /></b-badge>
         </template>
 
         <template v-slot:cell(features)="features">
-          <b-badge v-for="tag in features.value" :key="tag" pill variant="light"
+          <b-badge
+            v-for="tag in features.value"
+            :key="tag"
+            pill
+            class="pills"
+            variant="info"
             >{{ tag }}<br />
           </b-badge>
         </template>
 
-        <template v-slot:cell(links)="links">
-          <span v-for="(tag, index) in links.value" :key="index">
-            <b-button
-              v-if="index == 'deployment'"
-              :href="tag"
-              v-b-tooltip.focus
-              title="Deployment"
-              variant="none"
-            >
-              <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
-                <b-icon
-                  stacked
-                  icon="link45deg"
-                  scale="0.8"
-                  variant="white"
-                ></b-icon> </b-iconstack
-            ></b-button>
-            <b-button
-              v-if="index == 'sourceCode'"
-              :href="tag"
-              v-b-tooltip.focus
-              title="Source Code"
-              variant="none"
-              ><b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
-                <b-icon
-                  stacked
-                  icon="code-slash"
-                  scale="0.6"
-                  variant="white"
-                ></b-icon> </b-iconstack
-            ></b-button>
-          </span>
-        </template>
-
-        <template v-slot:cell(publication)="publication">
-          <span v-for="(tag, index) in publication.value" :key="index">
-            <span v-if="index == 'doi'">{{ tag }}</span>
-            <b-link v-if="index == 'url'" :href="tag"
-              ><b-icon-box-arrow-up-right
-                font-scale="1"
-              ></b-icon-box-arrow-up-right
-            ></b-link>
-          </span>
+        <template v-slot:head(framework)="framework">
+          <span class="text">{{ framework.label }}</span
+          ><br />
+          <b-badge pill class="pills library-pills"> Library </b-badge>
+          <b-badge pill class="pills language-pills"> Language </b-badge>
         </template>
 
         <template v-slot:cell(framework)="framework">
           <span v-for="(tag, index) in framework.value" :key="index">
-            <span v-if="index == 'library'">Library: {{ tag }}</span
-            ><br />
-            <span v-if="index == 'language'">Language: {{ tag }}</span>
+            <b-badge
+              v-if="index == 'library'"
+              pill
+              class="pills library-pills"
+              >{{ tag }}</b-badge
+            >
+            <b-badge
+              v-if="index == 'language'"
+              pill
+              class="pills language-pills"
+              >{{ tag }}</b-badge
+            >
           </span>
         </template>
 
@@ -301,7 +301,7 @@
             class="mr-1"
           >
             <b-icon-info-circle-fill
-              font-scale="1.5"
+              font-scale="1.3"
               style="color: #6c757d;"
             ></b-icon-info-circle-fill>
           </b-button>
@@ -320,10 +320,32 @@
       <b-modal
         :id="infoModal.id"
         v-if="infoModal"
-        :title="infoModal.title | capitalize"
-        ok-only
+        hide-footer="true"
         @hide="resetInfoModal"
       >
+        <template v-slot:modal-title>
+          {{ infoModal.title | capitalize }}
+          <b-button
+            size="sm"
+            variant="white"
+            :href="infoModal.website"
+            class="mr-1"
+          >
+            <b-iconstack font-scale="1.5">
+              <b-icon
+                stacked
+                icon="circle-fill"
+                style="color: #6c757d;"
+              ></b-icon>
+              <b-icon
+                stacked
+                icon="link45deg"
+                scale="0.8"
+                variant="white"
+              ></b-icon>
+            </b-iconstack>
+          </b-button>
+        </template>
         <div class="text-left">
           <span
             ><b class="text-warning">Institution: </b
@@ -337,13 +359,38 @@
           <br />
           <b class="text-warning">Developers: </b
           ><span v-for="(tag, index) in infoModal.developers" :key="index"
-            >{{ tag }}<br />
+            ><br />{{ tag }}
           </span>
-          <b-link :href="infoModal.website"
-            ><b-icon-box-arrow-up-right
-              font-scale="1.5"
-            ></b-icon-box-arrow-up-right
-          ></b-link>
+        </div>
+      </b-modal>
+      <b-modal
+        :id="linksModal.id"
+        v-if="linksModal"
+        :title="linksModal.title | capitalize"
+        hide-footer="true"
+        @hide="resetLinksModal"
+      >
+        <div class="text-left">
+          <span
+            ><b class="text-warning">Website: </b
+            ><b-link :href="linksModal.deployment">{{
+              linksModal.deployment
+            }}</b-link></span
+          >
+          <br />
+          <span
+            ><b class="text-warning">Source Code: </b
+            ><b-link :href="linksModal.code">{{
+              linksModal.code
+            }}</b-link></span
+          >
+          <br />
+          <span
+            ><b class="text-warning">Publication: </b
+            ><b-link :href="linksModal.publication">{{
+              linksModal.publication
+            }}</b-link></span
+          >
         </div>
       </b-modal>
       <b-pagination
@@ -392,11 +439,11 @@ export default {
         { name: "mturk" }
       ],
       tags: {
-        windows: "success",
-        linux: "success",
-        mac: "success",
-        ios: "primary",
-        android: "primary",
+        windows: "pills desktop-pills",
+        linux: "pills desktop-pills",
+        mac: "pills desktop-pills",
+        ios: "pills mobile-pills",
+        android: "pills mobile-pills",
         browser: "light",
         eegTrigger: "light",
         mturk: "light",
@@ -409,17 +456,12 @@ export default {
           label: this.$t("fields.taskName"),
           sortable: true,
           sortDirection: "desc",
-          class: "text-left"
-        },
-        {
-          key: "links",
-          label: this.$t("fields.links"),
-          class: "text-left"
+          class: "text-left align-top"
         },
         {
           key: "framework",
           label: this.$t("fields.framework"),
-          class: "text-left"
+          class: "text-left align-top"
         },
         {
           key: "lab",
@@ -429,17 +471,12 @@ export default {
             return value["name"].split(" ")[0];
           },
           sortByFormatted: true,
-          class: "text-left"
-        },
-        {
-          key: "publication",
-          label: this.$t("fields.publication"),
-          class: "text-left"
+          class: "text-left align-top"
         },
         {
           key: "platform",
           label: this.$t("fields.platform"),
-          class: "text-left",
+          class: "text-left align-top",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -455,7 +492,7 @@ export default {
         {
           key: "features",
           label: this.$t("fields.features"),
-          class: "text-left",
+          class: "text-left align-top",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -480,7 +517,7 @@ export default {
           },
           sortByFormatted: true,
           filterByFormatted: true,
-          class: "text-left"
+          class: "text-left align-top"
         }
       ],
       currentPage: 1,
@@ -498,6 +535,13 @@ export default {
         principalInvestigator: "",
         developers: "",
         website: ""
+      },
+      linksModal: {
+        id: "links-modal",
+        title: "",
+        deployment: "",
+        code: "",
+        publication: ""
       }
     };
   },
@@ -555,6 +599,21 @@ export default {
       this.infoModal.principalInvestigator = "";
       this.infoModal.developers = "";
       this.infoModal.website = "";
+    },
+    links(item, index, button) {
+      this.linksModal.title = item == null ? undefined : item.taskName;
+      this.linksModal.deployment =
+        item == null ? undefined : item.links.deployment;
+      this.linksModal.code = item == null ? undefined : item.links.sourceCode;
+      this.linksModal.publication =
+        item == null ? undefined : item.publication.url;
+      this.$root.$emit("bv::show::modal", this.linksModal.id, button);
+    },
+    resetLinksModal() {
+      this.linksModal.title = "";
+      this.linksModal.deployment = "";
+      this.linksModal.code = "";
+      this.linksModal.publication = "";
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -646,6 +705,25 @@ export default {
         this.data.filteredData = this.data.data;
         this.data.totalRows = this.data.data.length;
       }
+    },
+    clearPlatform() {
+      (this.valuePlatform = []), this.updateTable();
+    },
+    clearFeatures() {
+      (this.valueFeature = []), this.updateTable();
+    },
+    clearTags() {
+      (this.valueTags = []), this.updateTable();
+    },
+    clearInstitution() {
+      (this.valueInstitutions = ""), this.updateTable();
+    },
+    clearAll() {
+      (this.valuePlatform = []),
+        (this.valueFeature = []),
+        (this.valueTags = []),
+        (this.valueInstitutions = ""),
+        this.updateTable();
     }
   },
   filters: {

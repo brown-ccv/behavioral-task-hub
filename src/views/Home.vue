@@ -5,8 +5,17 @@
         <div class="hero-left-title">
           {{ $t("hero.title") }}
         </div>
+        <div class="hero-left-heading">
+          {{ $t("hero.heading") }}
+        </div>
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
+          <b-link
+            to="/About"
+            style="color: #000000; text-decoration: underline;"
+            >steps</b-link
+          >.
+          {{ $t("hero.description2") }}
         </div>
         <b-button
           size="lg"
