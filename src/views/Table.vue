@@ -176,6 +176,7 @@
     <b-col>
       <b-table
         show-empty
+        sort-icon-left
         responsive
         stacked="md"
         :items="data.filteredData"
@@ -214,7 +215,7 @@
           >
         </template>
         <template v-slot:cell(taskName)="row">
-          <strong class="text-info font-weight-bolder pl-1">{{
+          <strong class="font-weight-bold pl-1">{{
             row.value | capitalize
           }}</strong>
           <b-button
