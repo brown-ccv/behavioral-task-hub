@@ -176,7 +176,6 @@
     <b-col>
       <b-table
         show-empty
-        sort-icon-left
         responsive
         stacked="md"
         :items="data.filteredData"
@@ -210,7 +209,7 @@
             :key="tag"
             pill
             class="pills"
-            variant="info"
+            variant="light"
             >{{ tag }}</b-badge
           >
         </template>
@@ -243,8 +242,8 @@
         <template v-slot:head(platform)="platform">
           <span class="text">{{ platform.label }}</span
           ><br />
-          <b-badge pill class="pills desktop-pills"> Desktop </b-badge>
-          <b-badge pill class="pills mobile-pills"> Mobile </b-badge>
+          <b-badge pill class="pills" variant="primary"> Desktop </b-badge>
+          <b-badge pill class="pills" variant="success"> Mobile </b-badge>
         </template>
 
         <template v-slot:cell(platform)="platform">
@@ -252,7 +251,8 @@
             v-for="tag in platform.value"
             :key="tag"
             pill
-            :class="tags[tag]"
+            class="pills"
+            :variant="tags[tag]"
             >{{ tag }}<br
           /></b-badge>
         </template>
@@ -263,7 +263,7 @@
             :key="tag"
             pill
             class="pills"
-            variant="info"
+            variant="light"
             >{{ tag }}<br />
           </b-badge>
         </template>
@@ -271,8 +271,8 @@
         <template v-slot:head(framework)="framework">
           <span class="text">{{ framework.label }}</span
           ><br />
-          <b-badge pill class="pills library-pills"> Library </b-badge>
-          <b-badge pill class="pills language-pills"> Language </b-badge>
+          <b-badge pill class="pills" variant="info"> Library </b-badge>
+          <b-badge pill class="pills" variant="warning"> Language </b-badge>
         </template>
 
         <template v-slot:cell(framework)="framework">
@@ -280,13 +280,15 @@
             <b-badge
               v-if="index == 'library'"
               pill
-              class="pills library-pills"
+              class="pills"
+              variant="info"
               >{{ tag }}</b-badge
             >
             <b-badge
               v-if="index == 'language'"
               pill
-              class="pills language-pills"
+              class="pills"
+              variant="warning"
               >{{ tag }}</b-badge
             >
           </span>
@@ -439,16 +441,11 @@ export default {
         { name: "mturk" }
       ],
       tags: {
-        windows: "pills desktop-pills",
-        linux: "pills desktop-pills",
-        mac: "pills desktop-pills",
-        ios: "pills mobile-pills",
-        android: "pills mobile-pills",
-        browser: "light",
-        eegTrigger: "light",
-        mturk: "light",
-        docker: "light",
-        electron: "light"
+        windows: "primary",
+        linux: "primary",
+        mac: "primary",
+        ios: "success",
+        android: "success"
       },
       fields: [
         {
@@ -456,12 +453,12 @@ export default {
           label: this.$t("fields.taskName"),
           sortable: true,
           sortDirection: "desc",
-          class: "text-left align-top"
+          class: "text-left align-middle pl-3"
         },
         {
           key: "framework",
           label: this.$t("fields.framework"),
-          class: "text-left align-top"
+          class: "text-left align-middle pl-3"
         },
         {
           key: "lab",
@@ -471,12 +468,12 @@ export default {
             return value["name"].split(" ")[0];
           },
           sortByFormatted: true,
-          class: "text-left align-top"
+          class: "text-left align-middle pl-3"
         },
         {
           key: "platform",
           label: this.$t("fields.platform"),
-          class: "text-left align-top",
+          class: "text-left align-middle pl-3",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -492,7 +489,7 @@ export default {
         {
           key: "features",
           label: this.$t("fields.features"),
-          class: "text-left align-top",
+          class: "text-left align-middle pl-3",
           formatter: value => {
             var formatted = [];
             for (var i in value) {
@@ -517,7 +514,7 @@ export default {
           },
           sortByFormatted: true,
           filterByFormatted: true,
-          class: "text-left align-top"
+          class: "text-left align-middle pl-3"
         }
       ],
       currentPage: 1,
