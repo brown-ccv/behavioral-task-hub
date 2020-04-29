@@ -1,9 +1,9 @@
-name: Deploy Dev
+name: Deploy Firebase
 
 on:
   push:
     branches:
-      - develop
+      - master
     repository_dispatch:
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
         NODE_ENV: production
       run: |
         npm run build
-    - name: Deploy to GH Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: ./dist
+    - name: Deploy to Firebase
+      env: 
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: |
+        npm run deploy
