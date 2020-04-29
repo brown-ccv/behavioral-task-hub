@@ -1,18 +1,51 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <div class="hero-body d-flex">
+      <div class="hero-left-text">
+        <div class="hero-left-title">
+          {{ $t("hero.title") }}
+        </div>
+        <div class="hero-left-heading">
+          {{ $t("hero.heading") }}
+        </div>
+        <div class="hero-left-subtext">
+          {{ $t("hero.description") }}
+          <b-link
+            to="/About"
+            style="color: #000000; text-decoration: underline;"
+            >steps</b-link
+          >.
+          {{ $t("hero.description2") }}
+        </div>
+        <b-button
+          size="lg"
+          href="#"
+          v-scroll-to="'#Table'"
+          pill
+          class="button"
+          >{{ $t("hero.button-text") }}</b-button
+        >
+      </div>
+      <div class="hero-image">
+        <HeroImage />
+      </div>
+    </div>
+    <Table id="Table" />
   </div>
 </template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+// import Data from "./Data";
+import "@/styles/themes/default/components/_hero.sass";
+import HeroImage from "@/assets/illustrations/hero-image.svg";
+import Table from "./Table";
 export default {
   name: "Home",
   components: {
-    HelloWorld
-  }
+    Table,
+    HeroImage
+  },
+  computed: {},
+  methods: {},
+  mounted() {}
 };
 </script>
