@@ -8,11 +8,7 @@ on:
 
 jobs:
   build:
-    env:
-      VUE_APP_TITAN_BRANCH: develop
-      VUE_APP_GH_TOKEN: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
-
-
+  
     runs-on: ubuntu-latest
 
     steps:

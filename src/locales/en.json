@@ -1,8 +1,16 @@
 {
+    "nav-bar":{
+      "links":{
+        "ccv": "https://ccv.brown.edu/",
+        "brown": "https://www.brown.edu/"
+      }
+    },
     "hero": {
-      "title": "Search, Filter on tags.",
-      "description": "Every behavioral task repository comes with a search bar and advanced filter management.",
-      "button-text": "Begin Search"
+      "title": "Behavioral Task Hub",
+      "heading": "A hub for researchers to share and find behavioral tasks",
+      "description": "The Behavioral Task Hub serves as a central and open registry of behavioral tasks, their provenance and deployment details. This website was built by members and interns of CCV to support discovery, sharing, reproducibility and collaboration across different labs at Brown and beyond. Adding the information about your tasks is a simple process, see ",
+      "description2": "All behavioral tasks are welcome! If you would like to see additional information on this site, let us know.",
+      "button-text": "Explore below!"
     },
     "fields":{
       "taskName": "Task",
@@ -28,16 +36,18 @@
     },
     "about":{
       "explanation":{
-        "title": "What is Task Hub?",
-        "description": "Every behavioral task repository comes with a search bar and advanced filter management."
+        "title": "What is Behavioral Task Hub",
+        "description": "The Behavioral Task Hub serves as a central and open registry of behavioral tasks, their provenance and deployment details. This website was built by members and interns of CCV to support discovery, sharing, reproducibility and collaboration across different labs at Brown and beyond. Adding the information about your tasks is a simple process, see ",
+        "description2": "All behavioral tasks are welcome! If you would like to see additional information on this site, let us know."
       },
       "register":{
-        "title": "How to register",
-        "description":"Every behavioral task repository comes with a search bar and advanced filter management."
+        "title": "How to register your task",
+        "description":"The task registry data is hosted at <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff; text-decoration: underline;\">CCV GitHub</a>.  To add a new task or request a fix to an existing one, navigate to the issues tab in the <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff; text-decoration: underline;\">github</a> repository, select <i>new issue</i> and choose the template to open a new task for adding a new task to the hub, or <i>file a bug report</i> for any other issue/request.",
+        "description2": "When you complete the new task request, your issue will be automatically processed and a pull request to the repository created.  You can review it if you’d like! If there is a problem processing your request, a bot will comment on your issue and someone at CCV will help resolve the issue."
       },
       "task-starter-description":{
-        "title": "CCV task starter",
-        "description": "Every behavioral task repository comes with a search bar and advanced filter management.",
+        "title": "Task Starter",
+        "description": "Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href=\"https://github.com/brown-ccv/neuro-task-starter\" style=\"color: #000000; text-decoration: underline;\">Neuro Task Starter</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes.",
         "ccvGithub": "https://github.com/brown-ccv/"
       }
     }

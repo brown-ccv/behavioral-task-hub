@@ -5,18 +5,32 @@
         <div class="hero-left-title">
           {{ $t("hero.title") }}
         </div>
+        <div class="hero-left-heading">
+          {{ $t("hero.heading") }}
+        </div>
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
+          <b-link
+            to="/About"
+            style="color: #000000; text-decoration: underline;"
+            >steps</b-link
+          >.
+          {{ $t("hero.description2") }}
         </div>
-        <b-button size="lg" href="#Table" pill class="button">{{
-          $t("hero.button-text")
-        }}</b-button>
+        <b-button
+          size="lg"
+          href="#"
+          v-scroll-to="'#Table'"
+          pill
+          class="button"
+          >{{ $t("hero.button-text") }}</b-button
+        >
       </div>
       <div class="hero-image">
         <HeroImage />
       </div>
     </div>
-    <item-card id="Table" />
+    <Table id="Table" />
   </div>
 </template>
 <script>
@@ -27,7 +41,7 @@ import Table from "./Table";
 export default {
   name: "Home",
   components: {
-    "item-card": Table,
+    Table,
     HeroImage
   },
   computed: {},
