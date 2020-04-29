@@ -1,6 +1,5 @@
 module.exports = {
-  publicPath:
-    process.env.NODE_ENV === "production" ? "/behavioral-task-hub/" : "/",
+  publicPath: "/",
   transpileDependencies: ["vuetify"],
   pluginOptions: {
     i18n: {
