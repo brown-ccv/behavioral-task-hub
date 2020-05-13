@@ -191,6 +191,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :sort-direction="sortDirection"
+        no-sort-reset="true"
         thead-class="table-heading"
         @filtered="onFiltered"
       >
@@ -452,7 +453,7 @@ export default {
           key: "taskName",
           label: this.$t("fields.taskName"),
           sortable: true,
-          sortDirection: "desc",
+          sortDirection: "asc",
           class: "text-left align-middle pl-3"
         },
         {
