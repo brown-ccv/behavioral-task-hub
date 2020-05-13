@@ -12,6 +12,15 @@ export default {
   },
   mutations: {
     SET_DATA(state, payload) {
+      //sort data initially by task name
+      payload.sort(function(a, b) {
+        if (a["taskName"] > b["taskName"]) {
+          return 1;
+        } else if (a["taskName"] < b["taskName"]) {
+          return -1;
+        }
+        return 0;
+      });
       state.data = payload;
       state.filteredData = payload;
       state.totalRows = payload.length;

@@ -191,7 +191,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :sort-direction="sortDirection"
-        no-sort-reset="true"
+        :no-sort-reset="true"
         thead-class="table-heading"
         @filtered="onFiltered"
       >
@@ -323,7 +323,7 @@
       <b-modal
         :id="infoModal.id"
         v-if="infoModal"
-        hide-footer="true"
+        :hide-footer="true"
         @hide="resetInfoModal"
       >
         <template v-slot:modal-title>
@@ -370,7 +370,7 @@
         :id="linksModal.id"
         v-if="linksModal"
         :title="linksModal.title | capitalize"
-        hide-footer="true"
+        :hide-footer="true"
         @hide="resetLinksModal"
       >
         <div class="text-left">
@@ -453,7 +453,7 @@ export default {
           key: "taskName",
           label: this.$t("fields.taskName"),
           sortable: true,
-          sortDirection: "asc",
+          sortDirection: "desc",
           class: "text-left align-middle pl-3"
         },
         {
