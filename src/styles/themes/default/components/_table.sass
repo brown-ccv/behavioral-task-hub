@@ -3,8 +3,8 @@
         padding-left: 0
         padding-right: 0
     .table-display 
-        padding-right: 0.5rem
-        padding-left: 0.5rem
+        width: 100%
+        overflow-x: auto
 .table-heading
   font-style: normal
   background-color: #6c757d
@@ -100,3 +100,19 @@
     background: #aaa
     top: 12px
     right: 4px
+
+@media screen and (max-width: 768px)
+  .table-controls
+    width: 20rem
+  .collapsed
+    width: 4rem
+    display: flex
+    flex-direction: column
+
+@media screen and (max-width: 425px)
+  .table-controls
+    width: 100vw
+  .collapsed
+    width: 4rem
+    display: flex
+    flex-direction: column
