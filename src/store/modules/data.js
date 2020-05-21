@@ -20,7 +20,17 @@ export default {
   actions: {
     fetchData({ commit }) {
       return GithubService.getData("data").then(response => {
-        commit("SET_DATA", response.data);
+        commit(
+          "SET_DATA",
+          response.data.sort(function(a, b) {
+            if (a["taskName"] > b["taskName"]) {
+              return 1;
+            } else if (a["taskName"] < b["taskName"]) {
+              return -1;
+            }
+            return 0;
+          })
+        );
       });
     }
   }

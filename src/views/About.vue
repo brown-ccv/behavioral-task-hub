@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="about-body d-flex">
+    <div class="about-body">
       <div class="about-image1">
         <About1 />
       </div>
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="about-left-body d-flex" id="steps">
+    <div class="about-left-body" id="steps">
       <div class="about-left-text">
         <div class="about-left-title">
           {{ $t("about.register.title") }}
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="about-body d-flex">
+    <div class="about-body">
       <div class="about-image1">
         <About1 />
       </div>

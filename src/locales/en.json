@@ -42,7 +42,7 @@
       },
       "register":{
         "title": "How to register your task",
-        "description":"The task registry data is hosted at <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff; text-decoration: underline;\">CCV GitHub</a>.  To add a new task or request a fix to an existing one, navigate to the issues tab in the <a href=\"https://github.com/brown-ccv/\" style=\"color: #ffffff; text-decoration: underline;\">github</a> repository, select <i>new issue</i> and choose the template to open a new task for adding a new task to the hub, or <i>file a bug report</i> for any other issue/request.",
+        "description":"The task registry data is hosted at <a href=\"https://github.com/brown-ccv/task-registry-data\" style=\"color: #ffffff; text-decoration: underline;\">CCV GitHub</a>.  To add a new task or request a fix to an existing one, navigate to the issues tab in the <a href=\"https://github.com/brown-ccv/task-registry-data\" style=\"color: #ffffff; text-decoration: underline;\">github repository</a>, select <i>new issue</i> and choose the template to open a new task for adding a new task to the hub, or <i>file a bug report</i> for any other issue/request.",
         "description2": "When you complete the new task request, your issue will be automatically processed and a pull request to the repository created.  You can review it if you’d like! If there is a problem processing your request, a bot will comment on your issue and someone at CCV will help resolve the issue."
       },
       "task-starter-description":{

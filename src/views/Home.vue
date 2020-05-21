@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="hero-body d-flex">
+  <div class="hero-body d-flex flex-column">
+    <div class="hero-content">
       <div class="hero-left-text">
         <div class="hero-left-title">
           {{ $t("hero.title") }}
@@ -30,7 +30,9 @@
         <HeroImage />
       </div>
     </div>
-    <Table id="Table" />
+    <div>
+      <Table id="Table" />
+    </div>
   </div>
 </template>
 <script>
