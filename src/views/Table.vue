@@ -336,6 +336,7 @@
           <template v-slot:modal-title>
             {{ infoModal.title | capitalize }}
             <b-button
+              v-if="infoModal.website"
               size="sm"
               variant="white"
               :href="infoModal.website"
