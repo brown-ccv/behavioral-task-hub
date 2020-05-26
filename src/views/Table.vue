@@ -279,20 +279,26 @@
 
           <template v-slot:cell(framework)="framework">
             <span v-for="(tag, index) in framework.value" :key="index">
-              <b-badge
-                v-if="index == 'library'"
-                pill
-                class="pills"
-                variant="info"
-                >{{ tag }}</b-badge
-              >
-              <b-badge
-                v-if="index == 'language'"
-                pill
-                class="pills"
-                variant="warning"
-                >{{ tag }}</b-badge
-              >
+              <span v-if="index == 'library'">
+                <b-badge
+                  v-for="each in tag"
+                  :key="each"
+                  pill
+                  class="pills"
+                  variant="info"
+                  >{{ each }}</b-badge
+                >
+              </span>
+              <span v-if="index == 'language'">
+                <b-badge
+                  v-for="each in tag"
+                  :key="each"
+                  pill
+                  class="pills"
+                  variant="warning"
+                  >{{ each }}</b-badge
+                >
+              </span>
             </span>
           </template>
 
@@ -356,12 +362,12 @@
               >{{ infoModal.institution }}</span
             >
             <br />
-            <span
+            <span v-if="infoModal.principalInvestigator"
               ><b class="text-warning">Principal Investigator: </b
               >{{ infoModal.principalInvestigator }}</span
             >
             <br />
-            <b class="text-warning">Developers: </b
+            <b v-if="infoModal.developers" class="text-warning">Developers: </b
             ><span v-for="(tag, index) in infoModal.developers" :key="index"
               ><br />{{ tag }}
             </span>
@@ -375,7 +381,7 @@
           @hide="resetLinksModal"
         >
           <div class="text-left">
-            <span
+            <span v-if="linksModal.deployment"
               ><b class="text-warning">Website: </b
               ><b-link :href="linksModal.deployment">{{
                 linksModal.deployment
@@ -389,7 +395,7 @@
               }}</b-link></span
             >
             <br />
-            <span
+            <span v-if="linksModal.publication"
               ><b class="text-warning">Publication: </b
               ><b-link :href="linksModal.publication">{{
                 linksModal.publication
@@ -510,7 +516,8 @@ export default {
           label: this.$t("fields.tags"),
           formatter: value => {
             var formatted = "";
-            for (var i = 0; i < value.length; i++) {
+            var length = value != null ? value.length : 0;
+            for (var i = 0; i < length; i++) {
               formatted += String(value[i]) + `\n`;
             }
             return formatted;
@@ -605,8 +612,7 @@ export default {
       this.linksModal.deployment =
         item == null ? undefined : item.links.deployment;
       this.linksModal.code = item == null ? undefined : item.links.sourceCode;
-      this.linksModal.publication =
-        item == null ? undefined : item.publication.url;
+      this.linksModal.publication = item == null ? undefined : item.publication;
       this.$root.$emit("bv::show::modal", this.linksModal.id, button);
     },
     resetLinksModal() {
