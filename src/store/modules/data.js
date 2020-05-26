@@ -19,7 +19,7 @@ export default {
   },
   actions: {
     fetchData({ commit }) {
-      return GithubService.getData("data").then(response => {
+      return GithubService.getData().then(response => {
         commit(
           "SET_DATA",
           response.data.sort(function(a, b) {
