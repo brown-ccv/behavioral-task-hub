@@ -362,12 +362,12 @@
               ><b class="text-warning">Institution: </b
               >{{ infoModal.institution }}</span
             >
-            <br />
+            <br v-if="infoModal.principalInvestigator" />
             <span v-if="infoModal.principalInvestigator"
               ><b class="text-warning">Principal Investigator: </b
               >{{ infoModal.principalInvestigator }}</span
             >
-            <br />
+            <br v-if="infoModal.developers" />
             <b v-if="infoModal.developers" class="text-warning">Developers: </b
             ><span v-for="(tag, index) in infoModal.developers" :key="index"
               ><br />{{ tag }}
@@ -388,14 +388,14 @@
                 linksModal.deployment
               }}</b-link></span
             >
-            <br />
+            <br v-if="linksModal.deployment" />
             <span
               ><b class="text-warning">Source Code: </b
               ><b-link :href="linksModal.code">{{
                 linksModal.code
               }}</b-link></span
             >
-            <br />
+            <br v-if="linksModal.publication" />
             <span v-if="linksModal.publication"
               ><b class="text-warning">Publication: </b
               ><b-link :href="linksModal.publication">{{
