@@ -475,7 +475,12 @@ export default {
           label: this.$t("fields.lab"),
           sortable: true,
           formatter: value => {
-            return value["name"].split(" ")[0];
+            return value["name"]
+              .split(" ")
+              .filter(function(v) {
+                return v.startsWith("Lab") === false;
+              })
+              .join(" ");
           },
           sortByFormatted: true,
           class: "text-left align-middle pl-3"

@@ -15,7 +15,7 @@
             style="color: #000000; text-decoration: underline;"
             >steps</b-link
           >.
-          {{ $t("hero.description2") }}
+          <div v-html="$t('hero.description2')"></div>
         </div>
         <b-button
           size="lg"
