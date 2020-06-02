@@ -1,69 +1,64 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import Navbar from "@/components/Navbar.vue";
-import CCVLogo from "@/assets/illustrations/ccv-logo.svg";
-import BrownLogo from "@/assets/illustrations/brown-logo.svg";
-import BootstrapVue from "bootstrap-vue";
-
-const localVue = createLocalVue();
-localVue.use(BootstrapVue);
 
 describe("Navbar.vue", () => {
-  it("renders the two clickable svg links", () => {
-    const name = "nav items";
+  it("renders clickable link for ccv", () => {
     const wrapper = shallowMount(Navbar, {
-      localVue,
       mocks: {
         $t: () => {}
-      },
-      stubs: [CCVLogo, BrownLogo],
-      propsData: { name }
+      }
     });
-    const links = wrapper.findAll("b-link");
-    expect(links.length).toBe(2);
-    links.trigger("click");
+    const blinkccv = wrapper.find("#ccv");
+    expect(blinkccv.attributes("event")).toBe("click");
   });
 
-  it("renders the two clickable route links", () => {
-    const name = "nav items";
+  it("renders clickable link for brown", () => {
     const wrapper = shallowMount(Navbar, {
-      localVue,
       mocks: {
         $t: () => {}
-      },
-      stubs: [CCVLogo, BrownLogo],
-      propsData: { name }
+      }
     });
-    const menuitems = wrapper.findAll("b-nav-item");
-    expect(menuitems.length).toBe(2);
-    menuitems.trigger("click");
+    const blinkbrown = wrapper.find("#brown");
+    expect(blinkbrown.attributes("event")).toBe("click");
+  });
+
+  it("renders ccv logo", () => {
+    const wrapper = shallowMount(Navbar, {
+      mocks: {
+        $t: () => {}
+      }
+    });
+    expect(wrapper.find(".ccv-logo").exists()).toBe(true);
+  });
+
+  it("renders brown logo", () => {
+    const wrapper = shallowMount(Navbar, {
+      mocks: {
+        $t: () => {}
+      }
+    });
+    expect(wrapper.find(".brown-logo").exists()).toBe(true);
   });
 
   it("check for route text rendering for Home", () => {
-    const name = "nav items";
     const home = "HOME";
     const wrapper = shallowMount(Navbar, {
-      localVue,
       mocks: {
         $t: () => {}
-      },
-      stubs: [CCVLogo, BrownLogo],
-      propsData: { name }
+      }
     });
-    const menuitems = wrapper.findAll("b-nav-item");
+    const menuitems = wrapper.findAll(".nav-link");
     expect(menuitems.at(0).text()).toMatch(home);
   });
 
   it("check for route text rendering for Home", () => {
-    const name = "nav items";
     const about = "ABOUT";
     const wrapper = shallowMount(Navbar, {
-      localVue,
       mocks: {
         $t: () => {}
-      },
-      propsData: { name }
+      }
     });
-    const menuitems = wrapper.findAll("b-nav-item");
+    const menuitems = wrapper.findAll(".nav-link");
     expect(menuitems.at(1).text()).toMatch(about);
   });
 });
