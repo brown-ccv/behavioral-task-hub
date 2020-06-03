@@ -22,6 +22,7 @@
           href="#"
           v-scroll-to="'#Table'"
           pill
+          variant="primary"
           class="button"
           >{{ $t("hero.button-text") }}</b-button
         >
@@ -36,9 +37,8 @@
   </div>
 </template>
 <script>
-// import Data from "./Data";
 import "@/styles/themes/default/components/_hero.sass";
-import HeroImage from "@/assets/illustrations/hero-image.svg";
+import HeroImage from "@/assets/illustrations/beehive-logo.vue";
 import Table from "./Table";
 export default {
   name: "Home",
