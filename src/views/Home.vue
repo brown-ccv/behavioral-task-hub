@@ -11,24 +11,32 @@
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
           <b-link
+            id="steps"
             to="/About"
             style="color: #000000; text-decoration: underline;"
             >steps</b-link
           >.
-          <div v-html="$t('hero.description2')"></div>
+          <div class="subtext">
+            {{ $t("hero.description2") }}
+            <b-link
+              id="issues-link"
+              :href="$t('hero.issues-link')"
+              style="color: #000000; text-decoration: underline;"
+              >let us know</b-link
+            >.
+          </div>
         </div>
         <b-button
           size="lg"
           href="#"
           v-scroll-to="'#Table'"
           pill
-          variant="primary"
           class="button"
           >{{ $t("hero.button-text") }}</b-button
         >
       </div>
       <div class="hero-image">
-        <HeroImage />
+        <HeroImage id="hero-image" />
       </div>
     </div>
     <div>
