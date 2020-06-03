@@ -10,18 +10,14 @@
         </div>
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
-          <b-link
-            id="steps"
-            to="/About"
-            style="color: #000000; text-decoration: underline;"
-            >steps</b-link
+          <b-link id="about-steps" to="/about/#steps" class="link">steps</b-link
           >.
           <div class="subtext">
             {{ $t("hero.description2") }}
             <b-link
               id="issues-link"
-              :href="$t('hero.issues-link')"
-              style="color: #000000; text-decoration: underline;"
+              class="link"
+              href="https://github.com/brown-ccv/task-registry-data/issues/new/choose"
               >let us know</b-link
             >.
           </div>

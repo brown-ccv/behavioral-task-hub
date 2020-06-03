@@ -36,8 +36,9 @@ describe("Home.vue", () => {
     const wrapper = shallowMount(Home, {
       i18n
     });
-    const result = wrapper.find("#steps");
-    expect(result.attributes("to")).toBe("/About");
+    const result = wrapper.find("#about-steps");
+    // console.log(result.attributes())
+    expect(result.attributes("to")).toBe("/about/#steps");
   });
 
   it("renders subtext as html", () => {

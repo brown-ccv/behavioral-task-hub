@@ -10,9 +10,7 @@
         </div>
         <div class="about-right-subtext">
           {{ $t("about.explanation.description") }}
-          <b-link
-            v-scroll-to="'#steps'"
-            style="color: #000000; text-decoration: underline;"
+          <b-link v-scroll-to="'#steps'" class="link about-right-subtext"
             >steps</b-link
           >.
           <div v-html="$t('about.explanation.description2')"></div>
@@ -51,7 +49,7 @@
           v-html="$t('about.task-starter-description.description')"
         ></div>
         <b-link
-          :href="$t('about.task-starter-description.ccvGithub')"
+          href="https://github.com/brown-ccv/"
           class="link about-right-subtext"
           ><span class="fab fs-24 fa-github"></span> CCV GitHub</b-link
         >
