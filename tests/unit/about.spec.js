@@ -120,4 +120,11 @@ describe("About.vue", () => {
     const result = wrapper.find("#ccv-github");
     expect(result.attributes("href")).toBe(ccv_github);
   });
+
+  it("renders svg for task starter - third about section", () => {
+    const wrapper = shallowMount(About, {
+      i18n
+    });
+    expect(wrapper.find("#taskStarter").exists()).toBe(true);
+  });
 });
