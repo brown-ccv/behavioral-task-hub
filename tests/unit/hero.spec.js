@@ -37,7 +37,6 @@ describe("Home.vue", () => {
       i18n
     });
     const result = wrapper.find("#about-steps");
-    // console.log(result.attributes())
     expect(result.attributes("to")).toBe("/about/#steps");
   });
 
