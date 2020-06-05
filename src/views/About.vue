@@ -12,7 +12,7 @@
           {{ $t("about.explanation.description") }}
           <b-link
             id="about-steps"
-            v-scroll-to="'#steps'"
+            to="/about/#steps"
             class="link about-right-subtext"
             >steps</b-link
           >.

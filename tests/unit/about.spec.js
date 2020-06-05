@@ -22,13 +22,13 @@ describe("About.vue", () => {
     expect(description_results).toMatch(description_expected);
   });
 
-  // it("renders link for steps on task registration to section below in About", () => {
-  //   const wrapper = shallowMount(About, {
-  //     i18n
-  //   });
-  //   const result = wrapper.find("#about-steps");
-  //   // expect(result.attributes("to")).toBe("/about/#steps");
-  // });
+  it("renders link for steps on task registration to section below in About", () => {
+    const wrapper = shallowMount(About, {
+      i18n
+    });
+    const result = wrapper.find("#about-steps");
+    expect(result.attributes("to")).toBe("/about/#steps");
+  });
 
   it("renders subtext for explanation on About", () => {
     const subtext =
