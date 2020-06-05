@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="about-body">
-      <div class="about-image1">
+      <div class="about-image1" id="explanation">
         <About1 />
       </div>
       <div class="about-right-text">
@@ -11,11 +11,20 @@
         <div class="about-right-subtext">
           {{ $t("about.explanation.description") }}
           <b-link
-            v-scroll-to="'#steps'"
-            style="color: #000000; text-decoration: underline;"
+            id="about-steps"
+            to="/about/#steps"
+            class="link about-right-subtext"
             >steps</b-link
           >.
-          <div v-html="$t('about.explanation.description2')"></div>
+          <div class="subtext">
+            {{ $t("about.explanation.description2") }}
+            <b-link
+              id="issues-link"
+              class="link"
+              href="https://github.com/brown-ccv/task-registry-data/issues/new/choose"
+              >let us know</b-link
+            >.
+          </div>
         </div>
       </div>
     </div>
@@ -33,13 +42,13 @@
           {{ $t("about.register.description2") }}
         </div>
       </div>
-      <div class="about-image1">
+      <div class="about-image1" id="registration">
         <About1 />
       </div>
     </div>
 
     <div class="about-body">
-      <div class="about-image1">
+      <div class="about-image1" id="taskStarter">
         <About1 />
       </div>
       <div class="about-right-text">
@@ -48,10 +57,12 @@
         </div>
         <div
           class="about-right-subtext"
+          id="task-starter-description"
           v-html="$t('about.task-starter-description.description')"
         ></div>
         <b-link
-          :href="$t('about.task-starter-description.ccvGithub')"
+          href="https://github.com/brown-ccv/"
+          id="ccv-github"
           class="link about-right-subtext"
           ><span class="fab fs-24 fa-github"></span> CCV GitHub</b-link
         >
@@ -62,7 +73,7 @@
 
 <script>
 import "@/styles/themes/default/components/_about.sass";
-import About1 from "@/assets/illustrations/about-1.svg";
+import About1 from "@/assets/illustrations/about-1.vue";
 export default {
   name: "About",
   components: {

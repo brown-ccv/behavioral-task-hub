@@ -6,6 +6,11 @@
 </template>
 
 <style lang="scss">
+@import "assets/_custom.scss";
+
+// Import Bootstrap and BootstrapVue source SCSS files
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootstrap-vue/src/index.scss";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
