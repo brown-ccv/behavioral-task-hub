@@ -168,7 +168,7 @@
             </b-form-group>
           </div>
           <div class="table-control-items" v-show="!navCollapsed">
-            <b-button @click="clearAll()">
+            <b-button @click="clearAll()" variant="customcolor">
               Reset filters
             </b-button>
           </div>
@@ -226,11 +226,7 @@
               class="mr-1"
             >
               <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
+                <b-icon stacked icon="circle-fill" class="icon-color"></b-icon>
                 <b-icon
                   stacked
                   icon="link45deg"
@@ -312,7 +308,7 @@
             >
               <b-icon-info-circle-fill
                 font-scale="1.3"
-                style="color: #6c757d;"
+                class="icon-color"
               ></b-icon-info-circle-fill>
             </b-button>
           </template>
@@ -343,11 +339,7 @@
               class="mr-1"
             >
               <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
+                <b-icon stacked icon="circle-fill" class="icon-color"></b-icon>
                 <b-icon
                   stacked
                   icon="link45deg"

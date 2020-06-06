@@ -1,4 +1,4 @@
-@import 'src/assets/_custom'
+@import 'src/assets/_custom.scss'
 .table-body
   min-height: 100vh
   .table-controls
@@ -10,19 +10,19 @@
       overflow-x: auto
 .table-heading
   font-style: normal
-  background-color: theme-colors('customcolor')
+  background-color: theme-color("customcolor2")
   .text
     font-size: 1.3rem
     color: white
 
 .table-control-items
-    padding-left: 4rem
-    padding-right: 4rem
+  padding-left: 4rem
+  padding-right: 4rem
 
 .control-sidebar
     z-index: 8
     box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important
-    background-color:  theme-colors('customcolor')
+    background-color:  theme-color("customcolor2")
     position: sticky
     position: -webkit-sticky
     top: 0
@@ -40,12 +40,12 @@
   justify-content: flex-end
   align-content: center
   margin-bottom: 2rem
-  background-color: #2e2e2e
+  background-color: theme-color('customcolor')
   padding: 1rem
   padding-right: 0.6rem
 
 .control-button
-  background-color: #2e2e2e
+  background-color: theme-color('customcolor')
   border: none
   color: white
 .control-title
@@ -72,12 +72,13 @@
 .pills
   margin-right: 0.15rem
 .page-item .page-link 
-    color: #6c757d !important 
+    color: theme-color('customcolor') !important 
 .page-item.active .page-link 
-    background-color: #6c757d !important  
-    border-color: #6c757d !important
+    background-color: theme-color('customcolor') !important  
+    border-color: theme-color('customcolor') !important
     color: white !important
-
+.icon-color
+  color: theme-color('customcolor')
 
 .multiselect__clear 
     position: absolute

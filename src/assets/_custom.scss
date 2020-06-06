@@ -7,6 +7,10 @@ $theme-colors: (
   "customcolor2": rgb(166, 153, 147)
 );
 
-@function theme-color($key: "primary") {
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: theme-color('customcolor1');
+}
+
+@function theme-color($key) {
   @return map-get($theme-colors, $key)
 }
