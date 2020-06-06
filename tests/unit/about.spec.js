@@ -104,7 +104,7 @@ describe("About.vue", () => {
 
   it("renders description for task starter as html", () => {
     const description =
-      '<div id="task-starter-description" class="about-right-subtext">Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href="https://github.com/brown-ccv/neuro-task-starter" style="color: #000000; text-decoration: underline;">Neuro Task Starter</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes.</div>';
+      '<div id="task-starter-description" class="about-right-subtext">Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href="https://github.com/brown-ccv/neuro-task-starter" class="link">Neuro Task Starter</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes.</div>';
     const wrapper = shallowMount(About, {
       i18n
     });
