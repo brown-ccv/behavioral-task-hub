@@ -1,4 +1,4 @@
-// File: custom.scss
+// File: _custom.scss
 
 // Define your variable overrides here
 $theme-colors: (
@@ -6,3 +6,7 @@ $theme-colors: (
   "customcolor1": rgb(204, 198, 184),
   "customcolor2": rgb(166, 153, 147)
 );
+
+@function theme-color($key: "primary") {
+  @return map-get($theme-colors, $key)
+}
