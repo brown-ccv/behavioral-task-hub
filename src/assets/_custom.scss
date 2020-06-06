@@ -1,5 +1,5 @@
 // File: _custom.scss
-
+@import "node_modules/bootstrap/scss/bootstrap";
 // Define your variable overrides here
 $theme-colors: (
   "customcolor": rgb(116, 94, 85),
@@ -8,9 +8,17 @@ $theme-colors: (
 );
 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-  background-color: theme-color('customcolor1');
+  background-color: theme-color-level('customcolor1',-6);
 }
 
 @function theme-color($key) {
   @return map-get($theme-colors, $key)
+}
+
+@function theme-color-level($color-name: "primary", $level: 0) {
+  $color: theme-color($color-name);
+  $color-base: if($level > 0, #000, #fff);
+  $level: abs($level);
+
+  @return mix($color-base, $color, $level * $theme-color-interval);
 }
