@@ -28,7 +28,7 @@
           v-scroll-to="'#Table'"
           pill
           class="button btn shadow-none"
-          variant="customcolor"
+          variant="russett"
           >{{ $t("hero.button-text") }}</b-button
         >
       </div>

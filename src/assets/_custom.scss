@@ -2,13 +2,13 @@
 @import "node_modules/bootstrap/scss/bootstrap";
 // Define your variable overrides here
 $theme-colors: (
-  "customcolor": rgb(116, 94, 85),
-  "customcolor1": rgb(204, 198, 184),
-  "customcolor2": rgb(166, 153, 147)
+  "russett": rgb(116, 94, 85),
+  "foggy-gray": rgb(204, 198, 184),
+  "del-rio": rgb(166, 153, 147)
 );
 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-  background-color: theme-color-level('customcolor1',-6);
+  background-color: theme-color-level('foggy-gray',-6);
 }
 
 @function theme-color($key) {

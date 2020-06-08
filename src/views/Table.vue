@@ -171,7 +171,7 @@
             <b-button
               @click="clearAll()"
               class="btn shadow-none"
-              variant="customcolor"
+              variant="russett"
               size="lg"
             >
               <span class="button"> Reset filters</span>
