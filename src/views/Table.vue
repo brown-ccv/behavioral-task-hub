@@ -168,8 +168,13 @@
             </b-form-group>
           </div>
           <div class="table-control-items" v-show="!navCollapsed">
-            <b-button @click="clearAll()" variant="customcolor">
-              Reset filters
+            <b-button
+              @click="clearAll()"
+              class="btn shadow-none"
+              variant="customcolor"
+              size="lg"
+            >
+              <span class="button"> Reset filters</span>
             </b-button>
           </div>
         </div>
