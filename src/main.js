@@ -8,6 +8,8 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import i18n from "./i18n";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import Navbar from "@/components/Navbar";
+import infomodal from "@/components/infomodal";
+import linksmodal from "@/components/linksmodal";
 
 var VueScrollTo = require("vue-scrollto");
 
@@ -16,6 +18,8 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
 Vue.component("Navbar", Navbar);
+Vue.component("infomodal", infomodal);
+Vue.component("linksmodal", linksmodal);
 
 Vue.use(VueScrollTo, {
   container: "body",

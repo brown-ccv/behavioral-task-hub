@@ -327,83 +327,9 @@
             </b-card>
           </template>
         </b-table>
-        <b-modal
-          :id="infoModal.id"
-          v-if="infoModal"
-          :hide-footer="true"
-          @hide="resetInfoModal"
-        >
-          <template v-slot:modal-title>
-            {{ infoModal.title | capitalize }}
-            <b-button
-              v-if="infoModal.website"
-              size="sm"
-              variant="white"
-              :href="infoModal.website"
-              class="mr-1"
-            >
-              <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
-                <b-icon
-                  stacked
-                  icon="link45deg"
-                  scale="0.8"
-                  variant="white"
-                ></b-icon>
-              </b-iconstack>
-            </b-button>
-          </template>
-          <div class="text-left">
-            <span
-              ><b class="text-warning">Institution: </b
-              >{{ infoModal.institution }}</span
-            >
-            <br v-if="infoModal.principalInvestigator" />
-            <span v-if="infoModal.principalInvestigator"
-              ><b class="text-warning">Principal Investigator: </b
-              >{{ infoModal.principalInvestigator }}</span
-            >
-            <br v-if="infoModal.developers" />
-            <b v-if="infoModal.developers" class="text-warning">Developers: </b
-            ><span v-for="(tag, index) in infoModal.developers" :key="index"
-              ><br />{{ tag }}
-            </span>
-          </div>
-        </b-modal>
-        <b-modal
-          :id="linksModal.id"
-          v-if="linksModal"
-          :title="linksModal.title | capitalize"
-          :hide-footer="true"
-          @hide="resetLinksModal"
-        >
-          <div class="text-left">
-            <span v-if="linksModal.deployment"
-              ><b class="text-warning">Website: </b
-              ><b-link :href="linksModal.deployment">{{
-                linksModal.deployment
-              }}</b-link></span
-            >
-            <br v-if="linksModal.deployment" />
-            <span
-              ><b class="text-warning">Source Code: </b
-              ><b-link :href="linksModal.code">{{
-                linksModal.code
-              }}</b-link></span
-            >
-            <br v-if="linksModal.publication" />
-            <span v-if="linksModal.publication"
-              ><b class="text-warning">Publication: </b
-              ><b-link :href="linksModal.publication">{{
-                linksModal.publication
-              }}</b-link></span
-            >
-          </div>
-        </b-modal>
+        <infomodal ref="infomodal" />
+        <linksmodal ref="linksmodal" />
+
         <b-pagination
           class="pagination"
           v-model="currentPage"
@@ -540,22 +466,7 @@ export default {
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        institution: "",
-        principalInvestigator: "",
-        developers: "",
-        website: ""
-      },
-      linksModal: {
-        id: "links-modal",
-        title: "",
-        deployment: "",
-        code: "",
-        publication: ""
-      }
+      filterOn: []
     };
   },
   computed: {
@@ -596,36 +507,10 @@ export default {
       this.navCollapsed = !this.navCollapsed;
     },
     info(item, index, button) {
-      this.infoModal.title = item == null ? undefined : item.lab.name;
-      this.infoModal.institution =
-        item == null ? undefined : item.lab.institution;
-      this.infoModal.principalInvestigator =
-        item == null ? undefined : item.lab.principalInvestigator;
-      this.infoModal.developers =
-        item == null ? undefined : item.lab.developers;
-      this.infoModal.website = item == null ? undefined : item.lab.website;
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.institution = "";
-      this.infoModal.principalInvestigator = "";
-      this.infoModal.developers = "";
-      this.infoModal.website = "";
+      this.$refs.infomodal.info(item, index, button);
     },
     links(item, index, button) {
-      this.linksModal.title = item == null ? undefined : item.taskName;
-      this.linksModal.deployment =
-        item == null ? undefined : item.links.deployment;
-      this.linksModal.code = item == null ? undefined : item.links.sourceCode;
-      this.linksModal.publication = item == null ? undefined : item.publication;
-      this.$root.$emit("bv::show::modal", this.linksModal.id, button);
-    },
-    resetLinksModal() {
-      this.linksModal.title = "";
-      this.linksModal.deployment = "";
-      this.linksModal.code = "";
-      this.linksModal.publication = "";
+      this.$refs.linksmodal.links(item, index, button);
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
