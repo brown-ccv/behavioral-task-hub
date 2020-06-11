@@ -15,7 +15,7 @@ const routes = [
     }
   },
   {
-    path: "/About",
+    path: "/about",
     name: "About",
     component: About,
     meta: {
@@ -23,10 +23,17 @@ const routes = [
     }
   }
 ];
-
+const scrollBehavior = function(to) {
+  if (to.hash) {
+    return { selector: to.hash };
+  } else {
+    return { x: 0, y: 0 };
+  }
+};
 const router = new VueRouter({
   mode: "hash",
-  routes
+  routes,
+  scrollBehavior
 });
 
 router.beforeEach((to, from, next) => {

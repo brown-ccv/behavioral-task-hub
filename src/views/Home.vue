@@ -10,24 +10,30 @@
         </div>
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
-          <b-link
-            to="/About"
-            style="color: #000000; text-decoration: underline;"
-            >steps</b-link
+          <b-link id="about-steps" to="/about/#steps" class="link">steps</b-link
           >.
-          {{ $t("hero.description2") }}
+          <div class="subtext">
+            {{ $t("hero.description2") }}
+            <b-link
+              id="issues-link"
+              class="link"
+              href="https://github.com/brown-ccv/task-registry-data/issues/new/choose"
+              >let us know</b-link
+            >.
+          </div>
         </div>
         <b-button
           size="lg"
           href="#"
           v-scroll-to="'#Table'"
           pill
-          class="button"
+          class="button btn shadow-none"
+          variant="russett"
           >{{ $t("hero.button-text") }}</b-button
         >
       </div>
       <div class="hero-image">
-        <HeroImage />
+        <HeroImage id="hero-image" />
       </div>
     </div>
     <div>
@@ -36,9 +42,8 @@
   </div>
 </template>
 <script>
-// import Data from "./Data";
 import "@/styles/themes/default/components/_hero.sass";
-import HeroImage from "@/assets/illustrations/hero-image.svg";
+import HeroImage from "@/assets/illustrations/beehive-logo.vue";
 import Table from "./Table";
 export default {
   name: "Home",

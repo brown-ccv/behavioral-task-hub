@@ -1,25 +1,29 @@
+@import 'src/assets/_custom.scss'
 .table-body
-    .table-controls
-        padding-left: 0
-        padding-right: 0
-    .table-display 
-        width: 100%
-        overflow-x: auto
+  min-height: 100vh
+  .table-controls
+      min-height: 100vh
+      padding-left: 0
+      padding-right: 0
+  .table-display 
+      width: 100%
+      overflow-x: auto
 .table-heading
   font-style: normal
-  background-color: #6c757d
+  background-color: theme-color("del-rio")
   .text
     font-size: 1.3rem
     color: white
 
 .table-control-items
-    padding-left: 4rem
-    padding-right: 4rem
-
+  padding-left: 4rem
+  padding-right: 4rem
+.button
+  color: white
 .control-sidebar
     z-index: 8
     box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important
-    background-color:  #6c757d
+    background-color:  theme-color("russett")
     position: sticky
     position: -webkit-sticky
     top: 0
@@ -69,12 +73,13 @@
 .pills
   margin-right: 0.15rem
 .page-item .page-link 
-    color: #6c757d !important 
+    color: theme-color('russett') !important 
 .page-item.active .page-link 
-    background-color: #6c757d !important  
-    border-color: #6c757d !important
+    background-color: theme-color('russett') !important  
+    border-color: theme-color('russett') !important
     color: white !important
-
+.icon-color
+  color: theme-color('russett')
 
 .multiselect__clear 
     position: absolute
@@ -116,3 +121,5 @@
     width: 4rem
     display: flex
     flex-direction: column
+
+
