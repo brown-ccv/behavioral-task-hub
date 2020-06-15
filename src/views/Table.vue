@@ -219,12 +219,7 @@
             <strong class="font-weight-bold pl-1">{{
               row.value | capitalize
             }}</strong>
-            <b-button
-              size="sm"
-              variant="white"
-              @click="links(row.item, row.index, $event.target)"
-              class="mr-1"
-            >
+            <b-button size="sm" variant="white" @click="showModal" class="mr-1">
               <b-iconstack font-scale="1.5">
                 <b-icon
                   stacked
@@ -307,7 +302,7 @@
             <b-button
               size="sm"
               variant="white"
-              @click="info(labs.item, labs.index, $event.target)"
+              @click="showModal(labs.item)"
               class="mr-1"
             >
               <b-icon-info-circle-fill
@@ -327,8 +322,18 @@
             </b-card>
           </template>
         </b-table>
-        <infomodal ref="infomodal" />
-        <linksmodal ref="linksmodal" />
+        <Modal
+          v-show="isModalVisible"
+          :title="infoModal.title"
+          :content="infoModal"
+          @close="closeModal"
+        />
+        <Modal
+          v-show="isModalVisible"
+          :title="infoModal.title"
+          :content="infoModal"
+          @close="closeModal"
+        />
 
         <b-pagination
           class="pagination"
@@ -354,6 +359,7 @@ export default {
   },
   data() {
     return {
+      isModalVisible: false,
       navCollapsed: true,
       valuePlatform: [],
       valueFeature: [],
@@ -466,7 +472,22 @@ export default {
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
-      filterOn: []
+      filterOn: [],
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        institution: "",
+        principalInvestigator: "",
+        developers: "",
+        website: ""
+      },
+      linksModal: {
+        id: "links-modal",
+        title: "",
+        deployment: "",
+        code: "",
+        publication: ""
+      }
     };
   },
   computed: {
@@ -506,11 +527,52 @@ export default {
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
     },
+    showModal(item) {
+      this.infoModal.title = item == null ? undefined : item.lab.name;
+      this.infoModal.institution =
+        item == null ? undefined : item.lab.institution;
+      this.infoModal.principalInvestigator =
+        item == null ? undefined : item.lab.principalInvestigator;
+      this.infoModal.developers =
+        item == null ? undefined : item.lab.developers;
+      this.infoModal.website = item == null ? undefined : item.lab.website;
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
     info(item, index, button) {
-      this.$refs.infomodal.info(item, index, button);
+      this.infoModal.title = item == null ? undefined : item.lab.name;
+      this.infoModal.institution =
+        item == null ? undefined : item.lab.institution;
+      this.infoModal.principalInvestigator =
+        item == null ? undefined : item.lab.principalInvestigator;
+      this.infoModal.developers =
+        item == null ? undefined : item.lab.developers;
+      this.infoModal.website = item == null ? undefined : item.lab.website;
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.institution = "";
+      this.infoModal.principalInvestigator = "";
+      this.infoModal.developers = "";
+      this.infoModal.website = "";
+      console.log(this.infoModal);
     },
     links(item, index, button) {
-      this.$refs.linksmodal.links(item, index, button);
+      this.linksModal.title = item == null ? undefined : item.taskName;
+      this.linksModal.deployment =
+        item == null ? undefined : item.links.deployment;
+      this.linksModal.code = item == null ? undefined : item.links.sourceCode;
+      this.linksModal.publication = item == null ? undefined : item.publication;
+      this.$root.$emit("bv::show::modal", this.linksModal.id, button);
+    },
+    resetLinksModal() {
+      this.linksModal.title = "";
+      this.linksModal.deployment = "";
+      this.linksModal.code = "";
+      this.linksModal.publication = "";
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
