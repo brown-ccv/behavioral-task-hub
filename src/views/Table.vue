@@ -322,7 +322,16 @@
             </b-card>
           </template>
         </b-table>
-        <Modal
+
+        <b-button v-b-modal.modal-info>Launch demo info modal</b-button>
+        <BModal id="modal-info" title="Info Modal" :content="infoModal" />
+
+        <b-button v-b-modal.modal-links variant="primary"
+          >Launch demo links modal</b-button
+        >
+        <BModal id="modal-links" title="Info Modal" :content="linksModal" />
+
+        <!-- <Modal
           v-show="isModalVisible"
           :title="infoModal.title"
           :content="infoModal"
@@ -333,7 +342,7 @@
           :title="infoModal.title"
           :content="infoModal"
           @close="closeModal"
-        />
+        /> -->
 
         <b-pagination
           class="pagination"
@@ -346,6 +355,7 @@
         ></b-pagination>
       </div>
     </div>
+    old: {{ tagsvalues }} new: {{ tagValuesNew }}
   </b-container>
 </template>
 
@@ -353,9 +363,12 @@
 import "@/styles/themes/default/components/_table.sass";
 import Multiselect from "vue-multiselect";
 import { mapActions, mapState } from "vuex";
+import BModal from "@/components/BModal.vue";
+import _ from "lodash";
 export default {
   components: {
-    Multiselect
+    Multiselect,
+    BModal
   },
   data() {
     return {
@@ -492,6 +505,9 @@ export default {
   },
   computed: {
     ...mapState(["data"]),
+    tagValuesNew() {
+      return _.uniq(this.data.data.map(item => item.tags)[0]);
+    },
     tagsvalues() {
       let unique = new Set();
       for (var d in this.data.data) {

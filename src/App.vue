@@ -11,6 +11,8 @@
 // Import Bootstrap and BootstrapVue source SCSS files
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
+@import "@/styles/themes/default/components/_hero.sass";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

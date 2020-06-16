@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import "@/styles/themes/default/components/_modal.sass";
+// import "@/styles/themes/default/components/_modal.sass";
 export default {
   data: function() {
     return {
