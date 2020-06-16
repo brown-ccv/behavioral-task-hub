@@ -223,8 +223,8 @@
               v-b-modal.modal-links
               size="sm"
               variant="white"
-              @click="showModal(row.item, 'links')"
               class="mr-1"
+              @click="sendInfo(row.item)"
             >
               <b-iconstack font-scale="1.5">
                 <b-icon
@@ -309,8 +309,8 @@
               v-b-modal.modal-info
               size="sm"
               variant="white"
-              @click="showModal(labs.item.lab, 'info')"
               class="mr-1"
+              @click="sendInfo(labs.item.lab)"
             >
               <b-icon-info-circle-fill
                 font-scale="1.3"
@@ -330,19 +330,9 @@
           </template>
         </b-table>
 
-        <BModal
-          id="modal-info"
-          :title="infoModal.title"
-          :content="infoModal.content"
-          @reset="resetInfoModal"
-        />
+        <BModal id="modal-info" title="Lab Info" :content="selectedRow" />
 
-        <BModal
-          id="modal-links"
-          :title="linksModal.title"
-          :content="linksModal.content"
-          @reset="resetLinksModal"
-        />
+        <BModal id="modal-links" title="Task Links" :content="selectedRow" />
 
         <b-pagination
           class="pagination"
@@ -371,6 +361,7 @@ export default {
   },
   data() {
     return {
+      selectedRow: {},
       navCollapsed: true,
       valuePlatform: [],
       valueFeature: [],
@@ -482,26 +473,7 @@ export default {
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: {
-          institution: "",
-          principalInvestigator: "",
-          developers: "",
-          website: ""
-        }
-      },
-      linksModal: {
-        id: "links-modal",
-        title: "",
-        content: {
-          deployment: "",
-          code: "",
-          publication: ""
-        }
-      }
+      filterOn: []
     };
   },
   computed: {
@@ -541,54 +513,11 @@ export default {
   },
   methods: {
     ...mapActions("data", ["fetchData"]),
+    sendInfo(item) {
+      this.selectedRow = item;
+    },
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
-    },
-    showModal(item, type) {
-      if (type === "info" && item) {
-        item.name
-          ? (this.infoModal.title = item.name)
-          : delete this.infoModal.title;
-        item.institution
-          ? (this.infoModal.content.institution = item.institution)
-          : delete this.infoModal.content.institution;
-        item.developers
-          ? (this.infoModal.content.developers = item.developers)
-          : delete this.infoModal.content.developers;
-        item.website
-          ? (this.infoModal.content.website = item.website)
-          : delete this.infoModal.content.website;
-        item.principalInvestigator
-          ? (this.infoModal.content.principalInvestigator =
-              item.principalInvestigator)
-          : delete this.infoModal.content.principalInvestigator;
-      } else if (type === "links" && item) {
-        item.taskName
-          ? (this.linksModal.title = item.taskName)
-          : delete this.linksModal.title;
-        item.links.deployment
-          ? (this.linksModal.content.deployment = item.links.deployment)
-          : delete this.linksModal.content.deployment;
-        item.links.sourceCode
-          ? (this.linksModal.content.code = item.links.sourceCode)
-          : delete this.linksModal.content.code;
-        item.publication
-          ? (this.linksModal.content.publication = item.publication)
-          : delete this.linksModal.content.publication;
-      }
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content.institution = "";
-      this.infoModal.content.principalInvestigator = "";
-      this.infoModal.content.developers = "";
-      this.infoModal.content.website = "";
-    },
-    resetLinksModal() {
-      this.linksModal.title = "";
-      this.linksModal.content.deployment = "";
-      this.linksModal.content.code = "";
-      this.linksModal.content.publication = "";
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering

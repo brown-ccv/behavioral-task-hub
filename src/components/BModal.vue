@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-bind="$attrs" v-if="content" :hide-footer="true" @hide="reset">
+  <b-modal v-bind="$attrs" v-if="content" :hide-footer="true">
     <template v-slot:modal-title>
       {{ title | capitalize }}
       <b-button
@@ -17,7 +17,8 @@
     </template>
     <div class="text-left">
       <span v-for="(value, key) in content" v-bind:key="'modal' + key"
-        ><b class="text-warning"> {{ key | camelToTitle }}: </b>{{ value }} <br
+        ><b v-if="value" class="text-warning"> {{ key | camelToTitle }}: </b
+        >{{ value }} <br
       /></span>
     </div>
   </b-modal>
@@ -33,11 +34,6 @@ export default {
     content: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    reset() {
-      this.$emit("reset");
     }
   },
   filters: {
