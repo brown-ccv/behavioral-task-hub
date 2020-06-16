@@ -83,7 +83,3 @@ export default {
   mounted() {}
 };
 </script>
-
-<style lang="scss" scoped>
-@import "@/styles/themes/default/components/_about.sass";
-</style>

@@ -6,7 +6,10 @@
 </template>
 
 <style lang="scss">
-@import "assets/_custom.scss";
+@import "@/styles/themes/default/components/_custom.scss";
+@import "@/styles/themes/default/components/_table.sass";
+@import "@/styles/themes/default/components/_about.sass";
+@import "@/styles/themes/default/components/_hero.sass";
 
 // Import Bootstrap and BootstrapVue source SCSS files
 @import "~bootstrap/scss/bootstrap.scss";

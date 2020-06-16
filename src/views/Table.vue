@@ -219,7 +219,13 @@
             <strong class="font-weight-bold pl-1">{{
               row.value | capitalize
             }}</strong>
-            <b-button size="sm" variant="white" @click="showModal" class="mr-1">
+            <b-button
+              v-b-modal.modal-links
+              size="sm"
+              variant="white"
+              @click="showModal(row.item, 'links')"
+              class="mr-1"
+            >
               <b-iconstack font-scale="1.5">
                 <b-icon
                   stacked
@@ -300,9 +306,10 @@
           <template v-slot:cell(lab)="labs">
             {{ labs.value | capitalize }}
             <b-button
+              v-b-modal.modal-info
               size="sm"
               variant="white"
-              @click="showModal(labs.item)"
+              @click="showModal(labs.item.lab, 'info')"
               class="mr-1"
             >
               <b-icon-info-circle-fill
@@ -323,26 +330,19 @@
           </template>
         </b-table>
 
-        <b-button v-b-modal.modal-info>Launch demo info modal</b-button>
-        <BModal id="modal-info" title="Info Modal" :content="infoModal" />
-
-        <b-button v-b-modal.modal-links variant="primary"
-          >Launch demo links modal</b-button
-        >
-        <BModal id="modal-links" title="Info Modal" :content="linksModal" />
-
-        <!-- <Modal
-          v-show="isModalVisible"
+        <BModal
+          id="modal-info"
           :title="infoModal.title"
-          :content="infoModal"
-          @close="closeModal"
+          :content="infoModal.content"
+          @reset="resetInfoModal"
         />
-        <Modal
-          v-show="isModalVisible"
-          :title="infoModal.title"
-          :content="infoModal"
-          @close="closeModal"
-        /> -->
+
+        <BModal
+          id="modal-links"
+          :title="linksModal.title"
+          :content="linksModal.content"
+          @reset="resetLinksModal"
+        />
 
         <b-pagination
           class="pagination"
@@ -360,7 +360,6 @@
 </template>
 
 <script>
-import "@/styles/themes/default/components/_table.sass";
 import Multiselect from "vue-multiselect";
 import { mapActions, mapState } from "vuex";
 import BModal from "@/components/BModal.vue";
@@ -372,7 +371,6 @@ export default {
   },
   data() {
     return {
-      isModalVisible: false,
       navCollapsed: true,
       valuePlatform: [],
       valueFeature: [],
@@ -480,7 +478,6 @@ export default {
       ],
       currentPage: 1,
       perPage: 10,
-      pageOptions: [10, 15, 20],
       sortBy: "",
       sortDesc: false,
       sortDirection: "asc",
@@ -489,17 +486,21 @@ export default {
       infoModal: {
         id: "info-modal",
         title: "",
-        institution: "",
-        principalInvestigator: "",
-        developers: "",
-        website: ""
+        content: {
+          institution: "",
+          principalInvestigator: "",
+          developers: "",
+          website: ""
+        }
       },
       linksModal: {
         id: "links-modal",
         title: "",
-        deployment: "",
-        code: "",
-        publication: ""
+        content: {
+          deployment: "",
+          code: "",
+          publication: ""
+        }
       }
     };
   },
@@ -543,52 +544,51 @@ export default {
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
     },
-    showModal(item) {
-      this.infoModal.title = item == null ? undefined : item.lab.name;
-      this.infoModal.institution =
-        item == null ? undefined : item.lab.institution;
-      this.infoModal.principalInvestigator =
-        item == null ? undefined : item.lab.principalInvestigator;
-      this.infoModal.developers =
-        item == null ? undefined : item.lab.developers;
-      this.infoModal.website = item == null ? undefined : item.lab.website;
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
-    },
-    info(item, index, button) {
-      this.infoModal.title = item == null ? undefined : item.lab.name;
-      this.infoModal.institution =
-        item == null ? undefined : item.lab.institution;
-      this.infoModal.principalInvestigator =
-        item == null ? undefined : item.lab.principalInvestigator;
-      this.infoModal.developers =
-        item == null ? undefined : item.lab.developers;
-      this.infoModal.website = item == null ? undefined : item.lab.website;
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    showModal(item, type) {
+      if (type === "info" && item) {
+        item.name
+          ? (this.infoModal.title = item.name)
+          : delete this.infoModal.title;
+        item.institution
+          ? (this.infoModal.content.institution = item.institution)
+          : delete this.infoModal.content.institution;
+        item.developers
+          ? (this.infoModal.content.developers = item.developers)
+          : delete this.infoModal.content.developers;
+        item.website
+          ? (this.infoModal.content.website = item.website)
+          : delete this.infoModal.content.website;
+        item.principalInvestigator
+          ? (this.infoModal.content.principalInvestigator =
+              item.principalInvestigator)
+          : delete this.infoModal.content.principalInvestigator;
+      } else if (type === "links" && item) {
+        item.taskName
+          ? (this.linksModal.title = item.taskName)
+          : delete this.linksModal.title;
+        item.links.deployment
+          ? (this.linksModal.content.deployment = item.links.deployment)
+          : delete this.linksModal.content.deployment;
+        item.links.sourceCode
+          ? (this.linksModal.content.code = item.links.sourceCode)
+          : delete this.linksModal.content.code;
+        item.publication
+          ? (this.linksModal.content.publication = item.publication)
+          : delete this.linksModal.content.publication;
+      }
     },
     resetInfoModal() {
       this.infoModal.title = "";
-      this.infoModal.institution = "";
-      this.infoModal.principalInvestigator = "";
-      this.infoModal.developers = "";
-      this.infoModal.website = "";
-      console.log(this.infoModal);
-    },
-    links(item, index, button) {
-      this.linksModal.title = item == null ? undefined : item.taskName;
-      this.linksModal.deployment =
-        item == null ? undefined : item.links.deployment;
-      this.linksModal.code = item == null ? undefined : item.links.sourceCode;
-      this.linksModal.publication = item == null ? undefined : item.publication;
-      this.$root.$emit("bv::show::modal", this.linksModal.id, button);
+      this.infoModal.content.institution = "";
+      this.infoModal.content.principalInvestigator = "";
+      this.infoModal.content.developers = "";
+      this.infoModal.content.website = "";
     },
     resetLinksModal() {
       this.linksModal.title = "";
-      this.linksModal.deployment = "";
-      this.linksModal.code = "";
-      this.linksModal.publication = "";
+      this.linksModal.content.deployment = "";
+      this.linksModal.content.code = "";
+      this.linksModal.content.publication = "";
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
