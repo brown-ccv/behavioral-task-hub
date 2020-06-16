@@ -224,7 +224,7 @@
               size="sm"
               variant="white"
               class="mr-1"
-              @click="sendInfo(row.item)"
+              @click="sendInfo(row.item.links)"
             >
               <b-iconstack font-scale="1.5">
                 <b-icon
@@ -514,7 +514,7 @@ export default {
   methods: {
     ...mapActions("data", ["fetchData"]),
     sendInfo(item) {
-      this.selectedRow = item;
+      this.selectedRow = _.pickBy(item);
     },
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
