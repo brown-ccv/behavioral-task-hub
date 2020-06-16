@@ -345,7 +345,7 @@
         ></b-pagination>
       </div>
     </div>
-    old: {{ tagsvalues }} new: {{ tagValuesNew }}
+    old: {{ institutions }} new: {{ institutionsNew }}
   </b-container>
 </template>
 
@@ -478,34 +478,23 @@ export default {
   },
   computed: {
     ...mapState(["data"]),
-    tagValuesNew() {
-      return _.uniq(this.data.data.map(item => item.tags)[0]);
-    },
     tagsvalues() {
-      let unique = new Set();
-      for (var d in this.data.data) {
-        for (var tag in this.data.data[d]["tags"]) {
-          unique.add(this.data.data[d]["tags"][tag]);
-        }
-      }
-      let tagvalues = [];
-      var uni = Array.from(unique);
-      for (var t in uni) {
-        tagvalues.push({ name: uni[t] });
-      }
-      return tagvalues;
+      return _.uniq(
+        _.split(
+          this.data.data.map(item => item.tags),
+          ","
+        )
+      ).map(function(name) {
+        return { name: name };
+      });
     },
-    institutions() {
-      let unique = new Set();
-      for (var d in this.data.data) {
-        unique.add(this.data.data[d]["lab"]["institution"]);
-      }
-      let institutions = [];
-      var uni = Array.from(unique);
-      for (var t in uni) {
-        institutions.push(uni[t]);
-      }
-      return institutions;
+    institutionsNew() {
+      return _.uniq(
+        _.split(
+          this.data.data.map(item => item.lab.institution),
+          ","
+        )
+      );
     }
   },
   mounted() {
