@@ -1,24 +1,17 @@
 <template>
-  <b-modal v-bind="$attrs" v-if="content" :hide-footer="true">
+  <b-modal v-bind="$attrs" v-if="content" :hide-footer="true" @hide="reset">
     <template v-slot:modal-title>
       {{ title | capitalize }}
-      <b-button
-        v-if="content.website"
-        size="sm"
-        variant="white"
-        :href="content.website"
-        class="mr-1"
-      >
-        <b-iconstack font-scale="1.5">
+      <a v-if="content.website" :href="content.website" class="mr-1">
+        <b-iconstack font-scale="1">
           <b-icon stacked icon="circle-fill" style="color: #6c757d;"></b-icon>
           <b-icon stacked icon="link45deg" scale="0.8" variant="white"></b-icon>
         </b-iconstack>
-      </b-button>
+      </a>
     </template>
     <div class="text-left">
       <span v-for="(value, key) in content" v-bind:key="'modal' + key"
-        ><b v-if="value" class="text-warning"> {{ key | camelToTitle }}: </b
-        >{{ value }} <br
+        ><b class="text-warning"> {{ key | camelToTitle }}: </b>{{ value }} <br
       /></span>
     </div>
   </b-modal>
@@ -34,6 +27,11 @@ export default {
     content: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    reset() {
+      this.$emit("reset");
     }
   },
   filters: {
