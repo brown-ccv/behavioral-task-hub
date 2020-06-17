@@ -549,35 +549,30 @@ export default {
         var filterplatform = this.valuePlatform.map(item => item.name);
         var filterinstitution = this.valueInstitutions;
         var filterfeature = this.valueFeature.map(item => item.name);
-        console.log(
-          dataPlatform.map(function(item) {
-            return (
-              filterplatform.length ===
-              _.intersection(item, filterplatform).length
-            );
-          })
-        );
-        var dataSelect =
+        var dataSelect = _.zip(
           dataTags.map(function(item) {
             return (
               filtertags.length === _.intersection(item, filtertags).length
             );
-          }) &&
+          }),
           dataPlatform.map(function(item) {
             return (
               filterplatform.length ===
               _.intersection(item, filterplatform).length
             );
-          }) &&
+          }),
           dataInstitution.map(function(item) {
-            return item === filterinstitution;
-          }) &&
+            return item === filterinstitution || filterinstitution.length == 0;
+          }),
           dataFeature.map(function(item) {
             return (
               filterfeature.length ===
               _.intersection(item, filterfeature).length
             );
-          });
+          })
+        ).map(function(item) {
+          return item[0] && item[1] && item[2] && item[3];
+        });
         filterData = _.values(
           _.pickBy(
             _.zip(this.data.data, dataSelect).map(function(item) {
