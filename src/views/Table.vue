@@ -220,11 +220,10 @@
               row.value | capitalize
             }}</strong>
             <b-button
-              v-b-modal.modal-links
+              v-b-modal="row.item.taskName"
               size="sm"
               variant="white"
               class="mr-1"
-              @click="sendInfo(row.item.links)"
             >
               <b-iconstack font-scale="1.5">
                 <b-icon
@@ -240,6 +239,11 @@
                 ></b-icon>
               </b-iconstack>
             </b-button>
+            <BModal
+              :id="row.item.taskName"
+              title="Task Links"
+              :content="sendInfo(row.item.links)"
+            />
           </template>
 
           <template v-slot:head(platform)="platform">
@@ -306,17 +310,21 @@
           <template v-slot:cell(lab)="labs">
             {{ labs.value | capitalize }}
             <b-button
-              v-b-modal.modal-info
+              v-b-modal="labs.item.lab.name"
               size="sm"
               variant="white"
               class="mr-1"
-              @click="sendInfo(labs.item.lab)"
             >
               <b-icon-info-circle-fill
                 font-scale="1.3"
                 style="color: #6c757d;"
               ></b-icon-info-circle-fill>
             </b-button>
+            <BModal
+              :id="labs.item.lab.name"
+              title="Lab Info"
+              :content="sendInfo(labs.item.lab)"
+            />
           </template>
 
           <template v-slot:row-details="row">
@@ -330,10 +338,6 @@
           </template>
         </b-table>
 
-        <BModal id="modal-info" title="Lab Info" :content="selectedRow" />
-
-        <BModal id="modal-links" title="Task Links" :content="selectedRow" />
-
         <b-pagination
           class="pagination"
           v-model="currentPage"
@@ -345,7 +349,6 @@
         ></b-pagination>
       </div>
     </div>
-    old: {{ tagsvalues }} new: {{ tagValuesNew }}
   </b-container>
 </template>
 
@@ -361,7 +364,6 @@ export default {
   },
   data() {
     return {
-      selectedRow: {},
       navCollapsed: true,
       valuePlatform: [],
       valueFeature: [],
@@ -514,7 +516,7 @@ export default {
   methods: {
     ...mapActions("data", ["fetchData"]),
     sendInfo(item) {
-      this.selectedRow = _.pickBy(item);
+      return _.pickBy(item);
     },
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
