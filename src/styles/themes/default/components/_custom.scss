@@ -1,7 +1,24 @@
-// File: custom.scss
-
+// File: _custom.scss
+@import "node_modules/bootstrap/scss/bootstrap";
 // Define your variable overrides here
 $theme-colors: (
-  "primary": yellow,
-  "danger": #ff4136
+  "russett": rgb(116, 94, 85),
+  "foggy-gray": rgb(204, 198, 184),
+  "del-rio": rgb(166, 153, 147)
 );
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: theme-color-level('foggy-gray',-6);
+}
+
+@function theme-color($key) {
+  @return map-get($theme-colors, $key)
+}
+
+@function theme-color-level($color-name: "primary", $level: 0) {
+  $color: theme-color($color-name);
+  $color-base: if($level > 0, #000, #fff);
+  $level: abs($level);
+
+  @return mix($color-base, $color, $level * $theme-color-interval);
+}

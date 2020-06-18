@@ -13,7 +13,8 @@
           <b-link
             id="about-steps"
             to="/about/#steps"
-            class="link about-right-subtext"
+            v-scroll-to="'#steps'"
+            class="link"
             >steps</b-link
           >.
           <div class="subtext">

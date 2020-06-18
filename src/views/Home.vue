@@ -27,7 +27,8 @@
           href="#"
           v-scroll-to="'#Table'"
           pill
-          class="button"
+          class="button btn shadow-none"
+          variant="russett"
           >{{ $t("hero.button-text") }}</b-button
         >
       </div>

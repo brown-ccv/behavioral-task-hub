@@ -168,8 +168,13 @@
             </b-form-group>
           </div>
           <div class="table-control-items" v-show="!navCollapsed">
-            <b-button @click="clearAll()">
-              Reset filters
+            <b-button
+              @click="clearAll()"
+              class="btn shadow-none"
+              variant="russett"
+              size="lg"
+            >
+              <span class="button"> Reset filters</span>
             </b-button>
           </div>
         </div>
@@ -226,11 +231,7 @@
               class="mr-1"
             >
               <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
+                <b-icon stacked icon="circle-fill" class="icon-color"></b-icon>
                 <b-icon
                   stacked
                   icon="link45deg"
@@ -317,7 +318,7 @@
             >
               <b-icon-info-circle-fill
                 font-scale="1.3"
-                style="color: #6c757d;"
+                class="icon-color"
               ></b-icon-info-circle-fill>
             </b-button>
             <BModal
@@ -337,7 +338,83 @@
             </b-card>
           </template>
         </b-table>
+<<<<<<< HEAD
 
+=======
+        <b-modal
+          :id="infoModal.id"
+          v-if="infoModal"
+          :hide-footer="true"
+          @hide="resetInfoModal"
+        >
+          <template v-slot:modal-title>
+            {{ infoModal.title | capitalize }}
+            <b-button
+              v-if="infoModal.website"
+              size="sm"
+              variant="white"
+              :href="infoModal.website"
+              class="mr-1"
+            >
+              <b-iconstack font-scale="1.5">
+                <b-icon stacked icon="circle-fill" class="icon-color"></b-icon>
+                <b-icon
+                  stacked
+                  icon="link45deg"
+                  scale="0.8"
+                  variant="white"
+                ></b-icon>
+              </b-iconstack>
+            </b-button>
+          </template>
+          <div class="text-left">
+            <span
+              ><b class="text-warning">Institution: </b
+              >{{ infoModal.institution }}</span
+            >
+            <br v-if="infoModal.principalInvestigator" />
+            <span v-if="infoModal.principalInvestigator"
+              ><b class="text-warning">Principal Investigator: </b
+              >{{ infoModal.principalInvestigator }}</span
+            >
+            <br v-if="infoModal.developers" />
+            <b v-if="infoModal.developers" class="text-warning">Developers: </b
+            ><span v-for="(tag, index) in infoModal.developers" :key="index"
+              ><br />{{ tag }}
+            </span>
+          </div>
+        </b-modal>
+        <b-modal
+          :id="linksModal.id"
+          v-if="linksModal"
+          :title="linksModal.title | capitalize"
+          :hide-footer="true"
+          @hide="resetLinksModal"
+        >
+          <div class="text-left">
+            <span v-if="linksModal.deployment"
+              ><b class="text-warning">Website: </b
+              ><b-link :href="linksModal.deployment">{{
+                linksModal.deployment
+              }}</b-link></span
+            >
+            <br v-if="linksModal.deployment" />
+            <span
+              ><b class="text-warning">Source Code: </b
+              ><b-link :href="linksModal.code">{{
+                linksModal.code
+              }}</b-link></span
+            >
+            <br v-if="linksModal.publication" />
+            <span v-if="linksModal.publication"
+              ><b class="text-warning">Publication: </b
+              ><b-link :href="linksModal.publication">{{
+                linksModal.publication
+              }}</b-link></span
+            >
+          </div>
+        </b-modal>
+>>>>>>> origin/develop
         <b-pagination
           class="pagination"
           v-model="currentPage"
