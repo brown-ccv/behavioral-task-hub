@@ -4,7 +4,7 @@
       {{ title | capitalize }}
       <a v-if="content.website" :href="content.website" class="mr-1">
         <b-iconstack font-scale="1">
-          <b-icon stacked icon="circle-fill" style="color: #6c757d;"></b-icon>
+          <b-icon stacked icon="circle-fill" variant="russett"></b-icon>
           <b-icon stacked icon="link45deg" scale="0.8" variant="white"></b-icon>
         </b-iconstack>
       </a>

@@ -480,34 +480,23 @@ export default {
   },
   computed: {
     ...mapState(["data"]),
-    tagValuesNew() {
-      return _.uniq(this.data.data.map(item => item.tags)[0]);
-    },
     tagsvalues() {
-      let unique = new Set();
-      for (var d in this.data.data) {
-        for (var tag in this.data.data[d]["tags"]) {
-          unique.add(this.data.data[d]["tags"][tag]);
-        }
-      }
-      let tagvalues = [];
-      var uni = Array.from(unique);
-      for (var t in uni) {
-        tagvalues.push({ name: uni[t] });
-      }
-      return tagvalues;
+      return _.uniq(
+        _.split(
+          this.data.data.map(item => item.tags),
+          ","
+        )
+      ).map(function(name) {
+        return { name: name };
+      });
     },
     institutions() {
-      let unique = new Set();
-      for (var d in this.data.data) {
-        unique.add(this.data.data[d]["lab"]["institution"]);
-      }
-      let institutions = [];
-      var uni = Array.from(unique);
-      for (var t in uni) {
-        institutions.push(uni[t]);
-      }
-      return institutions;
+      return _.uniq(
+        _.split(
+          this.data.data.map(item => item.lab.institution),
+          ","
+        )
+      );
     }
   },
   mounted() {
@@ -535,76 +524,65 @@ export default {
         this.valueFeature.length > 0 ||
         this.valueInstitutions != ""
       ) {
-        for (var d in this.data.data) {
-          var obj = this.data.data[d];
-
-          let tagss = [];
-          var valuetags = obj.tags;
-          for (var val in valuetags) {
-            tagss.push(valuetags[val]);
-          }
-
-          let institution = obj.lab.institution;
-
-          let platformss = [];
-          var valueplatform = obj.platform;
-          for (var v in valueplatform) {
-            for (var j in valueplatform[v]) {
-              if (valueplatform[v][j] == true) platformss.push(j);
-            }
-          }
-          let featuress = [];
-          var valuefeature = obj.features;
-          for (var vals in valuefeature) {
-            if (valuefeature[vals] == true) featuress.push(vals);
-          }
-          let filtertags = [];
-          for (var t in this.valueTags) {
-            filtertags.push(this.valueTags[t]["name"]);
-          }
-
-          let filterinstitutions = this.valueInstitutions;
-
-          let filterplatform = [];
-          for (var p in this.valuePlatform) {
-            filterplatform.push(this.valuePlatform[p]["name"]);
-          }
-          let filterfeature = [];
-          for (var f in this.valueFeature) {
-            filterfeature.push(this.valueFeature[f]["name"]);
-          }
-          var flag = true;
-          if (filtertags.length > 0)
-            for (var i_tag in filtertags) {
-              if (!(tagss.indexOf(filtertags[i_tag]) >= 0)) {
-                flag = false;
-                break;
-              }
-            }
-          if (
-            filterinstitutions != null &&
-            filterinstitutions != "" &&
-            filterinstitutions.length != 0
+        var dataTags = this.data.data.map(item => item.tags);
+        var dataInstitution = this.data.data.map(item => item.lab.institution);
+        var dataPlatform = this.data.data
+          .map(item => item.platform)
+          .map(function(key) {
+            return _.union(
+              _(key.desktop)
+                .pickBy()
+                .keys()
+                .value(),
+              _(key.mobile)
+                .pickBy()
+                .keys()
+                .value()
+            );
+          });
+        var dataFeature = this.data.data
+          .map(item => item.features)
+          .map(key =>
+            _(key)
+              .pickBy()
+              .keys()
+              .value()
+          );
+        var filtertags = this.valueTags.map(item => item.name);
+        var filterplatform = this.valuePlatform.map(item => item.name);
+        var filterinstitution = this.valueInstitutions;
+        var filterfeature = this.valueFeature.map(item => item.name);
+        var dataSelect = _.zip(
+          dataTags.map(function(item) {
+            return (
+              filtertags.length === _.intersection(item, filtertags).length
+            );
+          }),
+          dataPlatform.map(function(item) {
+            return (
+              filterplatform.length ===
+              _.intersection(item, filterplatform).length
+            );
+          }),
+          dataInstitution.map(function(item) {
+            return item === filterinstitution || filterinstitution.length == 0;
+          }),
+          dataFeature.map(function(item) {
+            return (
+              filterfeature.length ===
+              _.intersection(item, filterfeature).length
+            );
+          })
+        ).map(function(item) {
+          return item[0] && item[1] && item[2] && item[3];
+        });
+        filterData = _.values(
+          _.pickBy(
+            _.zip(this.data.data, dataSelect).map(function(item) {
+              if (item[1]) return item[0];
+            })
           )
-            if (!(filterinstitutions == institution)) {
-              flag = false;
-            }
-          if (filterplatform.length > 0)
-            for (var i_platform in filterplatform) {
-              if (!(platformss.indexOf(filterplatform[i_platform]) >= 0)) {
-                flag = false;
-                break;
-              }
-            }
-          if (filterfeature.length > 0)
-            for (var i_feature in filterfeature) {
-              if (!(featuress.indexOf(filterfeature[i_feature]) >= 0)) {
-                flag = false;
-                break;
-              }
-            }
-          if (flag) filterData.push(obj);
-        }
+        );
         this.data.filteredData = filterData;
         this.data.totalRows = filterData.length;
       } else {
