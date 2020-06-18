@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import "@/styles/themes/default/components/_about.sass";
 import About1 from "@/assets/illustrations/about-1.vue";
 export default {
   name: "About",

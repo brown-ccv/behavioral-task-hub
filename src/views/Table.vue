@@ -225,9 +225,9 @@
               row.value | capitalize
             }}</strong>
             <b-button
+              v-b-modal="row.item.taskName"
               size="sm"
               variant="white"
-              @click="links(row.item, row.index, $event.target)"
               class="mr-1"
             >
               <b-iconstack font-scale="1.5">
@@ -240,6 +240,11 @@
                 ></b-icon>
               </b-iconstack>
             </b-button>
+            <BModal
+              :id="row.item.taskName"
+              title="Task Links"
+              :content="sendInfo(row.item.links)"
+            />
           </template>
 
           <template v-slot:head(platform)="platform">
@@ -306,9 +311,9 @@
           <template v-slot:cell(lab)="labs">
             {{ labs.value | capitalize }}
             <b-button
+              v-b-modal="labs.item.lab.name"
               size="sm"
               variant="white"
-              @click="info(labs.item, labs.index, $event.target)"
               class="mr-1"
             >
               <b-icon-info-circle-fill
@@ -316,6 +321,11 @@
                 class="icon-color"
               ></b-icon-info-circle-fill>
             </b-button>
+            <BModal
+              :id="labs.item.lab.name"
+              title="Lab Info"
+              :content="sendInfo(labs.item.lab)"
+            />
           </template>
 
           <template v-slot:row-details="row">
@@ -328,6 +338,9 @@
             </b-card>
           </template>
         </b-table>
+<<<<<<< HEAD
+
+=======
         <b-modal
           :id="infoModal.id"
           v-if="infoModal"
@@ -401,6 +414,7 @@
             >
           </div>
         </b-modal>
+>>>>>>> origin/develop
         <b-pagination
           class="pagination"
           v-model="currentPage"
@@ -416,12 +430,14 @@
 </template>
 
 <script>
-import "@/styles/themes/default/components/_table.sass";
 import Multiselect from "vue-multiselect";
 import { mapActions, mapState } from "vuex";
+import BModal from "@/components/BModal.vue";
+import _ from "lodash";
 export default {
   components: {
-    Multiselect
+    Multiselect,
+    BModal
   },
   data() {
     return {
@@ -532,31 +548,18 @@ export default {
       ],
       currentPage: 1,
       perPage: 10,
-      pageOptions: [10, 15, 20],
       sortBy: "",
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        institution: "",
-        principalInvestigator: "",
-        developers: "",
-        website: ""
-      },
-      linksModal: {
-        id: "links-modal",
-        title: "",
-        deployment: "",
-        code: "",
-        publication: ""
-      }
+      filterOn: []
     };
   },
   computed: {
     ...mapState(["data"]),
+    tagValuesNew() {
+      return _.uniq(this.data.data.map(item => item.tags)[0]);
+    },
     tagsvalues() {
       let unique = new Set();
       for (var d in this.data.data) {
@@ -589,40 +592,11 @@ export default {
   },
   methods: {
     ...mapActions("data", ["fetchData"]),
+    sendInfo(item) {
+      return _.pickBy(item);
+    },
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
-    },
-    info(item, index, button) {
-      this.infoModal.title = item == null ? undefined : item.lab.name;
-      this.infoModal.institution =
-        item == null ? undefined : item.lab.institution;
-      this.infoModal.principalInvestigator =
-        item == null ? undefined : item.lab.principalInvestigator;
-      this.infoModal.developers =
-        item == null ? undefined : item.lab.developers;
-      this.infoModal.website = item == null ? undefined : item.lab.website;
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.institution = "";
-      this.infoModal.principalInvestigator = "";
-      this.infoModal.developers = "";
-      this.infoModal.website = "";
-    },
-    links(item, index, button) {
-      this.linksModal.title = item == null ? undefined : item.taskName;
-      this.linksModal.deployment =
-        item == null ? undefined : item.links.deployment;
-      this.linksModal.code = item == null ? undefined : item.links.sourceCode;
-      this.linksModal.publication = item == null ? undefined : item.publication;
-      this.$root.$emit("bv::show::modal", this.linksModal.id, button);
-    },
-    resetLinksModal() {
-      this.linksModal.title = "";
-      this.linksModal.deployment = "";
-      this.linksModal.code = "";
-      this.linksModal.publication = "";
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering

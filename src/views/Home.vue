@@ -42,7 +42,6 @@
   </div>
 </template>
 <script>
-import "@/styles/themes/default/components/_hero.sass";
 import HeroImage from "@/assets/illustrations/beehive-logo.vue";
 import Table from "./Table";
 export default {
