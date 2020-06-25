@@ -12,7 +12,7 @@
         </div>
       </b-navbar-nav>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-      <b-collapse is-nav>
+      <b-collapse is-nav id="nav-collapse">
         <b-navbar-nav id="navoptions" class="ml-auto">
           <b-nav-item class="nav-link" to="/">{{
             $t("nav-bar.links.home")
