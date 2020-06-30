@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for Navbar.vue</title>
+    <title>Code coverage report for BModal.vue</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -18,13 +18,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> Navbar.vue</h1>
+        <h1><a href="index.html">All files</a> BModal.vue</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -97,7 +97,24 @@
 <a name='L39'></a><a href='#L39'>39</a>
 <a name='L40'></a><a href='#L40'>40</a>
 <a name='L41'></a><a href='#L41'>41</a>
-<a name='L42'></a><a href='#L42'>42</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -128,10 +145,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,46 +161,57 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-  &lt;div&gt;
-    &lt;b-navbar type="light" toggleable="md"&gt;
-      &lt;b-navbar-nav&gt;
-        &lt;div class="navbar-brand"&gt;
-          &lt;b-link id="ccv" href="https://ccv.brown.edu/"
-            &gt;&lt;CCVLogo class="ccv-logo"
-          /&gt;&lt;/b-link&gt;
-          &lt;b-link id="brown" href="https://www.brown.edu/"
-            &gt;&lt;BrownLogo class="brown-logo"
-          /&gt;&lt;/b-link&gt;
-        &lt;/div&gt;
-      &lt;/b-navbar-nav&gt;
-      &lt;b-navbar-toggle target="nav-collapse"&gt;&lt;/b-navbar-toggle&gt;
-      &lt;b-collapse is-nav&gt;
-        &lt;b-navbar-nav id="navoptions" class="ml-auto"&gt;
-          &lt;b-nav-item class="nav-link" to="/"&gt;{{
-            $t("nav-bar.links.home")
-          }}&lt;/b-nav-item&gt;
-          &lt;b-nav-item class="nav-link" to="/about"&gt;{{
-            $t("nav-bar.links.about")
-          }}&lt;/b-nav-item&gt;
-        &lt;/b-navbar-nav&gt;
-      &lt;/b-collapse&gt;
-    &lt;/b-navbar&gt;
-  &lt;/div&gt;
+  &lt;b-modal v-bind="$attrs" v-if="content" :hide-footer="true" id="title"&gt;
+    &lt;template v-slot:modal-title class="find"&gt;
+      {{ title | capitalize }}
+      &lt;a v-if="content.website" :href="content.website" class="mr-1" id="website"&gt;
+        &lt;b-iconstack font-scale="1"&gt;
+          &lt;b-icon stacked icon="circle-fill" style="color: #6c757d;"&gt;&lt;/b-icon&gt;
+          &lt;b-icon stacked icon="link45deg" scale="0.8" variant="white"&gt;&lt;/b-icon&gt;
+        &lt;/b-iconstack&gt;
+      &lt;/a&gt;
+    &lt;/template&gt;
+    &lt;div class="text-left"&gt;
+      &lt;span v-for="(value, key) in content" v-bind:key="'modal' + key"
+        &gt;&lt;b class="text-warning"&gt; {{ key | camelToTitle }}: &lt;/b&gt;
+        &lt;a v-if="is_url(value)" :href="value"&gt;{{ value }}&lt;/a
+        &gt;&lt;span v-else&gt;{{ value }}&lt;/span&gt; &lt;br
+      /&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/b-modal&gt;
 &lt;/template&gt;
 &nbsp;
 &lt;script&gt;
-import "@/styles/themes/default/components/_navbar.sass";
-import CCVLogo from "@/assets/illustrations/ccv-logo.vue";
-import BrownLogo from "@/assets/illustrations/brown-logo.vue";
 export default {
-  components: {
-    CCVLogo,
-    BrownLogo
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    content: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    is_url(str) {
+      var regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+      return regexp.test(str);
+    }
+  },
+  filters: {
+    // this filter will can be used to capitalize a word
+<span class="fstat-no" title="function not covered" >    capitalize: item =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return item.charAt(0).toUpperCase() + item.slice(1);</span>
+    },
+    camelToTitle: item =&gt; {
+      return item
+        .replace(/([A-Z])/g, " $1")
+        .replace(/^./, str =&gt; str.toUpperCase());
+    }
   }
 };
 &lt;/script&gt;
-&nbsp;
-&lt;style&gt;&lt;/style&gt;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -186,7 +219,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Jun 06 2020 14:50:15 GMT-0400 (Eastern Daylight Time)
+                at Thu Jun 18 2020 10:26:52 GMT-0400 (Eastern Daylight Time)
             </div>
         </div>
         <script src="prettify.js"></script>

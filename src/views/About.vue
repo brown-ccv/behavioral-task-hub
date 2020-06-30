@@ -13,7 +13,8 @@
           <b-link
             id="about-steps"
             to="/about/#steps"
-            class="link about-right-subtext"
+            v-scroll-to="'#steps'"
+            class="link"
             >steps</b-link
           >.
           <div class="subtext">
@@ -72,7 +73,6 @@
 </template>
 
 <script>
-import "@/styles/themes/default/components/_about.sass";
 import About1 from "@/assets/illustrations/about-1.vue";
 export default {
   name: "About",

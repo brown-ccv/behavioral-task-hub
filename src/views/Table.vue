@@ -168,8 +168,13 @@
             </b-form-group>
           </div>
           <div class="table-control-items" v-show="!navCollapsed">
-            <b-button @click="clearAll()">
-              Reset filters
+            <b-button
+              @click="clearAll()"
+              class="btn shadow-none"
+              variant="russett"
+              size="lg"
+            >
+              <span class="button"> Reset filters</span>
             </b-button>
           </div>
         </div>
@@ -220,17 +225,13 @@
               row.value | capitalize
             }}</strong>
             <b-button
+              v-b-modal="row.item.taskName"
               size="sm"
               variant="white"
-              @click="links(row.item, row.index, $event.target)"
               class="mr-1"
             >
               <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
+                <b-icon stacked icon="circle-fill" class="icon-color"></b-icon>
                 <b-icon
                   stacked
                   icon="link45deg"
@@ -239,6 +240,11 @@
                 ></b-icon>
               </b-iconstack>
             </b-button>
+            <BModal
+              :id="row.item.taskName"
+              title="Task Links"
+              :content="sendInfo(row.item.links)"
+            />
           </template>
 
           <template v-slot:head(platform)="platform">
@@ -305,16 +311,21 @@
           <template v-slot:cell(lab)="labs">
             {{ labs.value | capitalize }}
             <b-button
+              v-b-modal="labs.item.lab.name"
               size="sm"
               variant="white"
-              @click="info(labs.item, labs.index, $event.target)"
               class="mr-1"
             >
               <b-icon-info-circle-fill
                 font-scale="1.3"
-                style="color: #6c757d;"
+                class="icon-color"
               ></b-icon-info-circle-fill>
             </b-button>
+            <BModal
+              :id="labs.item.lab.name"
+              title="Lab Info"
+              :content="sendInfo(labs.item.lab)"
+            />
           </template>
 
           <template v-slot:row-details="row">
@@ -327,83 +338,6 @@
             </b-card>
           </template>
         </b-table>
-        <b-modal
-          :id="infoModal.id"
-          v-if="infoModal"
-          :hide-footer="true"
-          @hide="resetInfoModal"
-        >
-          <template v-slot:modal-title>
-            {{ infoModal.title | capitalize }}
-            <b-button
-              v-if="infoModal.website"
-              size="sm"
-              variant="white"
-              :href="infoModal.website"
-              class="mr-1"
-            >
-              <b-iconstack font-scale="1.5">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  style="color: #6c757d;"
-                ></b-icon>
-                <b-icon
-                  stacked
-                  icon="link45deg"
-                  scale="0.8"
-                  variant="white"
-                ></b-icon>
-              </b-iconstack>
-            </b-button>
-          </template>
-          <div class="text-left">
-            <span
-              ><b class="text-warning">Institution: </b
-              >{{ infoModal.institution }}</span
-            >
-            <br v-if="infoModal.principalInvestigator" />
-            <span v-if="infoModal.principalInvestigator"
-              ><b class="text-warning">Principal Investigator: </b
-              >{{ infoModal.principalInvestigator }}</span
-            >
-            <br v-if="infoModal.developers" />
-            <b v-if="infoModal.developers" class="text-warning">Developers: </b
-            ><span v-for="(tag, index) in infoModal.developers" :key="index"
-              ><br />{{ tag }}
-            </span>
-          </div>
-        </b-modal>
-        <b-modal
-          :id="linksModal.id"
-          v-if="linksModal"
-          :title="linksModal.title | capitalize"
-          :hide-footer="true"
-          @hide="resetLinksModal"
-        >
-          <div class="text-left">
-            <span v-if="linksModal.deployment"
-              ><b class="text-warning">Website: </b
-              ><b-link :href="linksModal.deployment">{{
-                linksModal.deployment
-              }}</b-link></span
-            >
-            <br v-if="linksModal.deployment" />
-            <span
-              ><b class="text-warning">Source Code: </b
-              ><b-link :href="linksModal.code">{{
-                linksModal.code
-              }}</b-link></span
-            >
-            <br v-if="linksModal.publication" />
-            <span v-if="linksModal.publication"
-              ><b class="text-warning">Publication: </b
-              ><b-link :href="linksModal.publication">{{
-                linksModal.publication
-              }}</b-link></span
-            >
-          </div>
-        </b-modal>
         <b-pagination
           class="pagination"
           v-model="currentPage"
@@ -419,12 +353,14 @@
 </template>
 
 <script>
-import "@/styles/themes/default/components/_table.sass";
 import Multiselect from "vue-multiselect";
 import { mapActions, mapState } from "vuex";
+import BModal from "@/components/BModal.vue";
+import _ from "lodash";
 export default {
   components: {
-    Multiselect
+    Multiselect,
+    BModal
   },
   data() {
     return {
@@ -535,56 +471,32 @@ export default {
       ],
       currentPage: 1,
       perPage: 10,
-      pageOptions: [10, 15, 20],
       sortBy: "",
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        institution: "",
-        principalInvestigator: "",
-        developers: "",
-        website: ""
-      },
-      linksModal: {
-        id: "links-modal",
-        title: "",
-        deployment: "",
-        code: "",
-        publication: ""
-      }
+      filterOn: []
     };
   },
   computed: {
     ...mapState(["data"]),
     tagsvalues() {
-      let unique = new Set();
-      for (var d in this.data.data) {
-        for (var tag in this.data.data[d]["tags"]) {
-          unique.add(this.data.data[d]["tags"][tag]);
-        }
-      }
-      let tagvalues = [];
-      var uni = Array.from(unique);
-      for (var t in uni) {
-        tagvalues.push({ name: uni[t] });
-      }
-      return tagvalues;
+      return _.uniq(
+        _.split(
+          this.data.data.map(item => item.tags),
+          ","
+        )
+      ).map(function(name) {
+        return { name: name };
+      });
     },
     institutions() {
-      let unique = new Set();
-      for (var d in this.data.data) {
-        unique.add(this.data.data[d]["lab"]["institution"]);
-      }
-      let institutions = [];
-      var uni = Array.from(unique);
-      for (var t in uni) {
-        institutions.push(uni[t]);
-      }
-      return institutions;
+      return _.uniq(
+        _.split(
+          this.data.data.map(item => item.lab.institution),
+          ","
+        )
+      );
     }
   },
   mounted() {
@@ -592,40 +504,11 @@ export default {
   },
   methods: {
     ...mapActions("data", ["fetchData"]),
+    sendInfo(item) {
+      return _.pickBy(item);
+    },
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
-    },
-    info(item, index, button) {
-      this.infoModal.title = item == null ? undefined : item.lab.name;
-      this.infoModal.institution =
-        item == null ? undefined : item.lab.institution;
-      this.infoModal.principalInvestigator =
-        item == null ? undefined : item.lab.principalInvestigator;
-      this.infoModal.developers =
-        item == null ? undefined : item.lab.developers;
-      this.infoModal.website = item == null ? undefined : item.lab.website;
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.institution = "";
-      this.infoModal.principalInvestigator = "";
-      this.infoModal.developers = "";
-      this.infoModal.website = "";
-    },
-    links(item, index, button) {
-      this.linksModal.title = item == null ? undefined : item.taskName;
-      this.linksModal.deployment =
-        item == null ? undefined : item.links.deployment;
-      this.linksModal.code = item == null ? undefined : item.links.sourceCode;
-      this.linksModal.publication = item == null ? undefined : item.publication;
-      this.$root.$emit("bv::show::modal", this.linksModal.id, button);
-    },
-    resetLinksModal() {
-      this.linksModal.title = "";
-      this.linksModal.deployment = "";
-      this.linksModal.code = "";
-      this.linksModal.publication = "";
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -641,76 +524,65 @@ export default {
         this.valueFeature.length > 0 ||
         this.valueInstitutions != ""
       ) {
-        for (var d in this.data.data) {
-          var obj = this.data.data[d];
-
-          let tagss = [];
-          var valuetags = obj.tags;
-          for (var val in valuetags) {
-            tagss.push(valuetags[val]);
-          }
-
-          let institution = obj.lab.institution;
-
-          let platformss = [];
-          var valueplatform = obj.platform;
-          for (var v in valueplatform) {
-            for (var j in valueplatform[v]) {
-              if (valueplatform[v][j] == true) platformss.push(j);
-            }
-          }
-          let featuress = [];
-          var valuefeature = obj.features;
-          for (var vals in valuefeature) {
-            if (valuefeature[vals] == true) featuress.push(vals);
-          }
-          let filtertags = [];
-          for (var t in this.valueTags) {
-            filtertags.push(this.valueTags[t]["name"]);
-          }
-
-          let filterinstitutions = this.valueInstitutions;
-
-          let filterplatform = [];
-          for (var p in this.valuePlatform) {
-            filterplatform.push(this.valuePlatform[p]["name"]);
-          }
-          let filterfeature = [];
-          for (var f in this.valueFeature) {
-            filterfeature.push(this.valueFeature[f]["name"]);
-          }
-          var flag = true;
-          if (filtertags.length > 0)
-            for (var i_tag in filtertags) {
-              if (!(tagss.indexOf(filtertags[i_tag]) >= 0)) {
-                flag = false;
-                break;
-              }
-            }
-          if (
-            filterinstitutions != null &&
-            filterinstitutions != "" &&
-            filterinstitutions.length != 0
+        var dataTags = this.data.data.map(item => item.tags);
+        var dataInstitution = this.data.data.map(item => item.lab.institution);
+        var dataPlatform = this.data.data
+          .map(item => item.platform)
+          .map(function(key) {
+            return _.union(
+              _(key.desktop)
+                .pickBy()
+                .keys()
+                .value(),
+              _(key.mobile)
+                .pickBy()
+                .keys()
+                .value()
+            );
+          });
+        var dataFeature = this.data.data
+          .map(item => item.features)
+          .map(key =>
+            _(key)
+              .pickBy()
+              .keys()
+              .value()
+          );
+        var filtertags = this.valueTags.map(item => item.name);
+        var filterplatform = this.valuePlatform.map(item => item.name);
+        var filterinstitution = this.valueInstitutions;
+        var filterfeature = this.valueFeature.map(item => item.name);
+        var dataSelect = _.zip(
+          dataTags.map(function(item) {
+            return (
+              filtertags.length === _.intersection(item, filtertags).length
+            );
+          }),
+          dataPlatform.map(function(item) {
+            return (
+              filterplatform.length ===
+              _.intersection(item, filterplatform).length
+            );
+          }),
+          dataInstitution.map(function(item) {
+            return item === filterinstitution || filterinstitution.length == 0;
+          }),
+          dataFeature.map(function(item) {
+            return (
+              filterfeature.length ===
+              _.intersection(item, filterfeature).length
+            );
+          })
+        ).map(function(item) {
+          return item[0] && item[1] && item[2] && item[3];
+        });
+        filterData = _.values(
+          _.pickBy(
+            _.zip(this.data.data, dataSelect).map(function(item) {
+              if (item[1]) return item[0];
+            })
           )
-            if (!(filterinstitutions == institution)) {
-              flag = false;
-            }
-          if (filterplatform.length > 0)
-            for (var i_platform in filterplatform) {
-              if (!(platformss.indexOf(filterplatform[i_platform]) >= 0)) {
-                flag = false;
-                break;
-              }
-            }
-          if (filterfeature.length > 0)
-            for (var i_feature in filterfeature) {
-              if (!(featuress.indexOf(filterfeature[i_feature]) >= 0)) {
-                flag = false;
-                break;
-              }
-            }
-          if (flag) filterData.push(obj);
-        }
+        );
         this.data.filteredData = filterData;
         this.data.totalRows = filterData.length;
       } else {

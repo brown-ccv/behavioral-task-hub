@@ -27,7 +27,8 @@
           href="#"
           v-scroll-to="'#Table'"
           pill
-          class="button"
+          class="button btn shadow-none"
+          variant="russett"
           >{{ $t("hero.button-text") }}</b-button
         >
       </div>
@@ -41,7 +42,6 @@
   </div>
 </template>
 <script>
-import "@/styles/themes/default/components/_hero.sass";
 import HeroImage from "@/assets/illustrations/beehive-logo.vue";
 import Table from "./Table";
 export default {
