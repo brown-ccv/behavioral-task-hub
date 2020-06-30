@@ -1,8 +1,13 @@
 <template>
-  <b-modal v-bind="$attrs" v-if="content" :hide-footer="true">
-    <template v-slot:modal-title>
+  <b-modal v-bind="$attrs" v-if="content" :hide-footer="true" class="modal">
+    <template slot="modal-title" id="title">
       {{ title | capitalize }}
-      <a v-if="content.website" :href="content.website" class="mr-1">
+      <a
+        v-if="content.website"
+        :href="content.website"
+        class="mr-1"
+        id="website"
+      >
         <b-iconstack font-scale="1">
           <b-icon stacked icon="circle-fill" variant="russett"></b-icon>
           <b-icon stacked icon="link45deg" scale="0.8" variant="white"></b-icon>
@@ -12,7 +17,7 @@
     <div class="text-left">
       <span v-for="(value, key) in content" v-bind:key="'modal' + key"
         ><b class="text-warning"> {{ key | camelToTitle }}: </b>
-        <a v-if="is_url(value)" :href="value">{{ value }}</a
+        <a v-if="is_url(value)" id="url" :href="value">{{ value }}</a
         ><span v-else>{{ value }}</span> <br
       /></span>
     </div>
