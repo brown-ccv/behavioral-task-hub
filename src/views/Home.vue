@@ -27,10 +27,13 @@
           href="#"
           v-scroll-to="'#Table'"
           pill
-          class="button btn shadow-none"
-          variant="russett"
+          class="button"
           >{{ $t("hero.button-text") }}</b-button
         >
+        &nbsp;
+        <b-button size="lg" to="/about/#steps" pill class="button">{{
+          $t("hero.add-task-button")
+        }}</b-button>
       </div>
       <div class="hero-image">
         <HeroImage id="hero-image" />
