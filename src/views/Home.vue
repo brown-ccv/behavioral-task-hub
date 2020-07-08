@@ -25,15 +25,21 @@
         <b-button
           size="lg"
           href="#"
+          id="scrollto-table"
           v-scroll-to="'#Table'"
           pill
           class="button"
           >{{ $t("hero.button-text") }}</b-button
         >
         &nbsp;
-        <b-button size="lg" to="/about/#steps" pill class="button">{{
-          $t("hero.add-task-button")
-        }}</b-button>
+        <b-button
+          size="lg"
+          to="/about/#steps"
+          id="about-steps-button"
+          pill
+          class="button"
+          >{{ $t("hero.add-task-button") }}</b-button
+        >
       </div>
       <div class="hero-image">
         <HeroImage id="hero-image" />
