@@ -29,7 +29,7 @@
         "platform": "Platform",
         "features": "Features",
         "tags":"Tags",
-        "institution": "Institution",
+        "lab": "Labs",
         "perPage": "Per Page",
         "search": "Search"
 

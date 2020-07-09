@@ -148,14 +148,14 @@
           <div class="table-control-items" v-show="!navCollapsed">
             <b-form-group>
               <div class="text-left">
-                <label for="institution" class="label">{{
-                  $t("sidebar.filters.institution")
+                <label for="lab" class="label">{{
+                  $t("sidebar.filters.lab")
                 }}</label>
                 <multiselect
-                  id="institution"
-                  v-model="valueInstitutions"
+                  id="lab"
+                  v-model="valueLabs"
                   v-on:change="updateTable()"
-                  :options="institutions"
+                  :options="labs"
                   :option-height="20"
                   placeholder=""
                   selectLabel="Select"
@@ -368,7 +368,7 @@ export default {
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
-      valueInstitutions: "",
+      valueLabs: "",
       platforms: [
         {
           platform: "Desktop",
@@ -411,12 +411,7 @@ export default {
           label: this.$t("fields.lab"),
           sortable: true,
           formatter: value => {
-            return value["name"]
-              .split(" ")
-              .filter(function(v) {
-                return v.startsWith("Lab") === false;
-              })
-              .join(" ");
+            return value["name"];
           },
           sortByFormatted: true,
           class: "text-left align-middle pl-3"
@@ -490,10 +485,10 @@ export default {
         return { name: name };
       });
     },
-    institutions() {
+    labs() {
       return _.uniq(
         _.split(
-          this.data.data.map(item => item.lab.institution),
+          this.data.data.map(item => item.lab.name),
           ","
         )
       );
@@ -522,10 +517,10 @@ export default {
         this.valuePlatform.length > 0 ||
         this.valueTags.length > 0 ||
         this.valueFeature.length > 0 ||
-        this.valueInstitutions != ""
+        this.valueLabs != ""
       ) {
         var dataTags = this.data.data.map(item => item.tags);
-        var dataInstitution = this.data.data.map(item => item.lab.institution);
+        var dataLabs = this.data.data.map(item => item.lab.name);
         var dataPlatform = this.data.data
           .map(item => item.platform)
           .map(function(key) {
@@ -550,7 +545,7 @@ export default {
           );
         var filtertags = this.valueTags.map(item => item.name);
         var filterplatform = this.valuePlatform.map(item => item.name);
-        var filterinstitution = this.valueInstitutions;
+        var filterlab = this.valueLabs;
         var filterfeature = this.valueFeature.map(item => item.name);
         var dataSelect = _.zip(
           dataTags.map(function(item) {
@@ -564,8 +559,8 @@ export default {
               _.intersection(item, filterplatform).length
             );
           }),
-          dataInstitution.map(function(item) {
-            return item === filterinstitution || filterinstitution.length == 0;
+          dataLabs.map(function(item) {
+            return item === filterlab || filterlab.length == 0;
           }),
           dataFeature.map(function(item) {
             return (
@@ -599,14 +594,14 @@ export default {
     clearTags() {
       (this.valueTags = []), this.updateTable();
     },
-    clearInstitution() {
-      (this.valueInstitutions = ""), this.updateTable();
+    clearLabs() {
+      (this.valueLabs = ""), this.updateTable();
     },
     clearAll() {
       (this.valuePlatform = []),
         (this.valueFeature = []),
         (this.valueTags = []),
-        (this.valueInstitutions = ""),
+        (this.valueLabs = ""),
         this.updateTable();
     }
   },
