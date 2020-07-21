@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "commit": "git-cz",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
@@ -19,6 +20,8 @@
     "bootstrap-icons": "^1.0.0-alpha3",
     "bootstrap-vue": "^2.11.0",
     "core-js": "^3.6.4",
+    "cz-conventional-changelog": "^3.2.0",
+    "git-cz": "^4.7.0",
     "gzip-size": "^5.1.1",
     "vue": "^2.6.11",
     "vue-i18n": "^8.16.0",
@@ -58,6 +61,11 @@
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "lint-staged": {
     "*.{js,jsx,vue}": [
