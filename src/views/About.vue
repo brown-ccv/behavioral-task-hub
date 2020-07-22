@@ -5,9 +5,9 @@
         <About1 />
       </div>
       <div class="about-right-text">
-        <div class="about-right-title">
+        <h1 class="about-right-title">
           {{ $t("about.explanation.title") }}
-        </div>
+        </h1>
         <div class="about-right-subtext">
           {{ $t("about.explanation.description") }}
           <b-link
@@ -32,9 +32,9 @@
 
     <div class="about-left-body" id="steps">
       <div class="about-left-text">
-        <div class="about-left-title">
+        <h1 class="about-left-title">
           {{ $t("about.register.title") }}
-        </div>
+        </h1>
         <div
           class="about-left-subtext"
           v-html="$t('about.register.description')"
@@ -53,9 +53,9 @@
         <About1 />
       </div>
       <div class="about-right-text">
-        <div class="about-right-title">
+        <h1 class="about-right-title">
           {{ $t("about.task-starter-description.title") }}
-        </div>
+        </h1>
         <div
           class="about-right-subtext"
           id="task-starter-description"
