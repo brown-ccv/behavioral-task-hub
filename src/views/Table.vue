@@ -291,23 +291,25 @@
           </template>
 
           <template v-slot:cell(lab)="labs">
-            {{ labs.value | capitalize }}
-            <b-button
-              v-b-modal="labs.item.lab.name"
-              size="sm"
-              variant="white"
-              class="mr-1"
-            >
-              <b-icon-info-circle-fill
-                font-scale="1.3"
-                class="icon-color"
-              ></b-icon-info-circle-fill>
-            </b-button>
-            <BModal
-              :id="labs.item.lab.name"
-              title="Lab Info"
-              :content="sendInfo(labs.item.lab)"
-            />
+            <span v-for="(tag, index) in labs.item.lab" :key="index">
+              {{ tag.name | capitalize }}
+              <b-button
+                v-b-modal="tag.name + labs.item.taskName + index"
+                size="sm"
+                variant="white"
+                class="mr-1"
+              >
+                <b-icon-info-circle-fill
+                  font-scale="1.3"
+                  class="icon-color"
+                ></b-icon-info-circle-fill>
+              </b-button>
+              <BModal
+                :id="tag.name + labs.item.taskName + index"
+                title="Lab Info"
+                :content="sendInfo(tag)"
+              />
+            </span>
           </template>
 
           <template v-slot:row-details="row">
@@ -474,10 +476,7 @@ export default {
     },
     labs() {
       return _.uniq(
-        _.split(
-          this.data.data.map(item => item.lab.name),
-          ","
-        )
+        _.flatten(this.data.data.map(item => item.lab)).map(lab => lab.name)
       );
     }
   },
