@@ -17,7 +17,10 @@
     <div class="text-left">
       <span v-for="(value, key) in content" v-bind:key="'modal' + key"
         ><b class="text-warning"> {{ key | camelToTitle }}: </b>
-        <a v-if="is_url(value)" id="url" :href="value">{{ value }}</a
+        <span v-if="typeof value == 'object'">
+          <span v-for="val in value" v-bind:key="val"> <br />{{ val }} </span>
+        </span>
+        <a v-else-if="is_url(value)" id="url" :href="value">{{ value }}</a
         ><span v-else>{{ value }}</span> <br
       /></span>
     </div>

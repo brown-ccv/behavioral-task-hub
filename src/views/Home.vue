@@ -2,12 +2,12 @@
   <div class="hero-body d-flex flex-column">
     <div class="hero-content">
       <div class="hero-left-text">
-        <div class="hero-left-title">
+        <h1 class="hero-left-title">
           {{ $t("hero.title") }}
-        </div>
-        <div class="hero-left-heading">
+        </h1>
+        <h2 class="hero-left-heading">
           {{ $t("hero.heading") }}
-        </div>
+        </h2>
         <div class="hero-left-subtext">
           {{ $t("hero.description") }}
           <b-link id="about-steps" to="/about/#steps" class="link">steps</b-link
