@@ -17,6 +17,7 @@
       "taskName": "Task",
       "links": "Links",
       "framework": "Framework",
+      "language": "Language",
       "lab": "Labs",
       "publication": "Publication",
       "platform": "Platform",

@@ -276,35 +276,17 @@
             </b-badge>
           </template>
 
-          <template v-slot:head(framework)="framework">
-            <span class="text">{{ framework.label }}</span
-            ><br />
-            <b-badge pill class="pills" variant="info"> Library </b-badge>
-            <b-badge pill class="pills" variant="warning"> Language </b-badge>
-          </template>
-
           <template v-slot:cell(framework)="framework">
             <span v-for="(tag, index) in framework.value" :key="index">
-              <span v-if="index == 'library'">
-                <b-badge
-                  v-for="each in tag"
-                  :key="each"
-                  pill
-                  class="pills"
-                  variant="info"
-                  >{{ each }}</b-badge
-                >
-              </span>
-              <span v-if="index == 'language'">
-                <b-badge
-                  v-for="each in tag"
-                  :key="each"
-                  pill
-                  class="pills"
-                  variant="warning"
-                  >{{ each }}</b-badge
-                >
-              </span>
+              <b-badge :href="tag.link" pill class="pills" variant="info">{{
+                tag.name
+              }}</b-badge>
+            </span>
+          </template>
+
+          <template v-slot:cell(language)="language">
+            <span v-for="(tag, index) in language.value" :key="index">
+              <b-badge pill class="pills" variant="warning">{{ tag }}</b-badge>
             </span>
           </template>
 
@@ -404,6 +386,11 @@ export default {
         {
           key: "framework",
           label: this.$t("fields.framework"),
+          class: "text-left align-middle pl-3"
+        },
+        {
+          key: "language",
+          label: this.$t("fields.language"),
           class: "text-left align-middle pl-3"
         },
         {
