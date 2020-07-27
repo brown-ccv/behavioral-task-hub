@@ -17,6 +17,7 @@
       "taskName": "Task",
       "links": "Links",
       "framework": "Framework",
+      "language": "Language",
       "lab": "Labs",
       "publication": "Publication",
       "platform": "Platform",
@@ -29,7 +30,7 @@
         "platform": "Platform",
         "features": "Features",
         "tags":"Tags",
-        "institution": "Institution",
+        "lab": "Labs",
         "perPage": "Per Page",
         "search": "Search"
 

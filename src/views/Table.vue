@@ -148,14 +148,14 @@
           <div class="table-control-items" v-show="!navCollapsed">
             <b-form-group>
               <div class="text-left">
-                <label for="institution" class="label">{{
-                  $t("sidebar.filters.institution")
+                <label for="lab" class="label">{{
+                  $t("sidebar.filters.lab")
                 }}</label>
                 <multiselect
-                  id="institution"
-                  v-model="valueInstitutions"
+                  id="lab"
+                  v-model="valueLabs"
                   v-on:change="updateTable()"
-                  :options="institutions"
+                  :options="labs"
                   :option-height="20"
                   placeholder=""
                   selectLabel="Select"
@@ -276,35 +276,17 @@
             </b-badge>
           </template>
 
-          <template v-slot:head(framework)="framework">
-            <span class="text">{{ framework.label }}</span
-            ><br />
-            <b-badge pill class="pills" variant="info"> Library </b-badge>
-            <b-badge pill class="pills" variant="warning"> Language </b-badge>
-          </template>
-
           <template v-slot:cell(framework)="framework">
             <span v-for="(tag, index) in framework.value" :key="index">
-              <span v-if="index == 'library'">
-                <b-badge
-                  v-for="each in tag"
-                  :key="each"
-                  pill
-                  class="pills"
-                  variant="info"
-                  >{{ each }}</b-badge
-                >
-              </span>
-              <span v-if="index == 'language'">
-                <b-badge
-                  v-for="each in tag"
-                  :key="each"
-                  pill
-                  class="pills"
-                  variant="warning"
-                  >{{ each }}</b-badge
-                >
-              </span>
+              <b-badge :href="tag.link" pill class="pills" variant="info">{{
+                tag.name
+              }}</b-badge>
+            </span>
+          </template>
+
+          <template v-slot:cell(language)="language">
+            <span v-for="(tag, index) in language.value" :key="index">
+              <b-badge pill class="pills" variant="warning">{{ tag }}</b-badge>
             </span>
           </template>
 
@@ -368,7 +350,7 @@ export default {
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
-      valueInstitutions: "",
+      valueLabs: "",
       platforms: [
         {
           platform: "Desktop",
@@ -404,6 +386,11 @@ export default {
         {
           key: "framework",
           label: this.$t("fields.framework"),
+          class: "text-left align-middle pl-3"
+        },
+        {
+          key: "language",
+          label: this.$t("fields.language"),
           class: "text-left align-middle pl-3"
         },
         {
@@ -485,10 +472,10 @@ export default {
         return { name: name };
       });
     },
-    institutions() {
+    labs() {
       return _.uniq(
         _.split(
-          this.data.data.map(item => item.lab.institution),
+          this.data.data.map(item => item.lab.name),
           ","
         )
       );
@@ -517,10 +504,10 @@ export default {
         this.valuePlatform.length > 0 ||
         this.valueTags.length > 0 ||
         this.valueFeature.length > 0 ||
-        this.valueInstitutions != ""
+        this.valueLabs != ""
       ) {
         var dataTags = this.data.data.map(item => item.tags);
-        var dataInstitution = this.data.data.map(item => item.lab.institution);
+        var dataLabs = this.data.data.map(item => item.lab.name);
         var dataPlatform = this.data.data
           .map(item => item.platform)
           .map(function(key) {
@@ -545,7 +532,7 @@ export default {
           );
         var filtertags = this.valueTags.map(item => item.name);
         var filterplatform = this.valuePlatform.map(item => item.name);
-        var filterinstitution = this.valueInstitutions;
+        var filterlab = this.valueLabs;
         var filterfeature = this.valueFeature.map(item => item.name);
         var dataSelect = _.zip(
           dataTags.map(function(item) {
@@ -559,8 +546,8 @@ export default {
               _.intersection(item, filterplatform).length
             );
           }),
-          dataInstitution.map(function(item) {
-            return item === filterinstitution || filterinstitution.length == 0;
+          dataLabs.map(function(item) {
+            return item === filterlab || filterlab.length == 0;
           }),
           dataFeature.map(function(item) {
             return (
@@ -594,14 +581,14 @@ export default {
     clearTags() {
       (this.valueTags = []), this.updateTable();
     },
-    clearInstitution() {
-      (this.valueInstitutions = ""), this.updateTable();
+    clearLabs() {
+      (this.valueLabs = ""), this.updateTable();
     },
     clearAll() {
       (this.valuePlatform = []),
         (this.valueFeature = []),
         (this.valueTags = []),
-        (this.valueInstitutions = ""),
+        (this.valueLabs = ""),
         this.updateTable();
     }
   },
