@@ -490,6 +490,10 @@ export default {
       if (item.sourceCode && item.sourceCode.access == "private") {
         delete item.sourceCode;
         item["sourceCode"] = `<span class='fa fa-lock'></span>`;
+      } else if (item.sourceCode && item.sourceCode.access == "public") {
+        let link = item.sourceCode.link;
+        delete item.sourceCode;
+        item["sourceCode"] = link;
       }
       return item;
     },
