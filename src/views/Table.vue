@@ -388,12 +388,20 @@ export default {
         {
           key: "framework",
           label: this.$t("fields.framework"),
-          class: "text-left align-middle pl-3"
+          class: "text-left align-middle pl-3",
+          formatter: value => {
+            return _.map(value, val =>
+              _.mapValues(val, _.method("toLowerCase"))
+            );
+          }
         },
         {
           key: "language",
           label: this.$t("fields.language"),
-          class: "text-left align-middle pl-3"
+          class: "text-left align-middle pl-3",
+          formatter: value => {
+            return _.mapValues(value, _.method("toLowerCase"));
+          }
         },
         {
           key: "lab",
@@ -467,7 +475,9 @@ export default {
     tagsvalues() {
       return _.uniq(
         _.split(
-          this.data.data.map(item => item.tags),
+          this.data.data.map(function(item) {
+            return _.map(item.tags, _.method("toLowerCase"));
+          }),
           ","
         )
       ).map(function(name) {
