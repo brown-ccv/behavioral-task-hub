@@ -242,8 +242,8 @@
             </b-button>
             <BModal
               :id="row.item.taskName"
-              title="Task Links"
-              :content="sendInfo(row.item.links)"
+              title="Task Info"
+              :content="sendInfo(row.item.about)"
             />
           </template>
 
