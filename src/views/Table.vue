@@ -156,13 +156,26 @@
                   v-model="valueLabs"
                   v-on:change="updateTable()"
                   :options="labs"
+                  :multiple="true"
+                  selectLabel=""
+                  selectGroupLabel=""
+                  deselectLabel="Remove"
                   :option-height="20"
                   placeholder=""
-                  selectLabel="Select"
-                  deselectLabel="Remove"
+                  label="name"
+                  track-by="name"
+                  :taggable="true"
                   @input="updateTable"
                   @remove="updateTable"
+                  :hide-selected="true"
                 >
+                  <template slot="clear" slot-scope="props">
+                    <div
+                      class="multiselect__clear"
+                      v-if="valueLabs.length"
+                      @mousedown.prevent.stop="clearLabs(props.search)"
+                    ></div>
+                  </template>
                 </multiselect>
               </div>
             </b-form-group>
@@ -352,7 +365,7 @@ export default {
       valuePlatform: [],
       valueFeature: [],
       valueTags: [],
-      valueLabs: "",
+      valueLabs: [],
       platforms: [
         {
           platform: "Desktop",
@@ -362,13 +375,6 @@ export default {
           platform: "Mobile",
           options: [{ name: "ios" }, { name: "android" }]
         }
-      ],
-      features: [
-        { name: "browser" },
-        { name: "electron" },
-        { name: "docker" },
-        { name: "eegTrigger" },
-        { name: "mturk" }
       ],
       tags: {
         windows: "primary",
@@ -476,7 +482,7 @@ export default {
       return _.uniq(
         _.split(
           this.data.data.map(function(item) {
-            return _.map(item.tags, _.method("toLowerCase"));
+            return item.tags;
           }),
           ","
         )
@@ -487,7 +493,16 @@ export default {
     labs() {
       return _.uniq(
         _.flatten(this.data.data.map(item => item.lab)).map(lab => lab.name)
-      );
+      ).map(function(name) {
+        return { name: name };
+      });
+    },
+    features() {
+      return _.uniq(
+        _.flatten(this.data.data.map(item => _.keys(item.features)))
+      ).map(function(name) {
+        return { name: name };
+      });
     }
   },
   mounted() {
@@ -524,7 +539,9 @@ export default {
         this.valueLabs != ""
       ) {
         var dataTags = this.data.data.map(item => item.tags);
-        var dataLabs = this.data.data.map(item => item.lab.name);
+        var dataLabs = this.data.data.map(function(item) {
+          return item.lab.map(lab => lab.name);
+        });
         var dataPlatform = this.data.data
           .map(item => item.platform)
           .map(function(key) {
@@ -549,7 +566,7 @@ export default {
           );
         var filtertags = this.valueTags.map(item => item.name);
         var filterplatform = this.valuePlatform.map(item => item.name);
-        var filterlab = this.valueLabs;
+        var filterlab = this.valueLabs.map(item => item.name);
         var filterfeature = this.valueFeature.map(item => item.name);
         var dataSelect = _.zip(
           dataTags.map(function(item) {
@@ -564,7 +581,7 @@ export default {
             );
           }),
           dataLabs.map(function(item) {
-            return item === filterlab || filterlab.length == 0;
+            return filterlab.length === _.intersection(item, filterlab).length;
           }),
           dataFeature.map(function(item) {
             return (
@@ -599,7 +616,7 @@ export default {
       (this.valueTags = []), this.updateTable();
     },
     clearLabs() {
-      (this.valueLabs = ""), this.updateTable();
+      (this.valueLabs = []), this.updateTable();
     },
     clearAll() {
       (this.valuePlatform = []),
