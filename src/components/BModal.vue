@@ -21,7 +21,7 @@
           <span v-for="val in value" v-bind:key="val"> <br />{{ val }} </span>
         </span>
         <a v-else-if="is_url(value)" id="url" :href="value">{{ value }}</a
-        ><span v-else>{{ value }}</span> <br
+        ><span v-else v-html="value"></span> <br
       /></span>
     </div>
   </b-modal>
@@ -41,8 +41,12 @@ export default {
   },
   methods: {
     is_url(str) {
-      var regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-      return regexp.test(str);
+      try {
+        new URL(str);
+      } catch {
+        return false;
+      }
+      return true;
     }
   },
   filters: {

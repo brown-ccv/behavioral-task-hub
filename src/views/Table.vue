@@ -496,14 +496,22 @@ export default {
   methods: {
     ...mapActions("data", ["fetchData"]),
     sendInfo(item) {
-      return _.pickBy(item);
+      item = _.pickBy(item);
+      if (item.sourceCode && item.sourceCode.access == "private") {
+        delete item.sourceCode;
+        item["sourceCode"] = `<span class='fa fa-lock'></span>`;
+      } else if (item.sourceCode && item.sourceCode.access == "public") {
+        let link = item.sourceCode.link;
+        delete item.sourceCode;
+        item["sourceCode"] = link;
+      }
+      return item;
     },
     toggleControl() {
       this.navCollapsed = !this.navCollapsed;
     },
     onFiltered() {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      // this.data.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
     updateTable() {
