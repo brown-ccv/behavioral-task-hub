@@ -482,7 +482,7 @@ export default {
       return _.uniq(
         _.split(
           this.data.data.map(function(item) {
-            return _.map(item.tags, _.method("toLowerCase"));
+            return item.tags;
           }),
           ","
         )
