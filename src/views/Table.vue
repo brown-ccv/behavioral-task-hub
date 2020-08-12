@@ -376,13 +376,6 @@ export default {
           options: [{ name: "ios" }, { name: "android" }]
         }
       ],
-      features: [
-        { name: "browser" },
-        { name: "electron" },
-        { name: "docker" },
-        { name: "eegTrigger" },
-        { name: "mturk" }
-      ],
       tags: {
         windows: "primary",
         linux: "primary",
@@ -500,6 +493,13 @@ export default {
     labs() {
       return _.uniq(
         _.flatten(this.data.data.map(item => item.lab)).map(lab => lab.name)
+      ).map(function(name) {
+        return { name: name };
+      });
+    },
+    features() {
+      return _.uniq(
+        _.flatten(this.data.data.map(item => _.keys(item.features)))
       ).map(function(name) {
         return { name: name };
       });
