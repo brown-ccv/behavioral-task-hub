@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://datasci.brown.edu/task-registry/",
+  baseURL: "https://datasci.brown.edu/task-registry/data",
   method: "GET",
   headers: {
     Accept: "application/json",
