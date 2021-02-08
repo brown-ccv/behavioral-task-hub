@@ -93,8 +93,8 @@ describe("About.vue", () => {
     expect(wrapper.find("#explanation").exists()).toBe(true);
   });
 
-  it("renders title for task starter", () => {
-    const title = "Task Starter";
+  it("renders title for Honeycomb", () => {
+    const title = "Honeycomb";
     const wrapper = shallowMount(About, {
       i18n
     });
@@ -102,9 +102,9 @@ describe("About.vue", () => {
     expect(result.text()).toBe(title);
   });
 
-  it("renders description for task starter as html", () => {
+  it("renders description for Honeycomb as html", () => {
     const description =
-      '<div id="task-starter-description" class="about-right-subtext">Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href="https://github.com/brown-ccv/neuro-task-starter" class="link">Neuro Task Starter</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes.</div>';
+      '<div id="task-starter-description" class="about-right-subtext">Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href="https://github.com/brown-ccv/honeycomb" class="link">honeycomb</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes.</div>';
     const wrapper = shallowMount(About, {
       i18n
     });
@@ -121,7 +121,7 @@ describe("About.vue", () => {
     expect(result.attributes("href")).toBe(ccv_github);
   });
 
-  it("renders svg for task starter - third about section", () => {
+  it("renders svg for Honeycomb - third about section", () => {
     const wrapper = shallowMount(About, {
       i18n
     });

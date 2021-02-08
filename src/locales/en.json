@@ -48,8 +48,8 @@
         "description2": "When you complete the new task request, your issue will be automatically processed and a pull request to the repository created.  You can review it if you’d like! If there is a problem processing your request, a bot will comment on your issue and someone at CCV will help resolve the issue."
       },
       "task-starter-description":{
-        "title": "Task Starter",
-        "description": "Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href=\"https://github.com/brown-ccv/neuro-task-starter\" class=\"link\">Neuro Task Starter</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes."
+        "title": "Honeycomb",
+        "description": "Looking to create a new task? Or migrate a task so that it can be deployed on any desktop platform or the browser? Check out CCV’s <a href=\"https://github.com/brown-ccv/honeycomb\" class=\"link\">honeycomb</a> It is a sample task that includes all of the build steps to create an electron app for Windows, Mac, and Linux, or to deploy to the web. Additionally, it can connect to EEG trigger boxes."
       }
     }
   }
