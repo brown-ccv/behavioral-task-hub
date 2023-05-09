@@ -1,43 +1,29 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import About from "../views/About.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
 
-Vue.use(VueRouter);
-
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-    meta: {
-      title: "Behavioral Task Hub"
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home,
+      meta: {
+        title: "Behavioral Task Hub"
+      }
+    },
+    {
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/About.vue'),
+      meta: {
+        title: "About"
+      }
     }
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: About,
-    meta: {
-      title: "About"
-    }
-  }
-];
-const scrollBehavior = function(to) {
-  if (to.hash) {
-    return { selector: to.hash };
-  } else {
-    return { x: 0, y: 0 };
-  }
-};
-const router = new VueRouter({
-  mode: "hash",
-  routes,
-  scrollBehavior
-});
+  ]
+})
 
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || "Behavioral Task Hub";
-  next();
-});
-export default router;
+export default router

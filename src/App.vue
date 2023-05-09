@@ -1,38 +1,36 @@
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import BrownLogo from "@/assets/illustrations/brown-logo.vue"
+import CCVLogo from "@/assets/illustrations/ccv-logo.vue";
+</script>
+
 <template>
-  <div id="app">
-    <Navbar />
-    <router-view />
-  </div>
+  <header>
+    <div class="wrapper">
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://ccv.brown.edu/">
+            <CCVLogo/>
+          </a>
+          <a class="navbar-item" href="https://www.brown.edu/">
+            <BrownLogo/>
+          </a>
+
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-end">
+          <RouterLink to="/" class="navbar-item">Home</RouterLink>
+          <RouterLink to="/about" class="navbar-item">About</RouterLink>
+        </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <RouterView />
 </template>
-
-<style lang="scss">
-@import "@/styles/themes/default/components/_custom.scss";
-@import "@/styles/themes/default/components/_table.sass";
-@import "@/styles/themes/default/components/_about.sass";
-@import "@/styles/themes/default/components/_hero.sass";
-
-// Import Bootstrap and BootstrapVue source SCSS files
-@import "~bootstrap/scss/bootstrap.scss";
-@import "~bootstrap-vue/src/index.scss";
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
