@@ -7918,9 +7918,11 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   font-size: 1.25rem; }
 
 .title {
-  padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   font-size: 3rem; }
 
 .container {
   padding: 1.5rem; }
+
+article a {
+  text-decoration: underline; }

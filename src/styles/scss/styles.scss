@@ -79,11 +79,14 @@ $text-light: $foggy-gray;
 }
 
 .title {
-  padding-top: $size-4;
   padding-bottom: $size-4;
   font-size: $size-1;
 }
 
 .container {
   padding: $size-4;
+}
+
+article a {
+  text-decoration: underline;
 }
