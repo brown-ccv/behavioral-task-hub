@@ -1,7 +1,18 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from 'vue-router'
 import BrownLogo from "@/assets/illustrations/brown-logo.vue"
 import CCVLogo from "@/assets/illustrations/ccv-logo.vue";
+
+export default {
+  name: "App",
+  components: {
+    BrownLogo,
+    CCVLogo
+  },
+  computed: {},
+  methods: {}
+
+};
 </script>
 
 <template>
@@ -23,9 +34,9 @@ import CCVLogo from "@/assets/illustrations/ccv-logo.vue";
           </a>
         </div>
         <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-end">
-          <RouterLink to="/" class="navbar-item">Home</RouterLink>
-          <RouterLink to="/about" class="navbar-item">About</RouterLink>
+        <div class="navbar-end is-size-5 has-text-weight-semibold is-uppercase">
+          <RouterLink to="/" class="navbar-item px-5">Home</RouterLink>
+          <RouterLink to="/about" class="navbar-item px-5">About</RouterLink>
         </div>
         </div>
       </nav>
