@@ -2,24 +2,88 @@
 
 // brand colors
 $russet: rgb(116, 94, 85);
-$foggy-gray: rgb(204, 198, 184);
+$foggy-gray: #f1efeb;
 $del-rio: rgb(166, 153, 147);
 $yellow: #ffc72c;
 $green: #00b398;
 $blue: #2c3e50;
-//$size-5:  1.25rem;
+$size-5:  1.25rem;
 
 // updating Bulma's global variables
-$family-sans-serif: circe, sans-serif;
+$family-sans-serif: "Circe", sans-serif;
+$body-family: $family-sans-serif;
 $primary: $foggy-gray;
-$link: $russett;
+$link: $russet;
 $background: $foggy-gray;
 $text: $blue;
 $text-light: $foggy-gray;
 
 
-// logos
 
+// Brown Logo Illustation
+.brown-logo {
+  margin-left: $size-5;
+  height: 3rem;
+}
 
-  // import the rest from bulma
+.st0 {
+  display: none;
+}
+
+.st1 {
+  display: inline;
+  stroke: #000000;
+  stroke-width: 0.75;
+  stroke-miterlimit: 10;
+}
+
+.st2 {
+  stroke: #000000;
+  stroke-width: 0.75;
+  stroke-miterlimit: 10;
+}
+
+.st3 {
+  fill: #FFFFFF;
+}
+
+.st4 {
+  fill: #ED1C24;
+}
+
+// CCV Logo
+.ccv-logo {
+  margin-left: $size-5;
+  height: 2.2rem;
+  z-index: 100;
+}
+
+.c1 {
+  fill: $yellow;
+}
+
+.c2{
+  fill: $green;
+}
+
+.v {
+  fill: $yellow;
+}
+
+// import the rest from bulma
 @import "../../../node_modules/bulma/bulma";
+
+// update a few of Bulma's classes
+.subtitle {
+  font-size: $size-5;
+}
+
+.title {
+  padding-top: $size-4;
+  padding-bottom: $size-4;
+  font-size: $size-1;
+}
+
+.container {
+  padding: $size-4;
+}
